@@ -11,6 +11,7 @@
     "next",
     "next/core-web-vitals",
     "airbnb",
+    "airbnb/hooks",
     "prettier"
   ],
   "parser": "@typescript-eslint/parser",
@@ -18,10 +19,12 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 12,
+    "ecmaVersion": "latest",
     "sourceType": "module"
   },
   "plugins": ["react", "@typescript-eslint"],
+  "ignorePatterns": ["dist", ".eslintrc.json"],
+
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
@@ -31,7 +34,11 @@
       { "argsIgnorePattern": "^_" }
     ],
     "no-console": "warn",
-    "react/jsx-key": "warn"
+    "react/jsx-key": "warn",
+    "react-refresh/only-export-components": [
+      "warn",
+      { "allowConstantExport": true }
+    ]
   },
   "settings": {
     "react": {
