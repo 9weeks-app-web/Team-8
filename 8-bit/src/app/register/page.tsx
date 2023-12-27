@@ -9,7 +9,7 @@ export default function Register() {
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <label className="sr-only" htmlFor="name">
-                Full Name
+                이름
               </label>
               <input
                 autoComplete="name"
