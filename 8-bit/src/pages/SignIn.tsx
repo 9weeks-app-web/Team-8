@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import { useState } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -39,11 +41,33 @@ const Button = styled.button`
 `;
 
 function SignIn() {
+
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  
+  const signin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const auth = getAuth();
+
+    const result = await signInWithEmailAndPassword(auth, email, password);
+    console.log("로그인성공 : " +  result);
+  }
+
   return (
     <Container>
-      <LoginForm>
-        <Input type="text" placeholder="Username" />
-        <Input type="password" placeholder="Password" />
+      <LoginForm onSubmit={signin}>
+        <Input 
+          type="email" 
+          value={email} 
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Eamil" 
+        />
+        <Input 
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password" 
+        />
         <Button type="submit">Login</Button>
       </LoginForm>
     </Container>
