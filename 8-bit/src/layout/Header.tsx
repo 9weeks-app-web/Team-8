@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 
 const HeaderContainer = styled.header`
-  background-color: #007bff;
-  color: white;
+  background-color: #f0f2f5;
+  color: black;
   padding: 10px 20px;
 `;
 
@@ -20,7 +20,7 @@ const Logo = styled.h1`
 `;
 
 const NavLink = styled(Link)`
-  color: white;
+  color: black;
   margin-left: 15px;
   text-decoration: none;
 
