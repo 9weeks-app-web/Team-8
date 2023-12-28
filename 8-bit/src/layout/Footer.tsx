@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 
 const FooterContainer = styled.footer`
   background-color: #f0f2f5;
-  color: white;
+  color: black;
   text-align: center;
   padding: 10px 20px;
   position: absolute;
