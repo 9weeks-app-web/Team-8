@@ -28,13 +28,13 @@ const Button = styled.button`
   width: 100%;
   padding: 10px;
   border: none;
-  background-color: #28a745;
+  background-color: #007bff;
   color: white;
   border-radius: 4px;
   cursor: pointer;
 
   &:hover {
-    background-color: #218838;
+    background-color: #0056b3;
   }
 `;
 
