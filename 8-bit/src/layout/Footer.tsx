@@ -2,10 +2,12 @@
 import styled from "@emotion/styled";
 
 const FooterContainer = styled.footer`
-  background-color: #333;
+  background-color: #007bff;
   color: white;
   text-align: center;
   padding: 10px 20px;
+  position: absolute;
+  bottom: 0;
   width: 100%;
 `;
 

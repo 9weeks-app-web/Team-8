@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 
 const HeaderContainer = styled.header`
-  background-color: #333;
+  background-color: #007bff;
   color: white;
   padding: 10px 20px;
 `;
