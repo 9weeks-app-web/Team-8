@@ -1,4 +1,7 @@
 import styled from "@emotion/styled";
+import app from '../firebase';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -39,12 +42,37 @@ const Button = styled.button`
 `;
 
 function SignUp() {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  const signup = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const auth = getAuth(app);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log('유저 정보 :', userCredential.user);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Container>
-      <SignUpForm>
+      <SignUpForm onSubmit={signup}>
         <Input type="text" placeholder="Username" />
-        <Input type="email" placeholder="Email" />
-        <Input type="password" placeholder="Password" />
+        <Input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+        />
+        <Input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+        />
         <Input type="password" placeholder="Confirm Password" />
         <Button type="submit">Sign Up</Button>
       </SignUpForm>
