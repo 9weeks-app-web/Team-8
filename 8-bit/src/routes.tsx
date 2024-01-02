@@ -6,6 +6,11 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import MyPage from "./pages/MyPage";
 
+import CommunityHome from "./pages/community/communityHome";
+import CommunityHot from "./pages/community/communityHot";
+import CommunityQna from "./pages/community/communityQna";
+import CommunityBoard from "./pages/community/CommunityBoard";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -13,6 +18,19 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "mypage", element: <MyPage /> },
+      { path: "community/hot", element: <CommunityHot /> },
+      { path: "community/qna", element: <CommunityQna /> },
+      { path: "community/board", element: <CommunityBoard /> },
+    ],
+  },
+  {
+    path: "/community",
+    element: <RootLayout />,
+    children: [
+      { index: true, element: <CommunityHome /> },
+      { path: "qna", element: <MyPage /> },
+      { path: "hot", element: <MyPage /> },
+      { path: "board", element: <MyPage /> },
     ],
   },
   {
