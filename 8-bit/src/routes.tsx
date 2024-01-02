@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "./layout/RootLayout";
-import NoHeaderFooterLayout from "./layout/NoHeaderFooterLayout";
+import NoFooterLayout from "./layout/NoFooterLayout";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -17,12 +17,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/signIn",
-    element: <NoHeaderFooterLayout />,
+    element: <NoFooterLayout />,
     children: [{ index: true, element: <SignIn /> }],
   },
   {
     path: "/signup",
-    element: <NoHeaderFooterLayout />,
+    element: <NoFooterLayout />,
     children: [{ index: true, element: <SignUp /> }],
   },
 ]);
