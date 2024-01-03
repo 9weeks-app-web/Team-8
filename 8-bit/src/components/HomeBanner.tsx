@@ -1,15 +1,14 @@
-import { Common } from "../styles/common";
 import styled from "@emotion/styled";
 import TextField from "@mui/material/TextField";
-// import Input from "@mui/material/Input";
-import InputAdornment from "@mui/material/InputAdornment";
+import { Common } from "../styles/common";
 import SearchIcon from "@mui/icons-material/Search";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import Button from "@mui/material/Button";
+import InputAdornment from "@mui/material/InputAdornment";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 const Section = styled.section`
   width: 1440px;
@@ -128,7 +127,6 @@ function HomeBanner() {
       </SearchWrapper>
       <SwiperWrapper>
         <Swiper
-          spaceBetween={30}
           centeredSlides={true}
           loop={true}
           autoplay={{
