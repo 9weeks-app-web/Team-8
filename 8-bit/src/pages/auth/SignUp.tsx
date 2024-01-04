@@ -209,7 +209,7 @@ function SignUp() {
             </Select>
           </EmailContainer>
         </div>
-        <p>비밀번호</p>
+        <p>비밀번호ㅇㅇㅇ</p>
         <Input
           type="password"
           value={password}
