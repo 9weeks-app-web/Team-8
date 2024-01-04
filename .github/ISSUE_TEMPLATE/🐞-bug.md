@@ -1,7 +1,7 @@
 ---
 name: "\U0001F41E BUG"
 about: 버그 발생/해결 템플릿
-title: "\U0001F41E [23.mm.dd] 제목 작성 #이슈번호"
+title: "\U0001F41E [24.mm.dd] 제목 작성 #이슈번호"
 labels: ''
 assignees: ''
 

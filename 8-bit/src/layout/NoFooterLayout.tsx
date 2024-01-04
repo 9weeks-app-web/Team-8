@@ -1,10 +1,14 @@
 import { Outlet } from "react-router-dom";
+import Header from "./Header";
 
 function NoHeaderFooterLayout() {
   return (
-    <main>
-      <Outlet />
-    </main>
+    <>
+      <Header />
+      <main>
+        <Outlet />
+      </main>
+    </>
   );
 }
 

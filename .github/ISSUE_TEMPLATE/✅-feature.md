@@ -1,7 +1,7 @@
 ---
 name: "✅ FEATURE"
 about: 작업 사항 기록 템플릿
-title: "✅ [23.mm.dd] 제목 작성"
+title: "✅ [24.mm.dd] 제목 작성"
 labels: ''
 assignees: ''
 
