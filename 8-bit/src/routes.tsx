@@ -6,9 +6,9 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import MyPage from "./pages/MyPage";
 
-import CommunityHome from "./pages/community/communityHome";
-import CommunityHot from "./pages/community/communityHot";
-import CommunityQna from "./pages/community/communityQna";
+import CommunityHome from "./pages/community/CommunityHome";
+import CommunityHot from "./pages/community/CommunityHot";
+import CommunityQna from "./pages/community/CommunityQna";
 import CommunityBoard from "./pages/community/CommunityBoard";
 
 const router = createBrowserRouter([
