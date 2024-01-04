@@ -10,6 +10,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Section = styled.section`
   width: 1440px;
@@ -58,6 +59,49 @@ const SearchDropdown = styled.div`
   z-index: 100;
 `;
 
+const SearchDropdownWrapper = styled.div`
+  width: 430px;
+  /* height: 389px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 36px;
+
+  & > :last-child {
+    display: flex;
+    flex-direction: column;
+    gap: ${Common.space.s};
+    p {
+      font-size: ${Common.font.size.md};
+      font-weight: ${Common.font.weight.semibold};
+      color: ${Common.colors.neutral[70]};
+    }
+  }
+`;
+
+const RecentSearchWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: ${Common.space.s};
+  & > p {
+    font-size: ${Common.font.size.md};
+    font-weight: ${Common.font.weight.semibold};
+    color: ${Common.colors.neutral[70]};
+  }
+
+  & > ul > li {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: ${Common.colors.neutral[50]};
+    & > Button {
+      color: ${Common.colors.neutral[50]};
+    }
+  }
+`;
+
 const KeywordWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -67,6 +111,8 @@ const KeywordWrapper = styled.div`
     font-size: ${Common.font.size.lg};
     font-weight: ${Common.font.weight.semibold};
     color: ${Common.colors.neutral[60]};
+    font-size: ${Common.font.size.md};
+    font-weight: ${Common.font.weight.medium};
   }
 `;
 
@@ -135,18 +181,43 @@ function HomeBanner() {
         </SearchBar>
         {searchFocused && (
           <SearchDropdown>
-            <p>최근 검색어</p>
-            <ul>{/* 검색어 목록 */}</ul>
-            <p>인기 키워드</p>
-            <Keywords>
-              <Button>크리스마스</Button>
-              <Button>새해</Button>
-              <Button>겨울</Button>
-              <Button>레이아웃</Button>
-              <Button>웹디자인</Button>
-              <Button>렌더링 이미지</Button>
-              <Button>UX/UI</Button>
-            </Keywords>
+            <SearchDropdownWrapper>
+              <RecentSearchWrapper>
+                <p>최근 검색어</p>
+                <ul>
+                  <li>
+                    UXUI
+                    <Button>
+                      <CloseIcon fontSize="small" />
+                    </Button>
+                  </li>
+                  <li>
+                    웹디자인
+                    <Button>
+                      <CloseIcon fontSize="small" />
+                    </Button>
+                  </li>
+                  <li>
+                    화려한
+                    <Button>
+                      <CloseIcon fontSize="small" />
+                    </Button>
+                  </li>
+                </ul>
+              </RecentSearchWrapper>
+              <div>
+                <p>인기 키워드</p>
+                <Keywords>
+                  <Button>크리스마스</Button>
+                  <Button>새해</Button>
+                  <Button>겨울</Button>
+                  <Button>레이아웃</Button>
+                  <Button>웹디자인</Button>
+                  <Button>렌더링 이미지</Button>
+                  <Button>UX/UI</Button>
+                </Keywords>
+              </div>
+            </SearchDropdownWrapper>
           </SearchDropdown>
         )}
         <KeywordWrapper>
