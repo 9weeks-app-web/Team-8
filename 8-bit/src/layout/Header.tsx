@@ -1,46 +1,162 @@
-// Header.js
-import { Link } from "react-router-dom";
+// Header.tsx
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from 'react';
 import styled from "@emotion/styled";
+import { EmailOutlined, NotificationsNoneOutlined } from '@mui/icons-material';
+import Avatar from '@mui/material/Avatar';
+import { Common } from "../styles/common";
+
+const HeaderWrapper = styled.div`
+  width: 1440px;
+  margin: 0 auto;
+`;
+
+const TabBar = styled.header`
+background-color: ${Common.colors.neutral[10]};
+padding-left: 132px;
+display: flex;
+`;
+
+const TabText = styled.h1`
+  margin-top:${Common.space["xs"]};
+  padding: 10px 20px;
+  font-size: ${Common.font.size["xs"]};
+  font-weight: ${Common.font.weight.semibold};
+  color:  ${Common.colors.neutral[30]};
+`;
+
+const SelectedTab = styled.button`
+  margin-top: ${Common.space["xs"]};
+  padding: ${Common.space["xs"]} ${Common.space["s"]};
+  background-color: #ffffff;
+  font-size: ${Common.font.size["xs"]};
+  font-weight: ${Common.font.weight.semibold};
+  border: none;
+  border-radius: 8px 8px 0px 0px;
+  box-shadow:  -5px 0 5px -5px rgba(0, 0, 0, 0.2), 0 -5px 5px -5px rgba(0, 0, 0, 0.2), 5px 0 5px -5px rgba(0, 0, 0, 0.2); 
+`;
 
 const HeaderContainer = styled.header`
-  background-color: #f0f2f5;
+  background-color: #ffffff;
   color: black;
-  padding: 10px 20px;
+  padding: ${Common.space["xs"]} ${Common.space["md"]};
 `;
 
 const Nav = styled.nav`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
 `;
 
-const Logo = styled.h1`
-  margin: 0;
-  font-size: 1.5em;
-`;
-
 const NavLink = styled(Link)`
-  color: black;
-  margin-left: 15px;
+  color: ${Common.colors.neutral[30]};
+  padding-bottom: ${Common.space["s"]};
+  margin-left: ${Common.space["xl"]};
   text-decoration: none;
+  font-weight: ${Common.font.weight.semibold}; 
+  font-size: ${Common.font.size["lg"]};
 
-  &:hover {
-    text-decoration: underline;
+  &.active {
+    color: black; // 활성화된 링크에 대한 스타일
+    border-bottom: 2.5px solid ${Common.colors.primary[80]};
   }
 `;
 
+const Container = styled.div`
+   display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`
+
+const LogoImg = styled.img`
+  margin-left: 20px
+`
+
+const LogInText = styled.h1`
+  padding: 10px 20px;
+  font-size: ${Common.font.size["xs"]};
+  color:  ${Common.colors.neutral[100]};
+`;
+
+const ColorButton = styled.button`
+  padding: ${Common.space["xs"]} ${Common.space["s"]};
+  background-color: ${Common.colors.primary[80]};
+  color: white;
+  border: none;
+  border-radius: 10px;
+`;
+
+const Spacer = styled.div`
+  flex-grow: 1;
+`;
+
+const BetweenItems = styled.div`
+  width: ${Common.space["s"]};
+`;
+
 function Header() {
+  // 유저 로그인 여부 저장
+  let isUserLogined = false;
+
+  // Nav 선택 유지
+  const [activeNav, setActiveNav] = useState<string>("home");
+
+  const handleNavClick = (nav: string) => {
+    setActiveNav(nav);
+  };
+
+  // 로그인 버튼 누르면 로그인 창으로 
+  const navigate = useNavigate();
+
+  const goLogIn = () => {
+    console.log('goLogIn')
+    navigate('/signIn');
+  };
+
+
   return (
-    <HeaderContainer>
-      <Nav>
-        <Logo>8-bit</Logo>
-        <div>
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/signin">Sign In</NavLink>
-          <NavLink to="/signup">Sign Up</NavLink>
-        </div>
-      </Nav>
-    </HeaderContainer>
+    <HeaderWrapper>
+      <TabBar>
+        <SelectedTab>스팩폴리오</SelectedTab>
+        <TabText>스팩로그</TabText>
+      </TabBar>
+      <HeaderContainer>
+        <Nav>
+          <LogoImg src="/sfac_logo.svg" alt="sniperfactory logo" />
+          <div>
+            <NavLink to="/"
+              className={activeNav === 'home' ? 'active' : ''}
+              onClick={() => handleNavClick('home')}>탐색</NavLink>
+            <NavLink to="/community" className={activeNav === 'community' ? 'active' : ''}
+              onClick={() => handleNavClick('community')}>커뮤니티</NavLink>
+            <NavLink to="/" className={activeNav === 'recruit' ? 'active' : ''}
+              onClick={() => handleNavClick('recruit')}>채용</NavLink>
+          </div>
+
+          <Spacer />
+          <div>
+            {/* userLogined 여부에 따라 보여지는 컨텐츠 다르게 */}
+            {isUserLogined ? (
+              <Container>
+                <EmailOutlined />
+                <BetweenItems />
+                <NotificationsNoneOutlined />
+                <BetweenItems />
+                <Avatar alt="user profile"
+                  sx={{ width: 24, height: 24, fontSize: 10, bgcolor: Common.colors.neutral[10], color: Common.colors.neutral[100] }}></Avatar>
+                <BetweenItems />
+                <ColorButton>업로드</ColorButton>
+              </Container>
+            ) : (
+              <Container>
+                <LogInText>로그인 후 레퍼런스를 모아보세요.</LogInText>
+                <ColorButton onClick={goLogIn}>로그인</ColorButton>
+              </Container>
+            )}
+          </div>
+        </Nav>
+      </HeaderContainer>
+    </HeaderWrapper>
   );
 }
 
