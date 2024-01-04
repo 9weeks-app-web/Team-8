@@ -1,15 +1,15 @@
-import { Common } from "../styles/common";
 import styled from "@emotion/styled";
 import TextField from "@mui/material/TextField";
-// import Input from "@mui/material/Input";
-import InputAdornment from "@mui/material/InputAdornment";
+import { Common } from "../styles/common";
 import SearchIcon from "@mui/icons-material/Search";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import Button from "@mui/material/Button";
+import InputAdornment from "@mui/material/InputAdornment";
+import { useState } from "react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 const Section = styled.section`
   width: 1440px;
@@ -27,6 +27,7 @@ const SearchWrapper = styled.div`
   justify-content: space-around;
   width: 600px;
   padding: 18px;
+  position: relative;
 `;
 
 const SearchBar = styled.div`
@@ -44,6 +45,17 @@ const SearchInput = styled(TextField)`
     border-radius: 18px;
     background-color: ${Common.colors.background[5]};
   }
+`;
+
+const SearchDropdown = styled.div`
+  width: 564px;
+  background-color: ${Common.colors.background[5]};
+  position: absolute;
+  top: 110px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 40px;
+  z-index: 100;
 `;
 
 const KeywordWrapper = styled.div`
@@ -95,12 +107,20 @@ const SwiperWrapper = styled.div`
 `;
 
 function HomeBanner() {
+  const [searchFocused, setSearchFocused] = useState(false);
+
+  const handleSearchFocus = (focused: boolean) => {
+    setSearchFocused(focused);
+  };
+
   return (
     <Section>
       <SearchWrapper>
         <SearchBar>
-          <span>레퍼런스 탐색의 모든 것, 스팩폴리오</span>
+          {!searchFocused && <span>레퍼런스 탐색의 모든 것, 스팩폴리오</span>}{" "}
           <SearchInput
+            onFocus={() => handleSearchFocus(true)}
+            onBlur={() => handleSearchFocus(false)}
             variant="outlined"
             InputProps={{
               startAdornment: (
@@ -113,6 +133,22 @@ function HomeBanner() {
             fullWidth
           />
         </SearchBar>
+        {searchFocused && (
+          <SearchDropdown>
+            <p>최근 검색어</p>
+            <ul>{/* 검색어 목록 */}</ul>
+            <p>인기 키워드</p>
+            <Keywords>
+              <Button>크리스마스</Button>
+              <Button>새해</Button>
+              <Button>겨울</Button>
+              <Button>레이아웃</Button>
+              <Button>웹디자인</Button>
+              <Button>렌더링 이미지</Button>
+              <Button>UX/UI</Button>
+            </Keywords>
+          </SearchDropdown>
+        )}
         <KeywordWrapper>
           <p>인기 키워드</p>
           <Keywords>
