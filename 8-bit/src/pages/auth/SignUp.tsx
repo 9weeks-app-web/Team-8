@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import app from '../firebase';
+import app from '../../firebase';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -246,24 +246,26 @@ function SignUp() {
           <Button className="certifiedCheck" type="submit">인증 확인</Button>
         </CertifiedCheck>
 
-          <CheckboxLabel>
-            <input type="checkbox" /> 본인인증 약관 전체동의(필수)
-          </CheckboxLabel>
-          <CheckboxLabel>
-            <input type="checkbox" /> 개인정보 수집이용 동의
-          </CheckboxLabel>
-          <CheckboxLabel>
-            <input type="checkbox" /> 고유식별 정보처리 동의
-          </CheckboxLabel>
-          <CheckboxLabel>
-            <div className="phoneAgree">
-              <input type="checkbox" /> 통신사 이용약관 동의
-            </div>
-          </CheckboxLabel>
-
+        <CheckboxLabel>
+          <input type="checkbox" /> 본인인증 약관 전체동의(필수)
+        </CheckboxLabel>
+        <CheckboxLabel>
+          <input type="checkbox" /> 개인정보 수집이용 동의
+        </CheckboxLabel>
+        <CheckboxLabel>
+          <input type="checkbox" /> 고유식별 정보처리 동의
+        </CheckboxLabel>
+        <CheckboxLabel>
+          <div className="phoneAgree">
+            <input type="checkbox" /> 통신사 이용약관 동의
+          </div>
+        </CheckboxLabel>
 
         <ButtonContainer>
-          <Button className="previousButton" type="submit">이전</Button>
+          <Button 
+            onClick={() => {navigate("/signin");}}
+            className="previousButton" 
+            type="submit">이전</Button>
           <Button 
             onClick={() => {navigate("/signupTwo");}}
             className="nextButton" 
