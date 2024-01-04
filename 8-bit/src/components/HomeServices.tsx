@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import StarIcon from "@mui/icons-material/Star"; // Material-UI에서 별 아이콘 임포트
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "swiper/css";
@@ -6,7 +8,6 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Common } from "../styles/common";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 interface TabButtonProps {
   isActive: boolean;
@@ -14,6 +15,7 @@ interface TabButtonProps {
 
 const Section = styled.section`
   width: 1440px;
+  height: 600px;
   margin: 0 auto;
   background-color: ${Common.colors.background.blue};
   display: flex;
@@ -22,16 +24,44 @@ const Section = styled.section`
 `;
 
 const Description = styled.div`
-  width: 20%;
+  padding: 95px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: ${Common.space.xl};
   & > span {
     font-size: 30px;
     font-weight: ${Common.font.weight.bold};
     line-height: 140%;
   }
+  & > div {
+    display: flex;
+    flex-direction: column;
+    gap: ${Common.space.md};
+    /* justify-content: space-between; */
+    flex: 1;
+    & > p {
+      font-size: ${Common.font.size.lg};
+    }
+
+    & > a {
+      margin-top: calc(${Common.space.xxl} - ${Common.space.md});
+      color: ${Common.colors.primary[100]};
+      display: flex;
+      align-items: center;
+      font-size: ${Common.font.size.lg};
+      font-weight: ${Common.font.weight.semibold};
+      text-decoration: none;
+    }
+  }
 `;
 
 const Wrapper = styled.div`
-  width: 80%;
+  width: calc(1440px - 378px);
+  padding: ${Common.space.s} 0;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-around; */
 `;
 
 const TabButtonWrapper = styled.div`
@@ -44,12 +74,35 @@ const TabButton = styled.button<TabButtonProps>`
   padding: ${Common.space.s} ${Common.space.xs};
   padding-top: 0;
   cursor: pointer;
+  font-size: ${Common.font.size.lg};
+  font-weight: ${Common.font.weight.semibold};
   border-bottom: ${(props) =>
     props.isActive ? `2px solid ${Common.colors.primary[80]}` : "none"};
   color: ${(props) =>
     props.isActive
       ? `${Common.colors.neutral[100]}`
       : `${Common.colors.neutral[30]}`};
+`;
+
+const SwiperWrapper = styled.div`
+  flex: 1;
+  padding: 43px 0;
+
+  & > .swiper {
+    .swiper-slide {
+      background-color: ${Common.colors.neutral[0]};
+      width: 70%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+  }
+`;
+
+const CardCommentWrapper = styled.div`
+  background-color: ${Common.colors.primary[5]};
 `;
 
 function HomeServices() {
@@ -66,8 +119,14 @@ function HomeServices() {
         </span>
         {activeTab === "mentors" && (
           <div>
-            <p>잠깐, 내 포트폴리오 피드백없이 정말 괜찮을까?</p>
-            <p>현직자에게 피드백 받고완성도를 높여보세요.</p>
+            <p>
+              잠깐, 내 포트폴리오
+              <br /> 피드백없이 정말 괜찮을까?
+            </p>
+            <p>
+              현직자에게 피드백 받고
+              <br /> 완성도를 높여보세요.
+            </p>
             <Link to="/">
               멘토 전체 보기
               <ChevronRightIcon fontSize="small" />
@@ -116,18 +175,44 @@ function HomeServices() {
             채용
           </TabButton>
         </TabButtonWrapper>
-        <div>
+        <SwiperWrapper>
           {activeTab === "mentors" && (
             <Swiper
+              slidesPerView={"auto"}
               spaceBetween={40}
               navigation={true}
               modules={[Navigation]}
               className="mentorsSwiper"
             >
               {" "}
-              <SwiperSlide>멘토1</SwiperSlide>
-              <SwiperSlide>멘토2</SwiperSlide>
-              <SwiperSlide>멘토3</SwiperSlide>
+              <SwiperSlide>
+                <img src="/home/card1.png" alt="멘토1 이미지" />
+                <div>
+                  <p>멘토링 후기 모음</p>
+                  <div>
+                    <StarIcon />
+                    <StarIcon />
+                    <StarIcon />
+                    <StarIcon />
+                    <StarIcon />
+                    4.9(36)
+                  </div>
+                  <CardCommentWrapper>
+                    <div>
+                      <p>
+                        상당히 구체적으로 알려주십니다. 너무 도움이 되었어요!
+                      </p>
+                    </div>
+                  </CardCommentWrapper>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <img src="/home/card2.png" alt="멘토2 이미지" />
+              </SwiperSlide>
+              <SwiperSlide>
+                {" "}
+                <img src="/home/card1.png" alt="멘토1 이미지" />
+              </SwiperSlide>
             </Swiper>
           )}
           {activeTab === "projects" && (
@@ -155,7 +240,7 @@ function HomeServices() {
               <SwiperSlide>채용3</SwiperSlide>
             </Swiper>
           )}
-        </div>
+        </SwiperWrapper>
       </Wrapper>
     </Section>
   );
