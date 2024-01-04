@@ -6,6 +6,10 @@ import { EmailOutlined, NotificationsNoneOutlined } from '@mui/icons-material';
 import Avatar from '@mui/material/Avatar';
 import { Common } from "../styles/common";
 
+const HeaderWrapper = styled.div`
+  width: 1440px;
+  margin: 0 auto;
+`;
 
 const TabBar = styled.header`
 background-color: ${Common.colors.neutral[10]};
@@ -111,7 +115,7 @@ function Header() {
 
 
   return (
-    <div>
+    <HeaderWrapper>
       <TabBar>
         <SelectedTab>스팩폴리오</SelectedTab>
         <TabText>스팩로그</TabText>
@@ -152,7 +156,7 @@ function Header() {
           </div>
         </Nav>
       </HeaderContainer>
-    </div>
+    </HeaderWrapper>
   );
 }
 
