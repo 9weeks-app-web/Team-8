@@ -61,6 +61,7 @@ const ButtonContainer = styled.div`
   justify-content : center;
 `;
 
+// 프롭스로 받아서 수정해야 함
 const Button = styled.button`
   width : 217px;
   height : 56px;
