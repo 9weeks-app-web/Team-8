@@ -47,6 +47,7 @@ function SignupTwo() {
           placeholder="닉네임" 
         />
         <p>관심분야</p>
+        ddd
 
 
         <p>제안 허용</p>

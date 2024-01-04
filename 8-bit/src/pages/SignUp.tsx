@@ -32,7 +32,6 @@ const SignUpForm = styled.form`
     display: flex;
   }
 `;
-
 const EmailContainer = styled.div`
   display : flex;
 
