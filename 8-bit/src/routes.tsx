@@ -8,7 +8,7 @@ import MyPage from "./pages/MyPage";
 
 import CommunityHome from "./pages/community/CommunityHome";
 import CommunityHot from "./pages/community/CommunityHot";
-import CommunityQna from "./pages/community/communityQna";
+import CommunityQna from "./pages/community/CommunityQna";
 import CommunityBoard from "./pages/community/CommunityBoard";
 
 const router = createBrowserRouter([
