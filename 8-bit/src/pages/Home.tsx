@@ -1,5 +1,11 @@
+import Portfolio from "../components/Portfolio";
+
 function Home() {
-  return <div>Home</div>;
+  return (
+    <div>
+      <Portfolio/>
+    </div>
+  );
 }
 
 export default Home;
