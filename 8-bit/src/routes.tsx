@@ -2,14 +2,18 @@ import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "./layout/RootLayout";
 import NoFooterLayout from "./layout/NoFooterLayout";
 import Home from "./pages/Home";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
+import SignIn from "./pages/auth/SignIn";
+import SignUp from "./pages/auth/SignUp";
 import MyPage from "./pages/MyPage";
 
 import CommunityHome from "./pages/community/CommunityHome";
 import CommunityHot from "./pages/community/CommunityHot";
 import CommunityQna from "./pages/community/CommunityQna";
 import CommunityBoard from "./pages/community/CommunityBoard";
+import SignupTwo from "./pages/auth/SignupTwo";
+import SignupSuccess from "./pages/auth/SignupSuccess";
+import FindId from "./pages/auth/FindId";
+import FindPassword from "./pages/auth/FindPassword";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +47,26 @@ const router = createBrowserRouter([
     element: <NoFooterLayout />,
     children: [{ index: true, element: <SignUp /> }],
   },
+  {
+    path: "/signupTwo",
+    element: <NoFooterLayout />,
+    children: [{ index: true, element: <SignupTwo /> }],
+  },
+  {
+    path: "/signupSuccess",
+    element: <NoFooterLayout />,
+    children: [{ index: true, element: <SignupSuccess /> }],
+  },
+  {
+    path: "/findId",
+    element: <NoFooterLayout />,
+    children: [{ index: true, element: <FindId /> }],
+  },
+  {
+    path: "/findPassword",
+    element: <NoFooterLayout />,
+    children: [{ index: true, element: <FindPassword /> }],
+  }
 ]);
 
 export default router;
