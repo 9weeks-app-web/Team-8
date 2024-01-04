@@ -51,7 +51,7 @@ export const Common = {
       xxxl: "24px",
       xxl: "22px",
       xl: "20px",
-      lg: "18px",
+      lg: "18px", 
       md: "16px",
       sm: "14px",
       xs: "12px",
