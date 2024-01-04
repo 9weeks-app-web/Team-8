@@ -10,6 +10,7 @@ import CommunityHome from "./pages/community/CommunityHome";
 import CommunityHot from "./pages/community/CommunityHot";
 import CommunityQna from "./pages/community/CommunityQna";
 import CommunityBoard from "./pages/community/CommunityBoard";
+import SignupTwo from "./pages/SignupTwo";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,11 @@ const router = createBrowserRouter([
     element: <NoFooterLayout />,
     children: [{ index: true, element: <SignUp /> }],
   },
+  {
+    path: "/signupTwo",
+    element: <NoFooterLayout />,
+    children: [{ index: true, element: <SignupTwo /> }],
+  }
 ]);
 
 export default router;
