@@ -19,7 +19,7 @@ const CustomTabs = styled(Tabs)`
   span {
     border-bottom: 4px solid ${Common.colors.primary[80]};
   }
-  .Mui-selected {
+  .Mui-selected{
     color: ${Common.colors.neutral[90]};
     font-weight: ${Common.font.weight.semibold}; 
   }
@@ -59,7 +59,7 @@ function HomePortfolio() {
     <Portfolios>
       <Box sx={{ width: '100%' }}>
         <Box>
-          <CustomTabs value={value} onChange={handleChange} aria-label="basic tabs example">
+          <CustomTabs value={value} onChange={handleChange} aria-label="basic tabs example" textColor={"inherit"} >
             <CustomTab label="세미폴리오" {...a11yProps(0)} disableRipple />
             <CustomTab label="포트폴리오" {...a11yProps(1)} disableRipple />
           </CustomTabs>
