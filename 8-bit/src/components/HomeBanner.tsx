@@ -5,6 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
 import { useState } from "react";
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -235,7 +236,6 @@ function HomeBanner() {
       </SearchWrapper>
       <SwiperWrapper>
         <Swiper
-          spaceBetween={30}
           centeredSlides={true}
           loop={true}
           autoplay={{

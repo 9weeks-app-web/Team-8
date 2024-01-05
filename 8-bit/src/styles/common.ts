@@ -12,7 +12,7 @@ export const Common = {
       20: "#CCCCCC",
       10: "#E6E6E6",
       5: "#F3F3F3",
-      0: "#CED4DA",
+      0: "#FFFFFF",
     },
     primary: {
       150: "#0043C0",
@@ -51,7 +51,7 @@ export const Common = {
       xxxl: "24px",
       xxl: "22px",
       xl: "20px",
-      lg: "18px", 
+      lg: "18px",
       md: "16px",
       sm: "14px",
       xs: "12px",
