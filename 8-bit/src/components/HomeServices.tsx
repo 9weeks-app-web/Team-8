@@ -91,18 +91,79 @@ const SwiperWrapper = styled.div`
   & > .swiper {
     .swiper-slide {
       background-color: ${Common.colors.neutral[0]};
-      width: 70%;
+      width: 60%;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
       border-radius: 12px;
       overflow: hidden;
+      & > div {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        height: 100%;
+        padding: 20px 38px;
+        & > p {
+          font-size: ${Common.font.size.md};
+          font-weight: ${Common.font.weight.bold};
+        }
+        & > div {
+          display: flex;
+          align-items: center;
+        }
+      }
     }
   }
 `;
 
 const CardCommentWrapper = styled.div`
   background-color: ${Common.colors.primary[5]};
+`;
+
+const CommentCard = styled.div`
+  width: 208px;
+  height: 98px;
+  display: flex;
+  flex-direction: column;
+  /* gap: ${Common.space.xs}; */
+  gap: 12px;
+  padding: 19px 24px 13px 17px;
+  position: relative;
+  & > img {
+    position: absolute;
+    top: -19px;
+  }
+  & > p {
+    font-size: ${Common.font.size.xs};
+    font-weight: ${Common.font.weight.semibold};
+  }
+  & > div {
+    display: flex;
+    align-items: center;
+    gap: ${Common.space.xs};
+    & > div {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      & div {
+        background-color: #d9d9d9;
+        width: 18px;
+        height: 18px;
+        border-radius: 100%;
+      }
+      & p {
+        font-size: ${Common.font.size.xs};
+        font-weight: ${Common.font.weight.semibold};
+        color: ${Common.colors.neutral[40]};
+      }
+    }
+    & > span {
+      font-size: ${Common.font.size.xxs};
+      font-weight: ${Common.font.weight.regular};
+      color: #d9d9d9;
+    }
+  }
 `;
 
 function HomeServices() {
@@ -184,25 +245,32 @@ function HomeServices() {
               modules={[Navigation]}
               className="mentorsSwiper"
             >
-              {" "}
               <SwiperSlide>
                 <img src="/home/card1.png" alt="멘토1 이미지" />
                 <div>
                   <p>멘토링 후기 모음</p>
                   <div>
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                    4.9(36)
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <p>4.9 (36)</p>
                   </div>
                   <CardCommentWrapper>
-                    <div>
+                    <CommentCard>
+                      <img src="/home/GetQuote.svg" alt="따옴표 svg" />
                       <p>
                         상당히 구체적으로 알려주십니다. 너무 도움이 되었어요!
                       </p>
-                    </div>
+                      <div>
+                        <div>
+                          <div></div>
+                          <p>취준생</p>
+                        </div>
+                        <span>23.11.14</span>
+                      </div>
+                    </CommentCard>
                   </CardCommentWrapper>
                 </div>
               </SwiperSlide>
