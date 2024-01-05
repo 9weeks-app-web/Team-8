@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import Pick from '../../public/home/Frame 1000005921.png'
+import { Common } from "../styles/common";
 
 const PickImage = styled.img`
   position: absolute;
@@ -22,12 +23,13 @@ const HoverText = styled.div`
   color: white;
   opacity: 0;
   p {
-    padding: 9px 0;
-    font-size: 13px;
-    font-weight: 500;
+    /* padding: 9px 0; */
+    font-size: ${Common.font.size.xs};
+    font-weight: ${Common.font.weight.semibold};
   }
   h3{
-     font-weight: 550;
+    font-size: ${Common.font.size.lg};
+    font-weight: ${Common.font.weight.semibold};
   }
 `;
 
@@ -62,8 +64,8 @@ const HoverBox = styled.div`
 
 
 const SemiImage = styled.img`
-  width: 400px;
-  height: 320px;
+  width: 330px;
+  height: 260px;
   border-radius: 16px;
   object-fit: cover;
   margin-bottom: 8px;
@@ -75,7 +77,7 @@ const UserImage = styled.img`
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  margin-right: 8px;
+  margin-right: ${Common.space.xs};
 `;
 
 const SemiInfo = styled.div`
@@ -87,8 +89,8 @@ const SemiInfo = styled.div`
 const UserInfoGroup = styled.div`
   display: flex;
   align-items: center;
-  font-size: medium;
-  font-weight: 550;
+  font-size: ${Common.font.size.sm};
+  font-weight: ${Common.font.weight.medium};
 `;
 
 const PostInfoGroup = styled.div`
@@ -97,15 +99,15 @@ const PostInfoGroup = styled.div`
   color: #666666;
   font-size: 20px;
   div {
-    font-size: 17px;
-    font-weight: 500;
+    font-size: ${Common.font.size.sm};
+    font-weight: ${Common.font.weight.medium};
     margin: 0 5px;
   }
 `;
 
 const LikesGroup = styled.div`
   display: flex;
-  padding-right: 8px;
+  margin-right: ${Common.space.s} ;
 `;
 
 

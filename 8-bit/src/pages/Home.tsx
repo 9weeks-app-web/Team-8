@@ -1,4 +1,4 @@
-import Portfolio from "../components/Portfolio";
+import HomePortfolio from "../components/HomePortfolio";
 import HomeBanner from "../components/HomeBanner";
 import HomeServices from "../components/HomeServices";
 
@@ -6,7 +6,7 @@ function Home() {
   return (
     <div>
       <HomeBanner />
-      <Portfolio/>
+      <HomePortfolio/>
       <HomeServices />
     </div>
   );
