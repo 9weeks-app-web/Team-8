@@ -86,7 +86,6 @@ const SwiperWrapper = styled.div`
       background-color: ${Common.colors.neutral[0]};
       width: 60%;
       display: flex;
-      justify-content: space-between;
       align-items: center;
       border-radius: 12px;
       overflow: hidden;
@@ -95,7 +94,6 @@ const SwiperWrapper = styled.div`
         flex-direction: column;
         justify-content: center;
         gap: 12px;
-        width: 100%;
         height: 100%;
         margin: 0 auto;
         padding: 20px 38px;
@@ -105,7 +103,13 @@ const SwiperWrapper = styled.div`
         }
         & > div {
           display: flex;
-          align-items: center;
+        }
+        & > Button {
+          background-color: ${Common.colors.primary[80]};
+          color: ${Common.colors.neutral[0]};
+          font-size: ${Common.font.size.lg};
+          font-family: ${Common.font.weight.semibold};
+          border-radius: 12px;
         }
         & > Button {
           background-color: ${Common.colors.primary[80]};
@@ -339,7 +343,6 @@ function HomeServices() {
                 </div>
               </SwiperSlide>
               <SwiperSlide>
-                {" "}
                 <img src="/home/card1.png" alt="멘토1 이미지" />
                 <div>
                   <p>멘토링 후기 모음</p>
