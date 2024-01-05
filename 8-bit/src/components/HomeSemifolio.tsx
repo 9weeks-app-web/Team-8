@@ -8,7 +8,7 @@ const SemifolioArea = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  gap: 20px;
+  gap: 24px;
 `;
 
 interface ModalData {
@@ -22,7 +22,7 @@ interface ModalData {
   pick?: boolean;
 }
 
-function Semifolio() {
+function HomeSemifolio() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalData, setModalData] = useState<ModalData | null>(null);
 
@@ -72,4 +72,4 @@ function Semifolio() {
   );
 }
 
-export default Semifolio;
+export default HomeSemifolio;
