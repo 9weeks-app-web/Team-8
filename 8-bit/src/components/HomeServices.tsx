@@ -8,6 +8,7 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Common } from "../styles/common";
+import Button from "@mui/material/Button";
 
 interface TabButtonProps {
   isActive: boolean;
@@ -93,16 +94,16 @@ const SwiperWrapper = styled.div`
       background-color: ${Common.colors.neutral[0]};
       width: 60%;
       display: flex;
-      justify-content: space-between;
       align-items: center;
       border-radius: 12px;
       overflow: hidden;
       & > div {
         display: flex;
         flex-direction: column;
+        justify-content: center;
         gap: 12px;
-        width: 100%;
         height: 100%;
+        margin: 0 auto;
         padding: 20px 38px;
         & > p {
           font-size: ${Common.font.size.md};
@@ -110,7 +111,13 @@ const SwiperWrapper = styled.div`
         }
         & > div {
           display: flex;
-          align-items: center;
+        }
+        & > Button {
+          background-color: ${Common.colors.primary[80]};
+          color: ${Common.colors.neutral[0]};
+          font-size: ${Common.font.size.lg};
+          font-family: ${Common.font.weight.semibold};
+          border-radius: 12px;
         }
       }
     }
@@ -118,10 +125,15 @@ const SwiperWrapper = styled.div`
 `;
 
 const CardCommentWrapper = styled.div`
-  background-color: ${Common.colors.primary[5]};
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+  margin-top: 12px;
 `;
 
 const CommentCard = styled.div`
+  background-color: ${Common.colors.primary[5]};
+  border-radius: 9px;
   width: 208px;
   height: 98px;
   display: flex;
@@ -133,6 +145,7 @@ const CommentCard = styled.div`
   & > img {
     position: absolute;
     top: -19px;
+    left: -9px;
   }
   & > p {
     font-size: ${Common.font.size.xs};
@@ -271,15 +284,108 @@ function HomeServices() {
                         <span>23.11.14</span>
                       </div>
                     </CommentCard>
+                    <CommentCard>
+                      <img src="/home/GetQuote.svg" alt="따옴표 svg" />
+                      <p>
+                        막막했던 부분 섬세하게 잘 피드백해주셔서 많이 배워가요!
+                      </p>
+                      <div>
+                        <div>
+                          <div></div>
+                          <p>취준생</p>
+                        </div>
+                        <span>23.11.14</span>
+                      </div>
+                    </CommentCard>
                   </CardCommentWrapper>
+                  <Button>피드백 받기</Button>
                 </div>
               </SwiperSlide>
               <SwiperSlide>
                 <img src="/home/card2.png" alt="멘토2 이미지" />
+                <div>
+                  <p>멘토링 후기 모음</p>
+                  <div>
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <p>4.9 (36)</p>
+                  </div>
+                  <CardCommentWrapper>
+                    <CommentCard>
+                      <img src="/home/GetQuote.svg" alt="따옴표 svg" />
+                      <p>
+                        상당히 구체적으로 알려주십니다. 너무 도움이 되었어요!
+                      </p>
+                      <div>
+                        <div>
+                          <div></div>
+                          <p>취준생</p>
+                        </div>
+                        <span>23.11.14</span>
+                      </div>
+                    </CommentCard>
+                    <CommentCard>
+                      <img src="/home/GetQuote.svg" alt="따옴표 svg" />
+                      <p>
+                        막막했던 부분 섬세하게 잘 피드백해주셔서 많이 배워가요!
+                      </p>
+                      <div>
+                        <div>
+                          <div></div>
+                          <p>취준생</p>
+                        </div>
+                        <span>23.11.14</span>
+                      </div>
+                    </CommentCard>
+                  </CardCommentWrapper>
+                  <Button>피드백 받기</Button>
+                </div>
               </SwiperSlide>
               <SwiperSlide>
-                {" "}
                 <img src="/home/card1.png" alt="멘토1 이미지" />
+                <div>
+                  <p>멘토링 후기 모음</p>
+                  <div>
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <p>4.9 (36)</p>
+                  </div>
+                  <CardCommentWrapper>
+                    <CommentCard>
+                      <img src="/home/GetQuote.svg" alt="따옴표 svg" />
+                      <p>
+                        상당히 구체적으로 알려주십니다. 너무 도움이 되었어요!
+                      </p>
+                      <div>
+                        <div>
+                          <div></div>
+                          <p>취준생</p>
+                        </div>
+                        <span>23.11.14</span>
+                      </div>
+                    </CommentCard>
+                    <CommentCard>
+                      <img src="/home/GetQuote.svg" alt="따옴표 svg" />
+                      <p>
+                        막막했던 부분 섬세하게 잘 피드백해주셔서 많이 배워가요!
+                      </p>
+                      <div>
+                        <div>
+                          <div></div>
+                          <p>취준생</p>
+                        </div>
+                        <span>23.11.14</span>
+                      </div>
+                    </CommentCard>
+                  </CardCommentWrapper>
+                  <Button>피드백 받기</Button>
+                </div>
               </SwiperSlide>
             </Swiper>
           )}
