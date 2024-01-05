@@ -10,7 +10,7 @@ const Filter = styled.div`
 `;
 const DropdownButton = styled.button`
   background-color: white;
-  border-radius: 12px;
+  border-radius: 12px; 
   width: 238px;
   height: 48px;
   justify-content: space-between;
