@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import SemifolioInfo from "./SemifoiloInfo";
 import Modal from './SemifoiloModal';
 import SemifolioDatas from "../db/SemifolioDatas";
+import HomeServices from "./HomeServices";
 
 const SemifolioArea = styled.div`
   display: flex;
@@ -10,7 +11,12 @@ const SemifolioArea = styled.div`
   width: 100%;
   gap: 24px;
 `;
-
+const HomeServicesWrapper = styled.div`
+  padding: 0;
+  display: flex;
+  position: relative;
+  left: -21px;
+`;
 interface ModalData {
   title: string;
   category: string;
@@ -39,18 +45,24 @@ function HomeSemifolio() {
     <div>
       <SemifolioArea>
         {SemifolioDatas.map((semifolioData, index) => (
-          <SemifolioInfo
-            key={index}
-            title={semifolioData.title}
-            category={semifolioData.category}
-            imageUrl={semifolioData.imageUrl}
-            userProfile={semifolioData.userProfile}
-            userName={semifolioData.userName}
-            likes={semifolioData.likes}
-            views={semifolioData.views}
-            openModal={openModal}
-            pick={semifolioData.pick}
-          />
+          <React.Fragment key={index}>
+            <SemifolioInfo
+              title={semifolioData.title}
+              category={semifolioData.category}
+              imageUrl={semifolioData.imageUrl}
+              userProfile={semifolioData.userProfile}
+              userName={semifolioData.userName}
+              likes={semifolioData.likes}
+              views={semifolioData.views}
+              openModal={openModal}
+              pick={semifolioData.pick}
+            />
+            {index === 19 && (
+              <HomeServicesWrapper>
+                <HomeServices />
+              </HomeServicesWrapper>
+            )}
+          </React.Fragment>
         ))}
       </SemifolioArea>
       <Modal

@@ -13,7 +13,6 @@ import Button from "@mui/material/Button";
 interface TabButtonProps {
   isActive: boolean;
 }
-
 const Section = styled.section`
   width: 1440px;
   height: 600px;
@@ -23,7 +22,6 @@ const Section = styled.section`
   padding: ${Common.space.s} 0;
   border: 1px solid blue;
 `;
-
 const Description = styled.div`
   padding: 95px;
   display: flex;
@@ -44,7 +42,6 @@ const Description = styled.div`
     & > p {
       font-size: ${Common.font.size.lg};
     }
-
     & > a {
       margin-top: calc(${Common.space.xxl} - ${Common.space.md});
       color: ${Common.colors.primary[100]};
@@ -56,7 +53,6 @@ const Description = styled.div`
     }
   }
 `;
-
 const Wrapper = styled.div`
   width: calc(1440px - 378px);
   padding: ${Common.space.s} 0;
@@ -64,11 +60,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   /* justify-content: space-around; */
 `;
-
 const TabButtonWrapper = styled.div`
   display: inline-block;
 `;
-
 const TabButton = styled.button<TabButtonProps>`
   background: none;
   border: none;
@@ -84,11 +78,9 @@ const TabButton = styled.button<TabButtonProps>`
       ? `${Common.colors.neutral[100]}`
       : `${Common.colors.neutral[30]}`};
 `;
-
 const SwiperWrapper = styled.div`
   flex: 1;
   padding: 43px 0;
-
   & > .swiper {
     .swiper-slide {
       background-color: ${Common.colors.neutral[0]};
@@ -119,12 +111,20 @@ const SwiperWrapper = styled.div`
           font-family: ${Common.font.weight.semibold};
           border-radius: 12px;
         }
+        & > Button {
+          background-color: ${Common.colors.primary[80]};
+          color: ${Common.colors.neutral[0]};
+          font-size: ${Common.font.size.lg};
+          font-family: ${Common.font.weight.semibold};
+          border-radius: 12px;
+        }
       }
     }
   }
 `;
 
 const CardCommentWrapper = styled.div`
+  background-color: ${Common.colors.primary[5]};
   display: flex;
   flex-direction: column;
   gap: 19px;
@@ -178,10 +178,8 @@ const CommentCard = styled.div`
     }
   }
 `;
-
 function HomeServices() {
   const [activeTab, setActiveTab] = useState("mentors"); // 초기 탭 설정
-
   return (
     <Section>
       <Description>
@@ -419,5 +417,4 @@ function HomeServices() {
     </Section>
   );
 }
-
 export default HomeServices;

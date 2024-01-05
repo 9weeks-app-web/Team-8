@@ -11,7 +11,7 @@ const PickImage = styled.img`
 `
 
 const SemifolioInfos = styled.div`
-  flex: 0 1 calc(25% - 20px);
+  flex: 0 1 calc(25% - 24px);
   margin: 16px 0;
 `;
 
