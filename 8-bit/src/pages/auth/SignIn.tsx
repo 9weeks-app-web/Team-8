@@ -34,7 +34,7 @@ const LoginForm = styled.form`
   display : flex;
   flex-direction : column;
   align-items : center;
-  background : white;
+  background : #FFFFFF;
   width : 496px;
 
   .passwordinput {
@@ -49,7 +49,8 @@ const Input = styled.input`
   width : 400px;
   height : 40px;
   border-radius : 8px;
-  border : 1px solid #ccc;
+  background-color: #FBFBFB;
+  border : 1px solid ${Common.colors.neutral[30]};
 `;
 
 const UserLinks = styled.div`
@@ -75,7 +76,7 @@ const SerchIdPw = styled.div`
 
   a {
     text-decoration : none;
-    color : black;
+    color : ${Common.colors.neutral[100]};
     font-size : ${Common.font.size.md};
   }
 `;
@@ -85,7 +86,8 @@ const Button = styled.button<CustomButtonProps>`
   height : 56px;
   border : none;
   background-color: ${({ isInputSpace }) => (isInputSpace ? '#337AFF' : '#CCCCCC')};
-  color : white;
+  color : #FFFFFF; 
+  
   border-radius : 10px;
   cursor : 'pointer';
   margin-top: 42px;

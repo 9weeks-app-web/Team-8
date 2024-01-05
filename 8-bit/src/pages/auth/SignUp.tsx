@@ -3,6 +3,7 @@ import app from '../../firebase';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Common } from "../../styles/common";
 
 const Container = styled.div`
   display : flex;
@@ -14,12 +15,16 @@ const Logo = styled.div`
   display : flex;
   flex-direction : column;
   align-items : center;
-  margin-top : 3%;
+  margin-top : 31px;
 
   img {
     width : 187px;
     height : 49px;
-    margin-bottom : 5%;
+    margin-bottom : 16px;
+  }
+  h4 {
+    margin-bottom: 11px;
+    font-size : ${Common.font.size.md};
   }
 `;
 
@@ -30,6 +35,10 @@ const SignUpForm = styled.form`
 
   &.inputSeleteWrapper {
     display: flex;
+  }
+  p {
+    font-size: ${Common.font.size.md};
+    margin-bottom: 8px;
   }
 `;
 const EmailContainer = styled.div`
@@ -69,7 +78,7 @@ const PhoneRequest = styled.div`
     height: 40px;
     padding: 10px 20px;
     border: 1px solid blue;
-    background-color: white;
+    background-color: #FFFFFF;
     color: blue;
     border-radius: 10px;
   }
@@ -89,10 +98,10 @@ const Input = styled.input`
   width : 400px;
   height: 40px;
   padding : 10px;
-  border-radius : 7px;
+  border-radius : 8px;
   border : 1px solid #ccc;
   box-sizing : border-box;
-  margin-bottom : 5%;
+  margin-bottom : ${Common.space.lg};
 `;
 
 const ButtonContainer = styled.div`
@@ -209,7 +218,7 @@ function SignUp() {
             </Select>
           </EmailContainer>
         </div>
-        <p>비밀번호ㅇㅇㅇ</p>
+        <p>비밀번호</p>
         <Input
           type="password"
           value={password}
