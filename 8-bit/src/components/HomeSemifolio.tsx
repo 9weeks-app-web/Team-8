@@ -11,7 +11,12 @@ const SemifolioArea = styled.div`
   width: 100%;
   gap: 24px;
 `;
-
+const HomeServicesWrapper = styled.div`
+  padding: 0;
+  display: flex;
+  position: relative;
+  left: -21px;
+`;
 interface ModalData {
   title: string;
   category: string;
@@ -52,7 +57,11 @@ function HomeSemifolio() {
               openModal={openModal}
               pick={semifolioData.pick}
             />
-            {index === 19 && <HomeServices />}
+            {index === 19 && (
+              <HomeServicesWrapper>
+                <HomeServices />
+              </HomeServicesWrapper>
+            )}
           </React.Fragment>
         ))}
       </SemifolioArea>

@@ -8,11 +8,11 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Common } from "../styles/common";
+import Button from "@mui/material/Button";
 
 interface TabButtonProps {
   isActive: boolean;
 }
-
 const Section = styled.section`
   width: 1440px;
   height: 600px;
@@ -22,7 +22,6 @@ const Section = styled.section`
   padding: ${Common.space.s} 0;
   border: 1px solid blue;
 `;
-
 const Description = styled.div`
   padding: 95px;
   display: flex;
@@ -43,7 +42,6 @@ const Description = styled.div`
     & > p {
       font-size: ${Common.font.size.lg};
     }
-
     & > a {
       margin-top: calc(${Common.space.xxl} - ${Common.space.md});
       color: ${Common.colors.primary[100]};
@@ -55,7 +53,6 @@ const Description = styled.div`
     }
   }
 `;
-
 const Wrapper = styled.div`
   width: calc(1440px - 378px);
   padding: ${Common.space.s} 0;
@@ -63,11 +60,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   /* justify-content: space-around; */
 `;
-
 const TabButtonWrapper = styled.div`
   display: inline-block;
 `;
-
 const TabButton = styled.button<TabButtonProps>`
   background: none;
   border: none;
@@ -83,11 +78,9 @@ const TabButton = styled.button<TabButtonProps>`
       ? `${Common.colors.neutral[100]}`
       : `${Common.colors.neutral[30]}`};
 `;
-
 const SwiperWrapper = styled.div`
   flex: 1;
   padding: 43px 0;
-
   & > .swiper {
     .swiper-slide {
       background-color: ${Common.colors.neutral[0]};
@@ -100,9 +93,11 @@ const SwiperWrapper = styled.div`
       & > div {
         display: flex;
         flex-direction: column;
+        justify-content: center;
         gap: 12px;
         width: 100%;
         height: 100%;
+        margin: 0 auto;
         padding: 20px 38px;
         & > p {
           font-size: ${Common.font.size.md};
@@ -112,6 +107,13 @@ const SwiperWrapper = styled.div`
           display: flex;
           align-items: center;
         }
+        & > Button {
+          background-color: ${Common.colors.primary[80]};
+          color: ${Common.colors.neutral[0]};
+          font-size: ${Common.font.size.lg};
+          font-family: ${Common.font.weight.semibold};
+          border-radius: 12px;
+        }
       }
     }
   }
@@ -119,9 +121,15 @@ const SwiperWrapper = styled.div`
 
 const CardCommentWrapper = styled.div`
   background-color: ${Common.colors.primary[5]};
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+  margin-top: 12px;
 `;
 
 const CommentCard = styled.div`
+  background-color: ${Common.colors.primary[5]};
+  border-radius: 9px;
   width: 208px;
   height: 98px;
   display: flex;
@@ -133,6 +141,7 @@ const CommentCard = styled.div`
   & > img {
     position: absolute;
     top: -19px;
+    left: -9px;
   }
   & > p {
     font-size: ${Common.font.size.xs};
@@ -165,10 +174,8 @@ const CommentCard = styled.div`
     }
   }
 `;
-
 function HomeServices() {
   const [activeTab, setActiveTab] = useState("mentors"); // 초기 탭 설정
-
   return (
     <Section>
       <Description>
@@ -271,15 +278,109 @@ function HomeServices() {
                         <span>23.11.14</span>
                       </div>
                     </CommentCard>
+                    <CommentCard>
+                      <img src="/home/GetQuote.svg" alt="따옴표 svg" />
+                      <p>
+                        막막했던 부분 섬세하게 잘 피드백해주셔서 많이 배워가요!
+                      </p>
+                      <div>
+                        <div>
+                          <div></div>
+                          <p>취준생</p>
+                        </div>
+                        <span>23.11.14</span>
+                      </div>
+                    </CommentCard>
                   </CardCommentWrapper>
+                  <Button>피드백 받기</Button>
                 </div>
               </SwiperSlide>
               <SwiperSlide>
                 <img src="/home/card2.png" alt="멘토2 이미지" />
+                <div>
+                  <p>멘토링 후기 모음</p>
+                  <div>
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <p>4.9 (36)</p>
+                  </div>
+                  <CardCommentWrapper>
+                    <CommentCard>
+                      <img src="/home/GetQuote.svg" alt="따옴표 svg" />
+                      <p>
+                        상당히 구체적으로 알려주십니다. 너무 도움이 되었어요!
+                      </p>
+                      <div>
+                        <div>
+                          <div></div>
+                          <p>취준생</p>
+                        </div>
+                        <span>23.11.14</span>
+                      </div>
+                    </CommentCard>
+                    <CommentCard>
+                      <img src="/home/GetQuote.svg" alt="따옴표 svg" />
+                      <p>
+                        막막했던 부분 섬세하게 잘 피드백해주셔서 많이 배워가요!
+                      </p>
+                      <div>
+                        <div>
+                          <div></div>
+                          <p>취준생</p>
+                        </div>
+                        <span>23.11.14</span>
+                      </div>
+                    </CommentCard>
+                  </CardCommentWrapper>
+                  <Button>피드백 받기</Button>
+                </div>
               </SwiperSlide>
               <SwiperSlide>
                 {" "}
                 <img src="/home/card1.png" alt="멘토1 이미지" />
+                <div>
+                  <p>멘토링 후기 모음</p>
+                  <div>
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <StarIcon sx={{ color: "#FFDF38" }} />
+                    <p>4.9 (36)</p>
+                  </div>
+                  <CardCommentWrapper>
+                    <CommentCard>
+                      <img src="/home/GetQuote.svg" alt="따옴표 svg" />
+                      <p>
+                        상당히 구체적으로 알려주십니다. 너무 도움이 되었어요!
+                      </p>
+                      <div>
+                        <div>
+                          <div></div>
+                          <p>취준생</p>
+                        </div>
+                        <span>23.11.14</span>
+                      </div>
+                    </CommentCard>
+                    <CommentCard>
+                      <img src="/home/GetQuote.svg" alt="따옴표 svg" />
+                      <p>
+                        막막했던 부분 섬세하게 잘 피드백해주셔서 많이 배워가요!
+                      </p>
+                      <div>
+                        <div>
+                          <div></div>
+                          <p>취준생</p>
+                        </div>
+                        <span>23.11.14</span>
+                      </div>
+                    </CommentCard>
+                  </CardCommentWrapper>
+                  <Button>피드백 받기</Button>
+                </div>
               </SwiperSlide>
             </Swiper>
           )}
@@ -313,5 +414,4 @@ function HomeServices() {
     </Section>
   );
 }
-
 export default HomeServices;
