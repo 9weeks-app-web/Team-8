@@ -88,8 +88,9 @@ const TabButton = styled.button<TabButtonProps>`
 const SwiperWrapper = styled.div`
   flex: 1;
   padding: 43px 0;
-
-  & > .swiper {
+  display: flex;
+  align-items: center;
+  & > .mentorsSwiper {
     .swiper-slide {
       background-color: ${Common.colors.neutral[0]};
       width: 60%;
@@ -120,6 +121,15 @@ const SwiperWrapper = styled.div`
           border-radius: 12px;
         }
       }
+    }
+  }
+
+  & > .projectSwiper {
+    .swiper-slide {
+      background-color: ${Common.colors.neutral[0]};
+      width: 434px;
+      height: 291px;
+      border-radius: 12px;
     }
   }
 `;
@@ -176,6 +186,24 @@ const CommentCard = styled.div`
       font-weight: ${Common.font.weight.regular};
       color: #d9d9d9;
     }
+  }
+`;
+
+const ProjectCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 29px 34px;
+  & > span:nth-child(1) {
+    width: 100%;
+    font-size: ${Common.font.size.xxxl};
+    font-weight: ${Common.font.weight.semibold};
+  }
+  & > span:nth-child(2) {
+    font-size: ${Common.font.size.sm};
+    font-weight: ${Common.font.weight.medium};
+    width: 100%;
   }
 `;
 
@@ -391,14 +419,106 @@ function HomeServices() {
           )}
           {activeTab === "projects" && (
             <Swiper
+              slidesPerView={"auto"}
               spaceBetween={40}
               navigation={true}
               modules={[Navigation]}
-              className="projectsSwiper"
+              className="projectSwiper"
             >
-              <SwiperSlide>프로젝트1</SwiperSlide>
-              <SwiperSlide>프로젝트2</SwiperSlide>
-              <SwiperSlide>프로젝트3</SwiperSlide>
+              <SwiperSlide>
+                <ProjectCard>
+                  <span>[앱/웹 개발] 수익성 프로젝트팀 모집</span>
+                  <span>예상 프로젝트 기간 · 3개월</span>
+                  <div>
+                    <img
+                      src="/home/sideprojecticon.svg"
+                      alt="사이드 프로젝트 인원 _ 차있음"
+                    />
+                    <img
+                      src="/home/sideprojecticon.svg"
+                      alt="사이드 프로젝트 인원 _ 차있음"
+                    />
+                    <img
+                      src="/home/sideprojecticon.svg"
+                      alt="사이드 프로젝트 인원 _ 차있음"
+                    />
+                    <img
+                      src="/home/sideprojecticon2.svg"
+                      alt="사이드 프로젝트 인원 _ 비어있음"
+                    />
+                  </div>
+                  <div>
+                    <div>
+                      <div>pm</div>
+                      <div>디자이너</div>
+                      <div>프론트</div>
+                    </div>
+                    <span>한 자리 남았어요!</span>
+                  </div>
+                </ProjectCard>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProjectCard>
+                  <span>[앱/웹 개발] 수익성 프로젝트팀 모집</span>
+                  <span>예상 프로젝트 기간 · 3개월</span>
+                  <div>
+                    <img
+                      src="/home/sideprojecticon.svg"
+                      alt="사이드 프로젝트 인원 _ 차있음"
+                    />
+                    <img
+                      src="/home/sideprojecticon.svg"
+                      alt="사이드 프로젝트 인원 _ 차있음"
+                    />
+                    <img
+                      src="/home/sideprojecticon2.svg"
+                      alt="사이드 프로젝트 인원 _ 비어있음"
+                    />
+                    <img
+                      src="/home/sideprojecticon2.svg"
+                      alt="사이드 프로젝트 인원 _ 비어있음"
+                    />
+                  </div>
+                  <div>
+                    <div>
+                      <div>pm</div>
+                      <div>디자이너</div>
+                      <div>프론트</div>
+                    </div>
+                  </div>
+                </ProjectCard>
+              </SwiperSlide>
+              <SwiperSlide>
+                <ProjectCard>
+                  <span>[앱/웹 개발] 수익성 프로젝트팀 모집</span>
+                  <span>예상 프로젝트 기간 · 3개월</span>
+                  <div>
+                    <img
+                      src="/home/sideprojecticon.svg"
+                      alt="사이드 프로젝트 인원 _ 차있음"
+                    />
+                    <img
+                      src="/home/sideprojecticon.svg"
+                      alt="사이드 프로젝트 인원 _ 차있음"
+                    />
+                    <img
+                      src="/home/sideprojecticon.svg"
+                      alt="사이드 프로젝트 인원 _ 차있음"
+                    />
+                    <img
+                      src="/home/Group1171277623.svg"
+                      alt="사이드 프로젝트 인원 _ 2명 남음"
+                    />
+                  </div>
+                  <div>
+                    <div>
+                      <div>pm</div>
+                      <div>디자이너</div>
+                      <div>프론트</div>
+                    </div>
+                  </div>
+                </ProjectCard>
+              </SwiperSlide>
             </Swiper>
           )}
           {activeTab === "jobs" && (
