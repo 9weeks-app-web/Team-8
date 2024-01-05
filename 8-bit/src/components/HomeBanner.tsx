@@ -4,11 +4,14 @@ import { Common } from "../styles/common";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
+import { useState } from "react";
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Section = styled.section`
   width: 1440px;
@@ -26,6 +29,7 @@ const SearchWrapper = styled.div`
   justify-content: space-around;
   width: 600px;
   padding: 18px;
+  position: relative;
 `;
 
 const SearchBar = styled.div`
@@ -45,6 +49,60 @@ const SearchInput = styled(TextField)`
   }
 `;
 
+const SearchDropdown = styled.div`
+  width: 564px;
+  background-color: ${Common.colors.background[5]};
+  position: absolute;
+  top: 110px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 40px;
+  z-index: 100;
+`;
+
+const SearchDropdownWrapper = styled.div`
+  width: 430px;
+  /* height: 389px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 36px;
+
+  & > :last-child {
+    display: flex;
+    flex-direction: column;
+    gap: ${Common.space.s};
+    p {
+      font-size: ${Common.font.size.md};
+      font-weight: ${Common.font.weight.semibold};
+      color: ${Common.colors.neutral[70]};
+    }
+  }
+`;
+
+const RecentSearchWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: ${Common.space.s};
+  & > p {
+    font-size: ${Common.font.size.md};
+    font-weight: ${Common.font.weight.semibold};
+    color: ${Common.colors.neutral[70]};
+  }
+
+  & > ul > li {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: ${Common.colors.neutral[50]};
+    & > Button {
+      color: ${Common.colors.neutral[50]};
+    }
+  }
+`;
+
 const KeywordWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -54,6 +112,8 @@ const KeywordWrapper = styled.div`
     font-size: ${Common.font.size.lg};
     font-weight: ${Common.font.weight.semibold};
     color: ${Common.colors.neutral[60]};
+    font-size: ${Common.font.size.md};
+    font-weight: ${Common.font.weight.medium};
   }
 `;
 
@@ -94,12 +154,20 @@ const SwiperWrapper = styled.div`
 `;
 
 function HomeBanner() {
+  const [searchFocused, setSearchFocused] = useState(false);
+
+  const handleSearchFocus = (focused: boolean) => {
+    setSearchFocused(focused);
+  };
+
   return (
     <Section>
       <SearchWrapper>
         <SearchBar>
-          <span>레퍼런스 탐색의 모든 것, 스팩폴리오</span>
+          {!searchFocused && <span>레퍼런스 탐색의 모든 것, 스팩폴리오</span>}{" "}
           <SearchInput
+            onFocus={() => handleSearchFocus(true)}
+            onBlur={() => handleSearchFocus(false)}
             variant="outlined"
             InputProps={{
               startAdornment: (
@@ -112,6 +180,47 @@ function HomeBanner() {
             fullWidth
           />
         </SearchBar>
+        {searchFocused && (
+          <SearchDropdown>
+            <SearchDropdownWrapper>
+              <RecentSearchWrapper>
+                <p>최근 검색어</p>
+                <ul>
+                  <li>
+                    UXUI
+                    <Button>
+                      <CloseIcon fontSize="small" />
+                    </Button>
+                  </li>
+                  <li>
+                    웹디자인
+                    <Button>
+                      <CloseIcon fontSize="small" />
+                    </Button>
+                  </li>
+                  <li>
+                    화려한
+                    <Button>
+                      <CloseIcon fontSize="small" />
+                    </Button>
+                  </li>
+                </ul>
+              </RecentSearchWrapper>
+              <div>
+                <p>인기 키워드</p>
+                <Keywords>
+                  <Button>크리스마스</Button>
+                  <Button>새해</Button>
+                  <Button>겨울</Button>
+                  <Button>레이아웃</Button>
+                  <Button>웹디자인</Button>
+                  <Button>렌더링 이미지</Button>
+                  <Button>UX/UI</Button>
+                </Keywords>
+              </div>
+            </SearchDropdownWrapper>
+          </SearchDropdown>
+        )}
         <KeywordWrapper>
           <p>인기 키워드</p>
           <Keywords>
