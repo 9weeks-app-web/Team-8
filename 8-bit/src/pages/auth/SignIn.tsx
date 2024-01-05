@@ -21,12 +21,14 @@ const Logo = styled.div`
 
   h3 {
     font-size : ${Common.font.size.xxxl};
-    margin-bottom : 18px;
+    font-weight: ${Common.font.weight.semibold};
+    margin-top: ${Common.space.s};
+    margin-bottom: 18px;
   }
   img {
     width : 187px;
     height : 49px;
-    margin : 34px 0 39px 0;
+    margin-top : 31px;
   }
 `;
 
@@ -38,10 +40,11 @@ const LoginForm = styled.form`
   width : 496px;
 
   .passwordinput {
-    margin-bottom : ${Common.space.lg};
+    margin-bottom : 18px;
   }
   p {
     font-size : ${Common.font.size.sm};
+    font-weight: ${Common.font.weight.medium};
   }
 `;
 
@@ -58,6 +61,7 @@ const UserLinks = styled.div`
   justify-content : space-between;
   width : 400px;
   height : 24px;
+  margin-top: ${Common.space.s};
 `;
 
 const SaveId = styled.label`
@@ -154,7 +158,10 @@ const InputContainer = styled.div`
   display : flex;
   flex-direction : column;
   align-items : flex-start;
-  margin-bottom : ${Common.space.lg};
+
+  .emailInput {
+    margin-bottom: ${Common.space.lg};
+  }
 `;
 
 const InputLabel = styled.p`
@@ -227,9 +234,10 @@ function SignIn() {
         <h3>로그인</h3>
       </Logo>
       <LoginForm onSubmit={signin}>
-        <InputContainer className="emailInput">
+        <InputContainer>
           <InputLabel>이메일 입력</InputLabel>
-          <Input 
+          <Input
+            className="emailInput"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -238,7 +246,7 @@ function SignIn() {
         </InputContainer>
         <InputContainer>
           <InputLabel>비밀번호 입력</InputLabel>
-          <Input 
+          <Input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}

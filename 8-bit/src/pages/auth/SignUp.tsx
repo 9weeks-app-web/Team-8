@@ -20,7 +20,7 @@ const Logo = styled.div`
   img {
     width : 187px;
     height : 49px;
-    margin-bottom : 16px;
+    margin-bottom : ${Common.space.s};
   }
   h4 {
     margin-bottom: 11px;
@@ -29,32 +29,44 @@ const Logo = styled.div`
 `;
 
 const SignUpForm = styled.form`
-  padding : 20px;
-  background : white;
-  margin-left: 5%;
+  background : #FFFFFF;
+  margin-left: 6%;
 
   &.inputSeleteWrapper {
     display: flex;
   }
   p {
     font-size: ${Common.font.size.md};
+    font-weight: ${Common.font.weight.bold};
     margin-bottom: 8px;
   }
 `;
 const EmailContainer = styled.div`
   display : flex;
 
-  span {
-    margin: 5px 5px 20px 5px;
-  }
-
   input {
+    background-color: #FBFBFB;
+    border : 1px solid #B3B3B3;
+    border-radius: 8px;
     width: 156px;
+    height: 40px;
   }
 
   select {
     width: 152px;
     height: 40px;
+    border : 1px solid #CCCCCC;
+    border-radius: 12px;
+  }
+
+  .newselect {
+    width: 112px;
+    height: 40px;
+    margin-left : 8px
+  }
+
+  span {
+    margin : 10px 8px;
   }
 `;
 
@@ -62,32 +74,25 @@ const PhoneRequest = styled.div`
 
   display: flex;
   align-items: flex-start;
-  gap: 10px;
 
-  select.phoneSelect {
+  select {
     width: 78px;
-    border: 1px solid #ccc;
-    border-radius: 7px;
+    height: 40px;
+    border: 1px solid #CCCCCC;
+    border-radius: 12px;
+    font-size: ${Common.font.size.sm};
+    font-weight: ${Common.font.weight.medium};
+    margin-right: ${Common.space.xs};
   }
 
   input {
     width: 314px;
   }
-
-  button.certifiedRequest {
-    height: 40px;
-    padding: 10px 20px;
-    border: 1px solid blue;
-    background-color: #FFFFFF;
-    color: blue;
-    border-radius: 10px;
-  }
 `;
 
 const CertifiedCheck = styled.div`
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  margin-bottom: 16px;
 
   input {
     width: 400px;
@@ -97,70 +102,55 @@ const CertifiedCheck = styled.div`
 const Input = styled.input`
   width : 400px;
   height: 40px;
-  padding : 10px;
   border-radius : 8px;
-  border : 1px solid #ccc;
-  box-sizing : border-box;
+  border : 1px solid #CCCCCC;
   margin-bottom : ${Common.space.lg};
 `;
 
 const ButtonContainer = styled.div`
   display : flex;
   justify-content : space-between;
-  width : 100%;
-  gap : 10px;
+  margin-top: 39px;
 `;
 
 const Button = styled.button`
-  width : 100%;
-  padding : 10px;
-  border : 1px solid blue;
-  background-color : white;
-  color : blue;
-  border-radius : 10px;
 
+  //다음 버튼
   &.nextButton {
-    background-color : #337AFF;
-    color : white;
+    background-color : ${Common.colors.primary[80]};
+    color : #FFFFFF;
+    border-radius: 12px;
+    border: none;
     width: 217px;
     height: 56px;
-    border : none;
-    margin-top : 20px;
   }
+  //이전 버튼
   &.previousButton {
+    background-color: #FFFFFF;
+    border : 1px solid ${Common.colors.primary[80]};
+    color : ${Common.colors.primary[80]};
+    border-radius: 12px;
     width: 217px;
     height: 56px;
-    margin-top: 20px;
   }
-  &.certifiedRequest {
-    width: 95px;
+  //인증 요청, 확인 버튼
+  &.certifiedRequestBtn, &.certifiedCheckBtn {
+    width: 80px;
     height: 40px;
-  }
-  &.certifiedCheck {
-    width: 95px;
-    height: 40px;
+    background-color: #FFFFFF;
+    border : 1px solid ${Common.colors.primary[80]};
+    color: ${Common.colors.primary[80]};
+    border-radius: 8.57px;
+    margin-left: ${Common.space.xs};
   }
 `;
 
 const CheckboxLabel = styled.label`
   display: flex;
-  align-items: center;
-  justify-content : center;
-  margin-bottom: 5px;
-  margin-left: 5%;
+  margin-bottom: 18.5px;
+  font-size: ${Common.font.size.sm};
+  font-weight: ${Common.font.weight.medium};
 
-  .phoneAgree {
-    margin-right : 3%;
-  }
-`;
-
-const Select = styled.select`
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 7px;
-  box-sizing: border-box;
-  margin-bottom: 20px;
 `;
 
 function SignUp() {
@@ -168,11 +158,14 @@ function SignUp() {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [showCustomEmailInput, setShowCustomEmailInput] = useState<boolean>(false);
+  const [emailInput, setEmailInput] = useState<string>('');
+  const [emailDomain, setEmailDomain] = useState<string>('');
+  
   const navigate = useNavigate();
 
   const signup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
       const auth = getAuth(app);
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -183,7 +176,30 @@ function SignUp() {
       }
     } catch (error) {
       console.error(error);
+      console.log(email);
     }
+  };
+
+  const handleEmailOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectOption = e.target.value;
+
+    if (selectOption === 'type') {
+      setShowCustomEmailInput(true);
+    } else {
+      setShowCustomEmailInput(false);
+      setEmailDomain(selectOption);
+    }
+  };
+
+  const handleEmailInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+  
+    if (emailDomain !== 'type') {
+      setEmail(`${inputValue}@${emailDomain}`);
+    } else {
+      setEmail(`${inputValue}@${emailInput}`);
+    }
+    setEmailInput(inputValue);
   };
 
   return (
@@ -198,24 +214,50 @@ function SignUp() {
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="이름 입력중..." 
+          placeholder="이름" 
         />
         <p>이메일</p>
         <div className="inputSeleteWrapper">
           <EmailContainer>
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="이메일을 입력하세요"
-            />
-            <span>@</span>
-            <Select>
-              <option value="naver.com">naver.com</option>
-              <option value="gmail.com">gmail.com</option>
-              <option value="hanmail.net">hanmail.net</option>
-              <option value="type">직접 입력</option>
-            </Select>
+          {showCustomEmailInput ? (
+              <>
+                <Input
+                  type="text"
+                  placeholder="이메일을 입력하세요"
+                  value={emailInput}
+                  onChange={handleEmailInputChange}
+                />
+                <span>@</span> 
+                <Input
+                  type="text"
+                  placeholder="직접 입력"
+                  value={emailDomain}
+                  onChange={(e) => setEmailDomain(e.target.value)}
+                />
+                <select className ="newselect" onChange={handleEmailOptionChange}>
+                  <option value="type">직접 입력</option>
+                  <option value="naver.com">naver.com</option>
+                  <option value="gmail.com">gmail.com</option>
+                  <option value="hanmail.net">hanmail.net</option>
+                </select>
+              </>
+            ) : (
+              <>
+                <Input
+                  type="text"
+                  placeholder="이메일을 입력하세요"
+                  value={emailInput}
+                  onChange={handleEmailInputChange}
+                />
+                <span>@</span>
+                <select onChange={handleEmailOptionChange}>
+                  <option value="naver.com">naver.com</option>
+                  <option value="gmail.com">gmail.com</option>
+                  <option value="hanmail.net">hanmail.net</option>
+                  <option value="type">직접 입력</option>
+                </select>
+              </>
+            )}
           </EmailContainer>
         </div>
         <p>비밀번호</p>
@@ -232,19 +274,19 @@ function SignUp() {
         />
         <p>휴대폰 인증</p>
         <PhoneRequest>
-          <Select className="phoneSelect">
+          <select>
             <option value="skt">SKT</option>
             <option value="kt">KT</option>
             <option value="lgu+">LGU+</option>
             <option value="skt_thrifty">SKT 알뜰폰</option>
             <option value="kt_thrifty">KT 알뜰폰</option>
             <option value="lgu+_thrifty">LGU+ 알뜰폰</option>
-          </Select>
+          </select>
           <Input 
             type="text" 
             placeholder="휴대폰 번호" 
           />
-        <Button className="certifiedRequest"type="submit">인증 요청</Button>
+        <Button className="certifiedRequestBtn"type="submit">인증 요청</Button>
         </PhoneRequest>
         <p>인증번호 입력</p>
         <CertifiedCheck>
@@ -252,7 +294,7 @@ function SignUp() {
             type="text" 
             placeholder="인증번호" 
           />
-          <Button className="certifiedCheck" type="submit">인증 확인</Button>
+          <Button className="certifiedCheckBtn" type="submit">인증 확인</Button>
         </CertifiedCheck>
 
         <CheckboxLabel>
