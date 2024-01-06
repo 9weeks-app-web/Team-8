@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import app from '../../firebase';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Common } from "../../styles/common";
 
@@ -41,6 +41,7 @@ const SignUpForm = styled.form`
     margin-bottom: 8px;
   }
 `;
+
 const EmailContainer = styled.div`
   display : flex;
 
@@ -51,27 +52,23 @@ const EmailContainer = styled.div`
     width: 156px;
     height: 40px;
   }
-
   select {
     width: 152px;
     height: 40px;
     border : 1px solid #CCCCCC;
     border-radius: 12px;
   }
-
   .newselect {
     width: 112px;
     height: 40px;
     margin-left : 8px
   }
-
   span {
     margin : 10px 8px;
   }
 `;
 
 const PhoneRequest = styled.div`
-
   display: flex;
   align-items: flex-start;
 
@@ -84,7 +81,6 @@ const PhoneRequest = styled.div`
     font-weight: ${Common.font.weight.medium};
     margin-right: ${Common.space.xs};
   }
-
   input {
     width: 314px;
   }
@@ -107,6 +103,40 @@ const Input = styled.input`
   margin-bottom : ${Common.space.lg};
 `;
 
+const PasswordInput = styled.input`
+  width : 400px;
+  height: 40px;
+  border-radius : 8px;
+  border : 1px solid #CCCCCC;
+  margin-bottom : 11px;
+`;
+
+const ConfirmPasswordInput = styled.input<{ passwordMatch?: boolean }>`
+  width: 400px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid ${({ passwordMatch }) => {
+    if (passwordMatch === undefined) return '#CCCCCC';
+    return passwordMatch ? '#07A320' : '#FF0000';
+  }};
+  margin-bottom : ${({ passwordMatch }) => (passwordMatch ? '11px' : '32px')};
+`;
+
+const PasswordCondition = styled.span`
+  font-size: ${Common.font.size.xs};
+  font-weight: ${Common.font.weight.regular};
+  display: block;
+  margin-bottom : 11px;
+`;
+
+const PasswordMatchText = styled.span`
+  font-size: ${Common.font.size.xs};
+  font-weight: ${Common.font.weight.regular};
+  display: block;
+  margin-bottom : 21px;
+  color: #07A320;
+`;
+
 const ButtonContainer = styled.div`
   display : flex;
   justify-content : space-between;
@@ -114,7 +144,6 @@ const ButtonContainer = styled.div`
 `;
 
 const Button = styled.button`
-
   //다음 버튼
   &.nextButton {
     background-color : ${Common.colors.primary[80]};
@@ -150,7 +179,6 @@ const CheckboxLabel = styled.label`
   margin-bottom: 18.5px;
   font-size: ${Common.font.size.sm};
   font-weight: ${Common.font.weight.medium};
-
 `;
 
 function SignUp() {
@@ -161,6 +189,14 @@ function SignUp() {
   const [showCustomEmailInput, setShowCustomEmailInput] = useState<boolean>(false);
   const [emailInput, setEmailInput] = useState<string>('');
   const [emailDomain, setEmailDomain] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [authenticationNumber, setAuthenticationNumber] = useState<string>('');
+
+  const passwordMatchText = password === confirmPassword ? (
+    <PasswordMatchText>
+      비밀번호가 일치합니다.
+    </PasswordMatchText>
+  ) : null;
   
   const navigate = useNavigate();
 
@@ -179,6 +215,12 @@ function SignUp() {
       console.log(email);
     }
   };
+  
+  useEffect(() => {
+    if (showCustomEmailInput) {
+      setEmail(`${emailInput}@${emailDomain}`);
+    }
+  }, [emailDomain]);
 
   const handleEmailOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectOption = e.target.value;
@@ -187,20 +229,9 @@ function SignUp() {
       setShowCustomEmailInput(true);
     } else {
       setShowCustomEmailInput(false);
-      setEmailDomain(selectOption);
+      setEmail(`${emailInput}@${selectOption}`);
     }
-  };
-
-  const handleEmailInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-  
-    if (emailDomain !== 'type') {
-      setEmail(`${inputValue}@${emailDomain}`);
-    } else {
-      setEmail(`${inputValue}@${emailInput}`);
-    }
-    setEmailInput(inputValue);
-  };
+  }
 
   return (
     <Container>
@@ -219,59 +250,67 @@ function SignUp() {
         <p>이메일</p>
         <div className="inputSeleteWrapper">
           <EmailContainer>
-          {showCustomEmailInput ? (
+            {showCustomEmailInput ? (
               <>
                 <Input
                   type="text"
                   placeholder="이메일을 입력하세요"
                   value={emailInput}
-                  onChange={handleEmailInputChange}
+                  onChange={(e) => setEmailInput(e.target.value)}
                 />
                 <span>@</span> 
                 <Input
                   type="text"
                   placeholder="직접 입력"
                   value={emailDomain}
-                  onChange={(e) => setEmailDomain(e.target.value)}
-                />
-                <select className ="newselect" onChange={handleEmailOptionChange}>
+                  onChange={(e) => setEmailDomain(e.target.value)}/>
+                <select className="newselect" onChange={handleEmailOptionChange}>
                   <option value="type">직접 입력</option>
                   <option value="naver.com">naver.com</option>
                   <option value="gmail.com">gmail.com</option>
                   <option value="hanmail.net">hanmail.net</option>
                 </select>
-              </>
-            ) : (
-              <>
-                <Input
-                  type="text"
-                  placeholder="이메일을 입력하세요"
-                  value={emailInput}
-                  onChange={handleEmailInputChange}
-                />
-                <span>@</span>
-                <select onChange={handleEmailOptionChange}>
-                  <option value="naver.com">naver.com</option>
-                  <option value="gmail.com">gmail.com</option>
-                  <option value="hanmail.net">hanmail.net</option>
-                  <option value="type">직접 입력</option>
-                </select>
+            </>
+          ) : (
+            <>
+              <Input
+                type="text"
+                placeholder="이메일을 입력하세요"
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
+              />
+              <span>@</span>
+              <select onChange={handleEmailOptionChange}>
+                <option value="emailChoice">이메일 주소 선택</option>
+                <option value="naver.com">naver.com</option>
+                <option value="gmail.com">gmail.com</option>
+                <option value="hanmail.net">hanmail.net</option>
+                <option value="type">직접 입력</option>
+              </select>
               </>
             )}
           </EmailContainer>
         </div>
         <p>비밀번호</p>
-        <Input
+        <PasswordInput
+          className="passwordInput"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="비밀번호"
         />
+        <PasswordCondition>영문+숫자+특수문자 조합 8~32자</PasswordCondition>
+
         <p>비밀번호 확인</p>
-        <Input 
-          type="password" 
-          placeholder="비밀번호 확인" 
+        <ConfirmPasswordInput
+          className="passwordCheckInput"
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          placeholder="비밀번호 확인"
+          passwordMatch={confirmPassword !== '' ? password === confirmPassword : undefined}
         />
+        {confirmPassword !== '' && passwordMatchText}
         <p>휴대폰 인증</p>
         <PhoneRequest>
           <select>
@@ -286,15 +325,24 @@ function SignUp() {
             type="text" 
             placeholder="휴대폰 번호" 
           />
-        <Button className="certifiedRequestBtn"type="submit">인증 요청</Button>
+        <Button className="certifiedRequestBtn"type="submit" onClick={() => {
+          alert("인증번호 6자리를 입력하세요.")
+        }}>인증 요청</Button>
         </PhoneRequest>
+
         <p>인증번호 입력</p>
         <CertifiedCheck>
           <Input 
             type="text" 
-            placeholder="인증번호" 
-          />
-          <Button className="certifiedCheckBtn" type="submit">인증 확인</Button>
+            placeholder="인증번호"
+            onChange={(e) => setAuthenticationNumber(e.target.value)}
+            />
+          <Button 
+            className="certifiedCheckBtn" 
+            type="submit" 
+            onClick={() => {
+              authenticationNumber === "123456" ? alert("인증성공") : alert("인증실패");
+          }}>인증 확인</Button>
         </CertifiedCheck>
 
         <CheckboxLabel>
