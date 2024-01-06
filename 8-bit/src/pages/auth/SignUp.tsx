@@ -29,7 +29,7 @@ const Logo = styled.div`
 `;
 
 const SignUpForm = styled.form`
-  background : #FFFFFF;
+  background : ${Common.colors.neutral[0]};
   margin-left: 6%;
 
   &.inputSeleteWrapper {
@@ -38,7 +38,7 @@ const SignUpForm = styled.form`
   p {
     font-size: ${Common.font.size.md};
     font-weight: ${Common.font.weight.bold};
-    margin-bottom: 8px;
+    margin-bottom: ${Common.space.xs};
   }
 `;
 
@@ -47,7 +47,7 @@ const EmailContainer = styled.div`
 
   input {
     background-color: #FBFBFB;
-    border : 1px solid #B3B3B3;
+    border : 1px solid ${Common.colors.neutral[30]};
     border-radius: 8px;
     width: 156px;
     height: 40px;
@@ -55,16 +55,16 @@ const EmailContainer = styled.div`
   select {
     width: 152px;
     height: 40px;
-    border : 1px solid #CCCCCC;
+    border : 1px solid ${Common.colors.neutral[20]};
     border-radius: 12px;
   }
   .newselect {
     width: 112px;
     height: 40px;
-    margin-left : 8px
+    margin-left : ${Common.space.xs};
   }
   span {
-    margin : 10px 8px;
+    margin : 10px ${Common.space.xs};
   }
 `;
 
@@ -75,7 +75,7 @@ const PhoneRequest = styled.div`
   select {
     width: 78px;
     height: 40px;
-    border: 1px solid #CCCCCC;
+    border: 1px solid ${Common.colors.neutral[20]};
     border-radius: 12px;
     font-size: ${Common.font.size.sm};
     font-weight: ${Common.font.weight.medium};
@@ -88,7 +88,7 @@ const PhoneRequest = styled.div`
 
 const CertifiedCheck = styled.div`
   display: flex;
-  margin-bottom: 16px;
+  margin-bottom: ${Common.space.s};
 
   input {
     width: 400px;
@@ -99,7 +99,7 @@ const Input = styled.input`
   width : 400px;
   height: 40px;
   border-radius : 8px;
-  border : 1px solid #CCCCCC;
+  border : 1px solid ${Common.colors.neutral[20]};
   margin-bottom : ${Common.space.lg};
 `;
 
@@ -107,7 +107,7 @@ const PasswordInput = styled.input`
   width : 400px;
   height: 40px;
   border-radius : 8px;
-  border : 1px solid #CCCCCC;
+  border : 1px solid ${Common.colors.neutral[20]};
   margin-bottom : 11px;
 `;
 
@@ -134,7 +134,7 @@ const PasswordMatchText = styled.span`
   font-weight: ${Common.font.weight.regular};
   display: block;
   margin-bottom : 21px;
-  color: #07A320;
+  color: ${Common.colors.system.success};
 `;
 
 const ButtonContainer = styled.div`
@@ -147,7 +147,7 @@ const Button = styled.button`
   //다음 버튼
   &.nextButton {
     background-color : ${Common.colors.primary[80]};
-    color : #FFFFFF;
+    color : ${Common.colors.neutral[0]};
     border-radius: 12px;
     border: none;
     width: 217px;
@@ -155,7 +155,7 @@ const Button = styled.button`
   }
   //이전 버튼
   &.previousButton {
-    background-color: #FFFFFF;
+    background-color: ${Common.colors.neutral[0]};
     border : 1px solid ${Common.colors.primary[80]};
     color : ${Common.colors.primary[80]};
     border-radius: 12px;
@@ -166,7 +166,7 @@ const Button = styled.button`
   &.certifiedRequestBtn, &.certifiedCheckBtn {
     width: 80px;
     height: 40px;
-    background-color: #FFFFFF;
+    background-color: ${Common.colors.neutral[0]};
     border : 1px solid ${Common.colors.primary[80]};
     color: ${Common.colors.primary[80]};
     border-radius: 8.57px;
