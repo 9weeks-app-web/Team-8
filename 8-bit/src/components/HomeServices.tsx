@@ -20,7 +20,6 @@ const Section = styled.section`
   background-color: ${Common.colors.background.blue};
   display: flex;
   padding: ${Common.space.s} 0;
-  border: 1px solid blue;
 `;
 const Description = styled.div`
   padding: 95px;
@@ -205,6 +204,26 @@ const ProjectCard = styled.div`
     font-size: ${Common.font.size.sm};
     font-weight: ${Common.font.weight.medium};
     width: 100%;
+  }
+
+  & > div:last-child {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    & > div {
+      display: flex;
+      gap: ${Common.space.xs};
+      & > div {
+        background-color: ${Common.colors.neutral[5]};
+        padding: 4px 10px;
+      }
+    }
+    & > span {
+      color: ${Common.colors.primary[80]};
+      font-size: ${Common.font.size.md};
+      font-weight: ${Common.font.weight.medium};
+    }
   }
 `;
 
