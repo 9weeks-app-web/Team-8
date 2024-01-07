@@ -88,11 +88,6 @@ const PhoneRequest = styled.div`
 
 const CertifiedCheck = styled.div`
   display: flex;
-  margin-bottom: ${Common.space.s};
-
-  input {
-    width: 400px;
-  }
 `;
 
 const Input = styled.input`
@@ -111,15 +106,14 @@ const PasswordInput = styled.input`
   margin-bottom : 11px;
 `;
 
-const ConfirmPasswordInput = styled.input<{ passwordMatch?: boolean }>`
+const ConfirmPasswordInput = styled.input<{ passwordMatch?: boolean; confirmPassword?: string }>`
   width: 400px;
   height: 40px;
   border-radius: 8px;
-  border: 1px solid ${({ passwordMatch }) => {
-    if (passwordMatch === undefined) return '#CCCCCC';
-    return passwordMatch ? '#07A320' : '#FF0000';
-  }};
-  margin-bottom : ${({ passwordMatch }) => (passwordMatch ? '11px' : '32px')};
+  border: 1px solid ${({ passwordMatch, confirmPassword }) => (
+    confirmPassword === '' ? '#CCCCCC' : passwordMatch === undefined ? '#CCCCCC' : passwordMatch ? '#07A320' : '#FF0000'
+  )};
+  margin-bottom: ${({ confirmPassword }) => (confirmPassword === '' ? '32px' : '11px')};
 `;
 
 const PasswordCondition = styled.span`
@@ -129,12 +123,29 @@ const PasswordCondition = styled.span`
   margin-bottom : 11px;
 `;
 
-const PasswordMatchText = styled.span`
+const PasswordMatchText = styled.span<{ match?: boolean }>`
   font-size: ${Common.font.size.xs};
   font-weight: ${Common.font.weight.regular};
   display: block;
-  margin-bottom : 21px;
-  color: ${Common.colors.system.success};
+  margin-bottom: 21px;
+  color: ${({ match }) => (match ? Common.colors.system.success : Common.colors.system.warning)};
+`;
+
+const AuthenticationInput = styled.input<{ match?: boolean; isEmpty?: boolean }>`
+  width: 400px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid ${({ match, isEmpty }) =>
+    isEmpty ? '#CCCCCC' : match ? '#07A320' : '#FF0000'};
+  margin-bottom: ${({ isEmpty }) => (isEmpty ? '32px' : '8px')};
+`;
+
+const AuthenticationMatchText = styled.span<{ match?: boolean; show?: boolean }>`
+  font-size: ${Common.font.size.xs};
+  font-weight: ${Common.font.weight.regular};
+  display: ${({ show }) => (show ? 'block' : 'none')};
+  margin-bottom: 22px;
+  color: ${({ match }) => (match ? Common.colors.system.success : Common.colors.system.warning)};
 `;
 
 const ButtonContainer = styled.div`
@@ -192,12 +203,51 @@ function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [authenticationNumber, setAuthenticationNumber] = useState<string>('');
 
-  const passwordMatchText = password === confirmPassword ? (
-    <PasswordMatchText>
-      비밀번호가 일치합니다.
+  const [allChecked, setAllChecked] = useState(false);
+  const [agreePrivacy, setAgreePrivacy] = useState(false);
+  const [agreeUniqueInfo, setAgreeUniqueInfo] = useState(false);
+  const [agreePhoneTerms, setAgreePhoneTerms] = useState(false);
+
+  const handleSingleChecked = (
+    state: boolean,
+    setState: React.Dispatch<React.SetStateAction<boolean>>,
+    allCheckedState: React.Dispatch<React.SetStateAction<boolean>>,
+    allCheckedValue: boolean
+  ) => {
+    setState(!state);
+    if (allCheckedValue) {
+      allCheckedState(false);
+    }
+  };
+
+  const handleAllChecked = () => {
+    const nextState = !allChecked;
+    setAllChecked(nextState);
+    setAgreePrivacy(nextState);
+    setAgreeUniqueInfo(nextState);
+    setAgreePhoneTerms(nextState);
+  };
+
+  useEffect(() => {
+    if (agreePrivacy && agreeUniqueInfo && agreePhoneTerms) {
+      setAllChecked(true);
+    } else {
+      setAllChecked(false);
+    }
+  }, [agreePrivacy, agreeUniqueInfo, agreePhoneTerms]);
+
+  const passwordMatchText = (
+    <PasswordMatchText match={password === confirmPassword}>
+      {password === confirmPassword ? '비밀번호가 일치합니다.' : '비밀번호가 일치하지 않습니다.'}
     </PasswordMatchText>
-  ) : null;
-  
+  );
+
+  const authenticationMatchText = (
+    <AuthenticationMatchText match={authenticationNumber === '123456'} show={authenticationNumber !== ''}>
+      {authenticationNumber === '123456' ? '인증번호가 일치합니다.' : '인증번호가 일치하지 않습니다.'}
+    </AuthenticationMatchText>
+  );
+
   const navigate = useNavigate();
 
   const signup = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -236,7 +286,7 @@ function SignUp() {
   return (
     <Container>
       <Logo>
-        <img src="/logo.svg" alt="로고이미지" />
+        <img src="/auth/logo.svg" alt="로고이미지" />
         <h4>회원가입 하고 모든 레퍼런스를 모아보세요.</h4>
       </Logo>
       <SignUpForm onSubmit={signup}>
@@ -303,12 +353,12 @@ function SignUp() {
 
         <p>비밀번호 확인</p>
         <ConfirmPasswordInput
-          className="passwordCheckInput"
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           placeholder="비밀번호 확인"
-          passwordMatch={confirmPassword !== '' ? password === confirmPassword : undefined}
+          confirmPassword={confirmPassword}
+          passwordMatch={confirmPassword === '' ? undefined : password === confirmPassword}
         />
         {confirmPassword !== '' && passwordMatchText}
         <p>휴대폰 인증</p>
@@ -332,31 +382,60 @@ function SignUp() {
 
         <p>인증번호 입력</p>
         <CertifiedCheck>
-          <Input 
+          <AuthenticationInput 
             type="text" 
             placeholder="인증번호"
             onChange={(e) => setAuthenticationNumber(e.target.value)}
+            match={authenticationNumber === '123456'}
+            isEmpty={authenticationNumber === ''}
             />
-          <Button 
+          <Button
             className="certifiedCheckBtn" 
             type="submit" 
             onClick={() => {
               authenticationNumber === "123456" ? alert("인증성공") : alert("인증실패");
           }}>인증 확인</Button>
         </CertifiedCheck>
+        {authenticationMatchText}
 
         <CheckboxLabel>
-          <input type="checkbox" /> 본인인증 약관 전체동의(필수)
+          <input           
+            type="checkbox"
+            checked={allChecked}
+            onChange={handleAllChecked}
+          />
+          본인인증 약관 전체동의(필수)
         </CheckboxLabel>
         <CheckboxLabel>
-          <input type="checkbox" /> 개인정보 수집이용 동의
+        <input
+          type="checkbox"
+          checked={agreePrivacy}
+          onChange={() =>
+            handleSingleChecked(agreePrivacy, setAgreePrivacy, setAllChecked, allChecked)
+          }
+        />
+        개인정보 수집이용 동의
         </CheckboxLabel>
         <CheckboxLabel>
-          <input type="checkbox" /> 고유식별 정보처리 동의
+        <input
+          type="checkbox"
+          checked={agreeUniqueInfo}
+          onChange={() =>
+            handleSingleChecked(agreeUniqueInfo, setAgreeUniqueInfo, setAllChecked, allChecked)
+          }
+        />
+        고유식별 정보처리 동의
         </CheckboxLabel>
         <CheckboxLabel>
           <div className="phoneAgree">
-            <input type="checkbox" /> 통신사 이용약관 동의
+            <input
+              type="checkbox"
+              checked={agreePhoneTerms}
+              onChange={() =>
+                handleSingleChecked(agreePhoneTerms, setAgreePhoneTerms, setAllChecked, allChecked)
+              }
+            />
+            통신사 이용약관 동의
           </div>
         </CheckboxLabel>
 

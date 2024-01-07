@@ -102,7 +102,6 @@ const Button = styled.button<CustomButtonProps>`
   &:active {
     background-color: ${({ isInputSpace }) => (isInputSpace ? '#0043C0' : '#CCCCCC')};
   }
-
 `;
 
 const SnsLine = styled.div`
@@ -230,7 +229,7 @@ function SignIn() {
   return (
     <Container>
       <Logo>
-        <img src="/logo.svg" alt="로고이미지" />
+        <img src="/auth/logo.svg" alt="로고이미지" />
         <h3>로그인</h3>
       </Logo>
       <LoginForm onSubmit={signin}>
@@ -265,9 +264,13 @@ function SignIn() {
           </SaveId>
           <SerchIdPw>
             <span>
-              <a href="/findId">아이디찾기</a>
+              <a href="#" onClick={() => {
+                alert("준비중입니다.")
+              }}>아이디찾기</a>
               |
-              <a href="/findPassword">비밀번호 찾기</a>
+              <a href="#" onClick={() => {
+                alert("준비중입니다.")
+              }}>비밀번호 찾기</a>
             </span>
           </SerchIdPw>
         </UserLinks>
@@ -282,15 +285,15 @@ function SignIn() {
         </SnsLine>
 
         <SnsContainer>
-          <img src="/kakaosns.svg" alt="카카오로그인" />
-          <img src="/naversns.svg" alt="네이버로그인" />
-          <img src="/googlesns.svg" alt="구글로그인" />
-          <img src="/applesns.svg" alt="애플로그인" />
+          <img src="/auth/kakaosns.svg" alt="카카오로그인" />
+          <img src="/auth/naversns.svg" alt="네이버로그인" />
+          <img src="/auth/googlesns.svg" alt="구글로그인" />
+          <img src="/auth/applesns.svg" alt="애플로그인" />
         </SnsContainer>
 
         <UnderLogo>
           <p>회원가입하고 모든 레퍼런스를 모아보세요. <a href="/signup">회원가입</a></p>
-          <img src="/loginfooterimg.svg" alt="로그인하단이미지" />
+          <img src="/auth/loginfooterimg.svg" alt="로그인하단이미지" />
         </UnderLogo>
       </LoginForm>
     </Container>
