@@ -94,6 +94,11 @@ const Input = styled.input`
   border-radius : 8px;
   border : 1px solid ${Common.colors.neutral[20]};
   margin-bottom : ${Common.space.lg};
+
+  &:focus {
+    outline: none;
+    border : 1px solid #0059FF;
+  }
 `;
 
 const PasswordInput = styled.input`
@@ -102,19 +107,37 @@ const PasswordInput = styled.input`
   border-radius : 8px;
   border : 1px solid ${Common.colors.neutral[20]};
   margin-bottom : 11px;
+
+  &:focus {
+    outline: none;
+    border: 1px solid ${Common.colors.primary[100]};
+  }
 `;
 
-const ConfirmPasswordInput = styled.input<{ passwordMatch?: boolean; confirmPassword?: string }>`
+const ConfirmPasswordInput = styled.input<{passwordMatch?: boolean; confirmPassword?: string;}>`
   width: 400px;
   height: 40px;
   border-radius: 8px;
-  border: 1px solid ${({ passwordMatch, confirmPassword }) => (
-    confirmPassword === '' ? `${Common.colors.neutral[20]}` 
-    : passwordMatch === undefined ? `${Common.colors.neutral[20]}` 
-    : passwordMatch ? `${Common.colors.system.success}` : `${Common.colors.system.warning}`
-  )};
-  margin-bottom: ${({ confirmPassword }) => 
-    (confirmPassword === '' ? `${Common.space.lg}` : '11px')};
+  border: 1px solid ${Common.colors.neutral[20]};
+  margin-bottom: ${({ confirmPassword }) =>
+    confirmPassword === '' ? `${Common.space.lg}` : '11px'};
+
+  &:focus {
+    outline: none;
+    border: 1px solid ${Common.colors.primary[100]};
+  }
+
+  &:not(:placeholder-shown) {
+    border: 1px solid
+      ${({ passwordMatch, confirmPassword }) =>
+        confirmPassword === ''
+          ? `${Common.colors.neutral[20]}`
+          : passwordMatch === undefined
+          ? `${Common.colors.neutral[20]}`
+          : passwordMatch
+          ? `${Common.colors.system.success}`
+          : `${Common.colors.system.warning}`};
+  }
 `;
 
 const PasswordCondition = styled.span`
@@ -143,6 +166,11 @@ const AuthenticationInput = styled.input<{ match?: boolean; isEmpty?: boolean; s
     showPasswordMatchText ? Common.colors.system.warning : Common.colors.neutral[20]};
   margin-bottom: ${({ showPasswordMatchText }) => 
     showPasswordMatchText ? '11px' : Common.space.lg};
+
+  &:focus {
+    outline: none;
+    border: 1px solid ${Common.colors.primary[100]};
+  }
 `;
 
 const AuthenticationMatchText = styled.span<{ match?: boolean; show?: boolean }>`
@@ -300,7 +328,7 @@ function SignUp() {
     };
 
     localStorage.setItem('userData', JSON.stringify(userData));
-    navigate("/signupTwo");
+    navigate("/profile");
   };
 
   return (

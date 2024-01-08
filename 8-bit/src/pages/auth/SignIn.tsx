@@ -36,7 +36,7 @@ const LoginForm = styled.form`
   display : flex;
   flex-direction : column;
   align-items : center;
-  background : #FFFFFF;
+  background : ${Common.colors.neutral[0]};
   width : 496px;
 
   .passwordinput {
@@ -54,6 +54,11 @@ const Input = styled.input`
   border-radius : 8px;
   background-color: #FBFBFB;
   border : 1px solid ${Common.colors.neutral[30]};
+
+  &:focus {
+    outline: none;
+    border: 1px solid ${Common.colors.primary[100]};
+  }
 `;
 
 const UserLinks = styled.div`
@@ -91,7 +96,7 @@ const Button = styled.button<CustomButtonProps>`
   border : none;
   background-color: ${({ isInputSpace }) => (isInputSpace ? 
     `${Common.colors.primary[80]}` : `${Common.colors.neutral[20]}`)};
-  color : #FFFFFF; 
+  color : ${Common.colors.neutral[0]};; 
   
   border-radius : 10px;
   cursor : 'pointer';

@@ -8,10 +8,12 @@ import MyPage from "./pages/MyPage";
 
 import CommunityHome from "./pages/community/CommunityHome";
 import CommunityHot from "./pages/community/CommunityHot";
-import CommunityQna from "./pages/community/CommunityQna";
+import CommunityQna from "./pages/community/communityQna";
 import CommunityBoard from "./pages/community/CommunityBoard";
-import SignupTwo from "./pages/auth/SignupTwo";
 import SignupSuccess from "./pages/auth/SignupSuccess";
+import { Upload } from "@mui/icons-material";
+import UploadPage from "./pages/UploadPage";
+import Profile from "./pages/auth/Profile";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +38,11 @@ const router = createBrowserRouter([
     ],
   },
   {
+    path: "/upload",
+    element: <RootLayout />,
+    children: [{ index: true, element: <UploadPage /> }],
+  },
+  {
     path: "/signIn",
     element: <NoFooterLayout />,
     children: [{ index: true, element: <SignIn /> }],
@@ -46,15 +53,16 @@ const router = createBrowserRouter([
     children: [{ index: true, element: <SignUp /> }],
   },
   {
-    path: "/signupTwo",
+    path: "/profile",
     element: <NoFooterLayout />,
-    children: [{ index: true, element: <SignupTwo /> }],
+    children: [{ index: true, element: <Profile /> }],
   },
   {
     path: "/signupSuccess",
     element: <NoFooterLayout />,
     children: [{ index: true, element: <SignupSuccess /> }],
   }
+
 ]);
 
 export default router;

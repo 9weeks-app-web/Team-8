@@ -52,6 +52,11 @@ const Input = styled.input<{ isNicknameAvailable: boolean | null, isNicknameVali
         : (props.isNicknameAvailable === false
             ? Common.colors.system.warning
             : Common.colors.neutral[50])};
+
+  &:focus {
+    outline: none;
+    border: 1px solid ${Common.colors.primary[100]};
+  }
 `;
 
 const SignUpForm = styled.div`
@@ -183,7 +188,7 @@ const NicknameCheckText = styled.p<{ isNicknameAvailable: boolean }>`
    Common.colors.system.success : Common.colors.system.warning)};
 `;
 
-function SignupTwo() {
+function Profile() {
 
   const [nickname, setNickname] = useState<string>('');
   const [nicknamesArray, setNicknamesArray] = useState<string[]>([]);
@@ -237,15 +242,15 @@ function SignupTwo() {
   const handleNextButtonClick = async () => {
     const userDataString = localStorage.getItem('userData');
     if (!userDataString) {
-      console.error();
+      console.error("에러");
       return;
     }
   
     const userData = JSON.parse(userDataString);
     const { name, email, password } = userData;
 
-    if (storedNicknames.includes(nickname)) {
-      alert('이미 사용 중인 닉네임입니다.');
+    if (!isNicknameAvailable) {
+      alert('닉네임을 확인해주세요.');
       return;
     }
   
@@ -355,6 +360,6 @@ function SignupTwo() {
   );
 }
 
-export default SignupTwo;
+export default Profile;
 
 
