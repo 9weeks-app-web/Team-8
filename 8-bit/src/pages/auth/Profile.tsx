@@ -6,6 +6,7 @@ import { useState } from "react";
 import CheckIcon from '@mui/icons-material/Check';
 import app from '../../firebase';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { Checkbox } from "@mui/material";
 
 
 interface ActiveButtonProps {
@@ -172,11 +173,15 @@ const InterestText = styled.div`
 
 const CheckboxContainer = styled.div`
   display: flex;
+  margin-bottom: ${Common.space.lg};
+  margin-left: -10px;
 `;
 
 const CheckboxLabel = styled.label`
   display: flex;
-  margin-right: 17px;
+  align-items: center;
+  font-size: ${Common.font.size.md};
+  color: ${Common.colors.neutral[100]};
 `;
 
 const NicknameCheckText = styled.p<{ isNicknameAvailable: boolean }>`
@@ -253,11 +258,12 @@ function Profile() {
       alert('닉네임을 확인해주세요.');
       return;
     }
-  
+
     try {
       const auth = getAuth(app);
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-  
+      localStorage.setItem('selectedInterestButtons', JSON.stringify(selectedButtons));
+      
       await updateProfile(userCredential.user, {
         displayName: name
       });
@@ -333,13 +339,13 @@ function Profile() {
           <p className="checkBoxText">제안 허용</p>
           <CheckboxContainer>
             <CheckboxLabel>
-              <input type="checkbox" /> 채용 제안
+              <Checkbox /> 채용 제안
             </CheckboxLabel>
             <CheckboxLabel>
-              <input type="checkbox" /> 의견 제안
+              <Checkbox /> 의견 제안
             </CheckboxLabel>
             <CheckboxLabel>
-              <input type="checkbox" /> 프로젝트 제안
+              <Checkbox /> 프로젝트 제안
             </CheckboxLabel>
           </CheckboxContainer>
 

@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Common } from "../../styles/common";
+import Checkbox from "@mui/material/Checkbox";
 
 const Container = styled.div`
   display : flex;
@@ -221,9 +222,10 @@ const Button = styled.button`
 
 const CheckboxLabel = styled.label`
   display: flex;
-  margin-bottom: 18.5px;
-  font-size: ${Common.font.size.sm};
-  font-weight: ${Common.font.weight.medium};
+  align-items: center;
+  font-size: ${Common.font.size.md};
+  color: ${Common.colors.neutral[100]};
+  margin-left: -${Common.space.xs};
 `;
 
 function SignUp() {
@@ -450,37 +452,33 @@ function SignUp() {
         {showPasswordMatchText && authenticationMatchText}
 
         <CheckboxLabel>
-          <input           
-            type="checkbox"
+          <Checkbox           
             checked={allChecked}
             onChange={handleAllChecked}
           />
           본인인증 약관 전체동의(필수)
         </CheckboxLabel>
         <CheckboxLabel>
-        <input
-          type="checkbox"
-          checked={agreePrivacy}
-          onChange={() =>
-            handleSingleChecked(agreePrivacy, setAgreePrivacy, setAllChecked, allChecked)
-          }
-        />
+          <Checkbox
+            checked={agreePrivacy}
+            onChange={() =>
+              handleSingleChecked(agreePrivacy, setAgreePrivacy, setAllChecked, allChecked)
+            }
+          />
         개인정보 수집이용 동의
         </CheckboxLabel>
         <CheckboxLabel>
-        <input
-          type="checkbox"
-          checked={agreeUniqueInfo}
-          onChange={() =>
-            handleSingleChecked(agreeUniqueInfo, setAgreeUniqueInfo, setAllChecked, allChecked)
-          }
-        />
+          <Checkbox
+            checked={agreeUniqueInfo}
+            onChange={() =>
+              handleSingleChecked(agreeUniqueInfo, setAgreeUniqueInfo, setAllChecked, allChecked)
+            }
+          />
         고유식별 정보처리 동의
         </CheckboxLabel>
         <CheckboxLabel>
           <div className="phoneAgree">
-            <input
-              type="checkbox"
+            <Checkbox
               checked={agreePhoneTerms}
               onChange={() =>
                 handleSingleChecked(agreePhoneTerms, setAgreePhoneTerms, setAllChecked, allChecked)
