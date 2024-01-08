@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
-import app from '../../firebase';
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Common } from "../../styles/common";
 
 const Container = styled.div`
   display : flex;
@@ -14,144 +13,189 @@ const Logo = styled.div`
   display : flex;
   flex-direction : column;
   align-items : center;
-  margin-top : 3%;
+  margin-top : 31px;
 
   img {
     width : 187px;
     height : 49px;
-    margin-bottom : 5%;
+    margin-bottom : ${Common.space.s};
+  }
+  h4 {
+    margin-bottom: 11px;
+    font-size : ${Common.font.size.md};
   }
 `;
 
-const SignUpForm = styled.form`
-  padding : 20px;
-  background : white;
-  margin-left: 5%;
+const SignUpForm = styled.div`
+  background : ${Common.colors.neutral[0]};
+  margin-left: ${Common.space.xxl};
 
   &.inputSeleteWrapper {
     display: flex;
   }
+  p {
+    font-size: ${Common.font.size.md};
+    font-weight: ${Common.font.weight.bold};
+    margin-bottom: ${Common.space.xs};
+  }
 `;
+
 const EmailContainer = styled.div`
   display : flex;
 
-  span {
-    margin: 5px 5px 20px 5px;
-  }
-
   input {
+    background-color: #FBFBFB;
+    border : 1px solid ${Common.colors.neutral[30]};
+    border-radius: 8px;
     width: 156px;
+    height: 40px;
   }
-
   select {
     width: 152px;
     height: 40px;
+    border : 1px solid ${Common.colors.neutral[20]};
+    border-radius: 12px;
+  }
+  .newselect {
+    width: 112px;
+    height: 40px;
+    margin-left : ${Common.space.xs};
+  }
+  span {
+    margin : 10px ${Common.space.xs};
   }
 `;
 
 const PhoneRequest = styled.div`
-
   display: flex;
   align-items: flex-start;
-  gap: 10px;
 
-  select.phoneSelect {
+  select {
     width: 78px;
-    border: 1px solid #ccc;
-    border-radius: 7px;
+    height: 40px;
+    border: 1px solid ${Common.colors.neutral[20]};
+    border-radius: 12px;
+    font-size: ${Common.font.size.sm};
+    font-weight: ${Common.font.weight.medium};
+    margin-right: ${Common.space.xs};
   }
-
   input {
     width: 314px;
-  }
-
-  button.certifiedRequest {
-    height: 40px;
-    padding: 10px 20px;
-    border: 1px solid blue;
-    background-color: white;
-    color: blue;
-    border-radius: 10px;
   }
 `;
 
 const CertifiedCheck = styled.div`
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
-
-  input {
-    width: 400px;
-  }
 `;
 
 const Input = styled.input`
   width : 400px;
   height: 40px;
-  padding : 10px;
-  border-radius : 7px;
-  border : 1px solid #ccc;
-  box-sizing : border-box;
-  margin-bottom : 5%;
+  border-radius : 8px;
+  border : 1px solid ${Common.colors.neutral[20]};
+  margin-bottom : ${Common.space.lg};
+`;
+
+const PasswordInput = styled.input`
+  width : 400px;
+  height: 40px;
+  border-radius : 8px;
+  border : 1px solid ${Common.colors.neutral[20]};
+  margin-bottom : 11px;
+`;
+
+const ConfirmPasswordInput = styled.input<{ passwordMatch?: boolean; confirmPassword?: string }>`
+  width: 400px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid ${({ passwordMatch, confirmPassword }) => (
+    confirmPassword === '' ? `${Common.colors.neutral[20]}` 
+    : passwordMatch === undefined ? `${Common.colors.neutral[20]}` 
+    : passwordMatch ? `${Common.colors.system.success}` : `${Common.colors.system.warning}`
+  )};
+  margin-bottom: ${({ confirmPassword }) => 
+    (confirmPassword === '' ? `${Common.space.lg}` : '11px')};
+`;
+
+const PasswordCondition = styled.span`
+  font-size: ${Common.font.size.xs};
+  font-weight: ${Common.font.weight.regular};
+  display: block;
+  margin-bottom : 11px;
+`;
+
+const PasswordMatchText = styled.span<{ match?: boolean }>`
+  font-size: ${Common.font.size.xs};
+  font-weight: ${Common.font.weight.regular};
+  display: block;
+  margin-bottom: 21px;
+  color: ${({ match }) => (match ? 
+    Common.colors.system.success : Common.colors.system.warning)};
+`;
+
+const AuthenticationInput = styled.input<{ match?: boolean; isEmpty?: boolean; showPasswordMatchText?: boolean }>`
+  width: 400px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid ${({ match, isEmpty, showPasswordMatchText }) =>
+    isEmpty ? Common.colors.neutral[20] :
+    match ? Common.colors.system.success :
+    showPasswordMatchText ? Common.colors.system.warning : Common.colors.neutral[20]};
+  margin-bottom: ${({ showPasswordMatchText }) => 
+    showPasswordMatchText ? '11px' : Common.space.lg};
+`;
+
+const AuthenticationMatchText = styled.span<{ match?: boolean; show?: boolean }>`
+  font-size: ${Common.font.size.xs};
+  font-weight: ${Common.font.weight.regular};
+  display: ${({ show }) => (show ? 'block' : 'none')};
+  margin-bottom: 22px;
+  color: ${({ match }) => (match ? 
+    Common.colors.system.success : Common.colors.system.warning)};
 `;
 
 const ButtonContainer = styled.div`
   display : flex;
   justify-content : space-between;
-  width : 100%;
-  gap : 10px;
+  margin-top: 39px;
 `;
 
 const Button = styled.button`
-  width : 100%;
-  padding : 10px;
-  border : 1px solid blue;
-  background-color : white;
-  color : blue;
-  border-radius : 10px;
-
+  //다음 버튼
   &.nextButton {
-    background-color : #337AFF;
-    color : white;
+    background-color : ${Common.colors.primary[80]};
+    color : ${Common.colors.neutral[0]};
+    border-radius: 12px;
+    border: none;
     width: 217px;
     height: 56px;
-    border : none;
-    margin-top : 20px;
   }
+  //이전 버튼
   &.previousButton {
+    background-color: ${Common.colors.neutral[0]};
+    border : 1px solid ${Common.colors.primary[80]};
+    color : ${Common.colors.primary[80]};
+    border-radius: 12px;
     width: 217px;
     height: 56px;
-    margin-top: 20px;
   }
-  &.certifiedRequest {
-    width: 95px;
+  //인증 요청, 확인 버튼
+  &.certifiedRequestBtn, &.certifiedCheckBtn {
+    width: 80px;
     height: 40px;
-  }
-  &.certifiedCheck {
-    width: 95px;
-    height: 40px;
+    background-color: ${Common.colors.neutral[0]};
+    border : 1px solid ${Common.colors.primary[80]};
+    color: ${Common.colors.primary[80]};
+    border-radius: 8.57px;
+    margin-left: ${Common.space.xs};
   }
 `;
 
 const CheckboxLabel = styled.label`
   display: flex;
-  align-items: center;
-  justify-content : center;
-  margin-bottom: 5px;
-  margin-left: 5%;
-
-  .phoneAgree {
-    margin-right : 3%;
-  }
-`;
-
-const Select = styled.select`
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 7px;
-  box-sizing: border-box;
-  margin-bottom: 20px;
+  margin-bottom: 18.5px;
+  font-size: ${Common.font.size.sm};
+  font-weight: ${Common.font.weight.medium};
 `;
 
 function SignUp() {
@@ -159,105 +203,262 @@ function SignUp() {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [emailInput, setEmailInput] = useState<string>('');
+  const [emailDomain, setEmailDomain] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [authenticationNumber, setAuthenticationNumber] = useState<string>('');
+
+  const [showCustomEmailInput, setShowCustomEmailInput] = useState<boolean>(false);
+  const [showPasswordMatchText, setShowPasswordMatchText] = useState(false);
+  const [allChecked, setAllChecked] = useState(false);
+  const [agreePrivacy, setAgreePrivacy] = useState(false);
+  const [agreeUniqueInfo, setAgreeUniqueInfo] = useState(false);
+  const [agreePhoneTerms, setAgreePhoneTerms] = useState(false);
+
+  
   const navigate = useNavigate();
 
-  const signup = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    try {
-      const auth = getAuth(app);
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-      if (userCredential.user) {
-        await updateProfile(userCredential.user, { displayName: name });
-        console.log(userCredential.user);
-      }
-    } catch (error) {
-      console.error(error);
+  const handleSingleChecked = (
+    state: boolean,
+    setState: React.Dispatch<React.SetStateAction<boolean>>,
+    allCheckedState: React.Dispatch<React.SetStateAction<boolean>>,
+    allCheckedValue: boolean
+  ) => {
+    setState(!state);
+    if (allCheckedValue) {
+      allCheckedState(false);
     }
+  };
+
+  const handleAllChecked = () => {
+    const nextState = !allChecked;
+    setAllChecked(nextState);
+    setAgreePrivacy(nextState);
+    setAgreeUniqueInfo(nextState);
+    setAgreePhoneTerms(nextState);
+  };
+
+  useEffect(() => {
+    if (agreePrivacy && agreeUniqueInfo && agreePhoneTerms) {
+      setAllChecked(true);
+    } else {
+      setAllChecked(false);
+    }
+  }, [agreePrivacy, agreeUniqueInfo, agreePhoneTerms]);
+
+  const passwordMatchText = (
+    <PasswordMatchText match={password === confirmPassword}>
+      {password === confirmPassword ? '비밀번호가 일치합니다.' : '비밀번호가 일치하지 않습니다.'}
+    </PasswordMatchText>
+  );
+
+  const authenticationMatchText = (
+    <AuthenticationMatchText match={authenticationNumber === '123456'} show={authenticationNumber !== ''}>
+      {authenticationNumber === '123456' ? '인증번호가 일치합니다.' : '인증번호가 일치하지 않습니다.'}
+    </AuthenticationMatchText>
+  );
+
+  const handleEmailOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectOption = e.target.value;
+
+    if (selectOption === 'type') {
+      setShowCustomEmailInput(true);
+    } else {
+      setShowCustomEmailInput(false);
+      setEmail(`${emailInput}@${selectOption}`);
+    }
+  }
+
+  useEffect(() => {
+    if (showCustomEmailInput) {
+      setEmail(`${emailInput}@${emailDomain}`);
+    }
+  }, [emailDomain]);
+
+  const handleNextButtonClick = () => {
+
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,32}$/;
+
+    if (!name || !email || !password || !confirmPassword || !authenticationNumber) {
+      alert('모든 입력란을 채워주세요.');
+      return;
+    }
+    const isPasswordValid = passwordRegex.test(password);
+    if (!isPasswordValid) {
+      alert('비밀번호는 영문+숫자+특수문자 조합 8~32자여야 합니다.');
+      return;
+    }
+    if (!agreePrivacy || !agreeUniqueInfo || !agreePhoneTerms) {
+      alert('본인인증 약관에 동의해주세요.');
+      return;
+    }
+
+    const userData = {
+      name: name,
+      email: email,
+      password: password
+    };
+
+    localStorage.setItem('userData', JSON.stringify(userData));
+    navigate("/signupTwo");
   };
 
   return (
     <Container>
       <Logo>
-        <img src="/logo.svg" alt="로고이미지" />
+        <img src="/auth/logo.svg" alt="로고이미지" />
         <h4>회원가입 하고 모든 레퍼런스를 모아보세요.</h4>
       </Logo>
-      <SignUpForm onSubmit={signup}>
+      <SignUpForm>
         <p>이름</p>
         <Input 
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="이름 입력중..." 
+          placeholder="이름" 
         />
         <p>이메일</p>
         <div className="inputSeleteWrapper">
           <EmailContainer>
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="이메일을 입력하세요"
-            />
-            <span>@</span>
-            <Select>
-              <option value="naver.com">naver.com</option>
-              <option value="gmail.com">gmail.com</option>
-              <option value="hanmail.net">hanmail.net</option>
-              <option value="type">직접 입력</option>
-            </Select>
+            {showCustomEmailInput ? (
+              <>
+                <Input
+                  type="text"
+                  placeholder="이메일을 입력하세요"
+                  value={emailInput}
+                  onChange={(e) => setEmailInput(e.target.value)}
+                />
+                <span>@</span> 
+                <Input
+                  type="text"
+                  placeholder="직접 입력"
+                  value={emailDomain}
+                  onChange={(e) => setEmailDomain(e.target.value)}/>
+                <select className="newselect" onChange={handleEmailOptionChange}>
+                  <option value="type">직접 입력</option>
+                  <option value="naver.com">naver.com</option>
+                  <option value="gmail.com">gmail.com</option>
+                  <option value="hanmail.net">hanmail.net</option>
+                </select>
+            </>
+          ) : (
+            <>
+              <Input
+                type="text"
+                placeholder="이메일을 입력하세요"
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
+              />
+              <span>@</span>
+              <select onChange={handleEmailOptionChange}>
+                <option value="emailChoice">이메일 주소 선택</option>
+                <option value="naver.com">naver.com</option>
+                <option value="gmail.com">gmail.com</option>
+                <option value="hanmail.net">hanmail.net</option>
+                <option value="type">직접 입력</option>
+              </select>
+              </>
+            )}
           </EmailContainer>
         </div>
         <p>비밀번호</p>
-        <Input
+        <PasswordInput
+          className="passwordInput"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="비밀번호"
         />
+        <PasswordCondition>영문+숫자+특수문자 조합 8~32자</PasswordCondition>
+
         <p>비밀번호 확인</p>
-        <Input 
-          type="password" 
-          placeholder="비밀번호 확인" 
+        <ConfirmPasswordInput
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          placeholder="비밀번호 확인"
+          confirmPassword={confirmPassword}
+          passwordMatch={confirmPassword === '' ? undefined : password === confirmPassword}
         />
+        {confirmPassword !== '' && passwordMatchText}
         <p>휴대폰 인증</p>
         <PhoneRequest>
-          <Select className="phoneSelect">
+          <select>
             <option value="skt">SKT</option>
             <option value="kt">KT</option>
             <option value="lgu+">LGU+</option>
             <option value="skt_thrifty">SKT 알뜰폰</option>
             <option value="kt_thrifty">KT 알뜰폰</option>
             <option value="lgu+_thrifty">LGU+ 알뜰폰</option>
-          </Select>
+          </select>
           <Input 
             type="text" 
             placeholder="휴대폰 번호" 
           />
-        <Button className="certifiedRequest"type="submit">인증 요청</Button>
+        <Button className="certifiedRequestBtn"type="submit" onClick={() => {
+          alert("인증번호 6자리 발송했습니다.")
+        }}>인증 요청</Button>
         </PhoneRequest>
+
         <p>인증번호 입력</p>
         <CertifiedCheck>
-          <Input 
+          <AuthenticationInput 
             type="text" 
-            placeholder="인증번호" 
+            placeholder="인증번호"
+            onChange={(e) => setAuthenticationNumber(e.target.value)}
+            match={authenticationNumber === '123456'}
+            isEmpty={authenticationNumber === ''}
+            showPasswordMatchText={showPasswordMatchText}
           />
-          <Button className="certifiedCheck" type="submit">인증 확인</Button>
+          <Button
+            className="certifiedCheckBtn" 
+            type="submit" 
+            onClick={(e) => {
+              e.preventDefault();
+              authenticationNumber === "123456" ? alert("인증성공") : alert("인증실패");
+              setShowPasswordMatchText(true);
+          }}>인증 확인</Button>
         </CertifiedCheck>
+        {showPasswordMatchText && authenticationMatchText}
 
         <CheckboxLabel>
-          <input type="checkbox" /> 본인인증 약관 전체동의(필수)
+          <input           
+            type="checkbox"
+            checked={allChecked}
+            onChange={handleAllChecked}
+          />
+          본인인증 약관 전체동의(필수)
         </CheckboxLabel>
         <CheckboxLabel>
-          <input type="checkbox" /> 개인정보 수집이용 동의
+        <input
+          type="checkbox"
+          checked={agreePrivacy}
+          onChange={() =>
+            handleSingleChecked(agreePrivacy, setAgreePrivacy, setAllChecked, allChecked)
+          }
+        />
+        개인정보 수집이용 동의
         </CheckboxLabel>
         <CheckboxLabel>
-          <input type="checkbox" /> 고유식별 정보처리 동의
+        <input
+          type="checkbox"
+          checked={agreeUniqueInfo}
+          onChange={() =>
+            handleSingleChecked(agreeUniqueInfo, setAgreeUniqueInfo, setAllChecked, allChecked)
+          }
+        />
+        고유식별 정보처리 동의
         </CheckboxLabel>
         <CheckboxLabel>
           <div className="phoneAgree">
-            <input type="checkbox" /> 통신사 이용약관 동의
+            <input
+              type="checkbox"
+              checked={agreePhoneTerms}
+              onChange={() =>
+                handleSingleChecked(agreePhoneTerms, setAgreePhoneTerms, setAllChecked, allChecked)
+              }
+            />
+            통신사 이용약관 동의
           </div>
         </CheckboxLabel>
 
@@ -267,11 +468,10 @@ function SignUp() {
             className="previousButton" 
             type="submit">이전</Button>
           <Button 
-            onClick={() => {navigate("/signupTwo");}}
+            onClick={handleNextButtonClick}
             className="nextButton" 
             type="submit">다음</Button>
         </ButtonContainer>
-        <Button style={{ marginTop: '20px' }} type="submit">회원가입 테스트 {/*테스트 버튼*/}</Button>
       </SignUpForm>
     </Container>
   );
