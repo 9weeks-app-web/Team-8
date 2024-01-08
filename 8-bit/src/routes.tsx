@@ -2,21 +2,16 @@ import { createBrowserRouter } from "react-router-dom";
 import NoFooterLayout from "./layout/NoFooterLayout";
 import RootLayout from "./layout/RootLayout";
 import Home from "./pages/Home";
-import MyPage from "./pages/mypage/MyPage";
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
+import MyPage from "./pages/mypage/MyPage";
 
-import FindId from "./pages/auth/FindId";
-import FindPassword from "./pages/auth/FindPassword";
 import SignupSuccess from "./pages/auth/SignupSuccess";
 import SignupTwo from "./pages/auth/SignupTwo";
 import CommunityBoard from "./pages/community/CommunityBoard";
 import CommunityHome from "./pages/community/CommunityHome";
 import CommunityHot from "./pages/community/CommunityHot";
 import CommunityQna from "./pages/community/CommunityQna";
-import CommunityBoard from "./pages/community/CommunityBoard";
-import SignupTwo from "./pages/auth/SignupTwo";
-import SignupSuccess from "./pages/auth/SignupSuccess";
 
 const router = createBrowserRouter([
   {
@@ -68,7 +63,7 @@ const router = createBrowserRouter([
     path: "/signupSuccess",
     element: <NoFooterLayout />,
     children: [{ index: true, element: <SignupSuccess /> }],
-  }
+  },
 ]);
 
 export default router;
