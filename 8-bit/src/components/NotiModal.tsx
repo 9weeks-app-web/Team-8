@@ -101,13 +101,13 @@ const NotiModal: React.FC<ModalProps> = ({ isOpen }) => {
           </Div>
           <Divider />
           <ListTile>
-            <Img src="/noti_message.svg" alt="댓글" />
+            <Img src="/header/noti_message.svg" alt="댓글" />
             <Spacer>
               <NotiUser>최준생</NotiUser>
               <NotiText>님이 댓글을 달았습니다.</NotiText>
               <Div>
                 <SubTextDiv>
-                  <SubText>혹시 스나이퍼 팩토리 교육과정 어때요? 블라블라블라블라</SubText>
+                  <SubText>너무 멋져요</SubText>
                 </SubTextDiv>      
                 <Hour>1시간 전</Hour>
               </Div>
@@ -126,7 +126,7 @@ const NotiModal: React.FC<ModalProps> = ({ isOpen }) => {
             <Clear sx={{ width: 20, height: 20, color: Common.colors.neutral["50"] }} ></Clear>
           </ListTile>
           <ListTile>
-            <Img src="/noti_message.svg" alt="댓글" />
+            <Img src="/header/noti_message.svg" alt="댓글" />
             <Spacer>
               <NotiUser>김스팩</NotiUser>
               <NotiText>님이 댓글을 달았습니다.</NotiText>
