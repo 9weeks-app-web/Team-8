@@ -1,10 +1,12 @@
 // Header.tsx
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from "@emotion/styled";
-import { EmailOutlined, NotificationsNoneOutlined } from '@mui/icons-material';
 import Avatar from '@mui/material/Avatar';
+import { Email, EmailOutlined, Notifications, NotificationsNoneOutlined } from '@mui/icons-material';
 import { Common } from "../styles/common";
+import MessageModal from "../components/MeassageModal";
+import NotiModal from "../components/NotiModal";
 
 const HeaderWrapper = styled.div`
   width: 1440px;
@@ -94,9 +96,17 @@ const BetweenItems = styled.div`
   width: ${Common.space["s"]};
 `;
 
-function Header() {
+
+const Header: React.FC = () => {
+
+  const [isMessageOpen, setMessageOpen] = useState(false);
+  const closeMessage = () => setMessageOpen(false);
+
+  const [isNotiOpen, setNotiOpen] = useState(false);
+  const closeNoti = () => setNotiOpen(false);
+
   // 유저 로그인 여부 저장
-  let isUserLogined = false;
+  let isUserLogined = true;
 
   // Nav 선택 유지
   const [activeNav, setActiveNav] = useState<string>("home");
@@ -112,6 +122,20 @@ function Header() {
     console.log('goLogIn')
     navigate('/signIn');
   };
+
+  const clickMessage = () => {
+    setMessageOpen(!isMessageOpen);
+    if(isNotiOpen) {
+      setNotiOpen(false);
+    }
+  }
+
+  const clickNoti = () => {
+    setNotiOpen(!isNotiOpen);
+    if(isMessageOpen) {
+      setMessageOpen(false);
+    }
+  }
 
 
   return (
@@ -132,15 +156,14 @@ function Header() {
             <NavLink to="/" className={activeNav === 'recruit' ? 'active' : ''}
               onClick={() => handleNavClick('recruit')}>채용</NavLink>
           </div>
-
-          <Spacer />
+          <Spacer/>
           <div>
             {/* userLogined 여부에 따라 보여지는 컨텐츠 다르게 */}
             {isUserLogined ? (
               <Container>
-                <EmailOutlined />
+                {isMessageOpen ? <Email onClick={clickMessage} sx={{ color: Common.colors.primary["100"] }} /> :   <EmailOutlined onClick={clickMessage}/> }
                 <BetweenItems />
-                <NotificationsNoneOutlined />
+                {isNotiOpen ? <Notifications onClick={clickNoti} sx={{ color: Common.colors.primary["100"] }}/> :  <NotificationsNoneOutlined onClick={clickNoti} />}
                 <BetweenItems />
                 <Avatar alt="user profile"
                   sx={{ width: 24, height: 24, fontSize: 10, bgcolor: Common.colors.neutral[10], color: Common.colors.neutral[100] }}></Avatar>
@@ -156,7 +179,9 @@ function Header() {
           </div>
         </Nav>
       </HeaderContainer>
-    </HeaderWrapper>
+      <NotiModal isOpen={isNotiOpen} onClose={closeNoti} />
+      <MessageModal isOpen={isMessageOpen} onClose={closeMessage} />
+    </HeaderWrapper >
   );
 }
 
