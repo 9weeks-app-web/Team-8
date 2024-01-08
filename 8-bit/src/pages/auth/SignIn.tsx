@@ -89,7 +89,8 @@ const Button = styled.button<CustomButtonProps>`
   width : 217px;
   height : 56px;
   border : none;
-  background-color: ${({ isInputSpace }) => (isInputSpace ? '#337AFF' : '#CCCCCC')};
+  background-color: ${({ isInputSpace }) => (isInputSpace ? 
+    `${Common.colors.primary[80]}` : `${Common.colors.neutral[20]}`)};
   color : #FFFFFF; 
   
   border-radius : 10px;
@@ -97,10 +98,12 @@ const Button = styled.button<CustomButtonProps>`
   margin-top: 42px;
 
   &:hover {
-    background-color: ${({ isInputSpace }) => (isInputSpace ? '#0059FF' : '#CCCCCC')};
+    background-color: ${({ isInputSpace }) => (isInputSpace ? 
+      `${Common.colors.primary[100]}` : `${Common.colors.neutral[20]}`)};
   }
   &:active {
-    background-color: ${({ isInputSpace }) => (isInputSpace ? '#0043C0' : '#CCCCCC')};
+    background-color: ${({ isInputSpace }) => (isInputSpace ? 
+      `${Common.colors.primary[150]}` : `${Common.colors.neutral[20]}`)};
   }
 `;
 

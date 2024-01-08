@@ -1,6 +1,4 @@
 import styled from "@emotion/styled";
-import app from '../../firebase';
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Common } from "../../styles/common";
@@ -28,9 +26,9 @@ const Logo = styled.div`
   }
 `;
 
-const SignUpForm = styled.form`
+const SignUpForm = styled.div`
   background : ${Common.colors.neutral[0]};
-  margin-left: 6%;
+  margin-left: ${Common.space.xxl};
 
   &.inputSeleteWrapper {
     display: flex;
@@ -111,9 +109,12 @@ const ConfirmPasswordInput = styled.input<{ passwordMatch?: boolean; confirmPass
   height: 40px;
   border-radius: 8px;
   border: 1px solid ${({ passwordMatch, confirmPassword }) => (
-    confirmPassword === '' ? '#CCCCCC' : passwordMatch === undefined ? '#CCCCCC' : passwordMatch ? '#07A320' : '#FF0000'
+    confirmPassword === '' ? `${Common.colors.neutral[20]}` 
+    : passwordMatch === undefined ? `${Common.colors.neutral[20]}` 
+    : passwordMatch ? `${Common.colors.system.success}` : `${Common.colors.system.warning}`
   )};
-  margin-bottom: ${({ confirmPassword }) => (confirmPassword === '' ? '32px' : '11px')};
+  margin-bottom: ${({ confirmPassword }) => 
+    (confirmPassword === '' ? `${Common.space.lg}` : '11px')};
 `;
 
 const PasswordCondition = styled.span`
@@ -128,16 +129,20 @@ const PasswordMatchText = styled.span<{ match?: boolean }>`
   font-weight: ${Common.font.weight.regular};
   display: block;
   margin-bottom: 21px;
-  color: ${({ match }) => (match ? Common.colors.system.success : Common.colors.system.warning)};
+  color: ${({ match }) => (match ? 
+    Common.colors.system.success : Common.colors.system.warning)};
 `;
 
-const AuthenticationInput = styled.input<{ match?: boolean; isEmpty?: boolean }>`
+const AuthenticationInput = styled.input<{ match?: boolean; isEmpty?: boolean; showPasswordMatchText?: boolean }>`
   width: 400px;
   height: 40px;
   border-radius: 8px;
-  border: 1px solid ${({ match, isEmpty }) =>
-    isEmpty ? '#CCCCCC' : match ? '#07A320' : '#FF0000'};
-  margin-bottom: ${({ isEmpty }) => (isEmpty ? '32px' : '8px')};
+  border: 1px solid ${({ match, isEmpty, showPasswordMatchText }) =>
+    isEmpty ? Common.colors.neutral[20] :
+    match ? Common.colors.system.success :
+    showPasswordMatchText ? Common.colors.system.warning : Common.colors.neutral[20]};
+  margin-bottom: ${({ showPasswordMatchText }) => 
+    showPasswordMatchText ? '11px' : Common.space.lg};
 `;
 
 const AuthenticationMatchText = styled.span<{ match?: boolean; show?: boolean }>`
@@ -145,7 +150,8 @@ const AuthenticationMatchText = styled.span<{ match?: boolean; show?: boolean }>
   font-weight: ${Common.font.weight.regular};
   display: ${({ show }) => (show ? 'block' : 'none')};
   margin-bottom: 22px;
-  color: ${({ match }) => (match ? Common.colors.system.success : Common.colors.system.warning)};
+  color: ${({ match }) => (match ? 
+    Common.colors.system.success : Common.colors.system.warning)};
 `;
 
 const ButtonContainer = styled.div`
@@ -197,16 +203,20 @@ function SignUp() {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [showCustomEmailInput, setShowCustomEmailInput] = useState<boolean>(false);
   const [emailInput, setEmailInput] = useState<string>('');
   const [emailDomain, setEmailDomain] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [authenticationNumber, setAuthenticationNumber] = useState<string>('');
 
+  const [showCustomEmailInput, setShowCustomEmailInput] = useState<boolean>(false);
+  const [showPasswordMatchText, setShowPasswordMatchText] = useState(false);
   const [allChecked, setAllChecked] = useState(false);
   const [agreePrivacy, setAgreePrivacy] = useState(false);
   const [agreeUniqueInfo, setAgreeUniqueInfo] = useState(false);
   const [agreePhoneTerms, setAgreePhoneTerms] = useState(false);
+
+  
+  const navigate = useNavigate();
 
   const handleSingleChecked = (
     state: boolean,
@@ -248,30 +258,6 @@ function SignUp() {
     </AuthenticationMatchText>
   );
 
-  const navigate = useNavigate();
-
-  const signup = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      const auth = getAuth(app);
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-      if (userCredential.user) {
-        await updateProfile(userCredential.user, { displayName: name });
-        console.log(userCredential.user);
-      }
-    } catch (error) {
-      console.error(error);
-      console.log(email);
-    }
-  };
-  
-  useEffect(() => {
-    if (showCustomEmailInput) {
-      setEmail(`${emailInput}@${emailDomain}`);
-    }
-  }, [emailDomain]);
-
   const handleEmailOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectOption = e.target.value;
 
@@ -283,13 +269,47 @@ function SignUp() {
     }
   }
 
+  useEffect(() => {
+    if (showCustomEmailInput) {
+      setEmail(`${emailInput}@${emailDomain}`);
+    }
+  }, [emailDomain]);
+
+  const handleNextButtonClick = () => {
+
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,32}$/;
+
+    if (!name || !email || !password || !confirmPassword || !authenticationNumber) {
+      alert('모든 입력란을 채워주세요.');
+      return;
+    }
+    const isPasswordValid = passwordRegex.test(password);
+    if (!isPasswordValid) {
+      alert('비밀번호는 영문+숫자+특수문자 조합 8~32자여야 합니다.');
+      return;
+    }
+    if (!agreePrivacy || !agreeUniqueInfo || !agreePhoneTerms) {
+      alert('본인인증 약관에 동의해주세요.');
+      return;
+    }
+
+    const userData = {
+      name: name,
+      email: email,
+      password: password
+    };
+
+    localStorage.setItem('userData', JSON.stringify(userData));
+    navigate("/signupTwo");
+  };
+
   return (
     <Container>
       <Logo>
         <img src="/auth/logo.svg" alt="로고이미지" />
         <h4>회원가입 하고 모든 레퍼런스를 모아보세요.</h4>
       </Logo>
-      <SignUpForm onSubmit={signup}>
+      <SignUpForm>
         <p>이름</p>
         <Input 
           type="text"
@@ -376,7 +396,7 @@ function SignUp() {
             placeholder="휴대폰 번호" 
           />
         <Button className="certifiedRequestBtn"type="submit" onClick={() => {
-          alert("인증번호 6자리를 입력하세요.")
+          alert("인증번호 6자리 발송했습니다.")
         }}>인증 요청</Button>
         </PhoneRequest>
 
@@ -388,15 +408,18 @@ function SignUp() {
             onChange={(e) => setAuthenticationNumber(e.target.value)}
             match={authenticationNumber === '123456'}
             isEmpty={authenticationNumber === ''}
-            />
+            showPasswordMatchText={showPasswordMatchText}
+          />
           <Button
             className="certifiedCheckBtn" 
             type="submit" 
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               authenticationNumber === "123456" ? alert("인증성공") : alert("인증실패");
+              setShowPasswordMatchText(true);
           }}>인증 확인</Button>
         </CertifiedCheck>
-        {authenticationMatchText}
+        {showPasswordMatchText && authenticationMatchText}
 
         <CheckboxLabel>
           <input           
@@ -445,11 +468,10 @@ function SignUp() {
             className="previousButton" 
             type="submit">이전</Button>
           <Button 
-            onClick={() => {navigate("/signupTwo");}}
+            onClick={handleNextButtonClick}
             className="nextButton" 
             type="submit">다음</Button>
         </ButtonContainer>
-        <Button style={{ marginTop: '20px' }} type="submit">회원가입 테스트 {/*테스트 버튼*/}</Button>
       </SignUpForm>
     </Container>
   );

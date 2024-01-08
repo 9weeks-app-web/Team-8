@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { Common } from "../../styles/common";
 import { useState } from "react";
 import CheckIcon from '@mui/icons-material/Check';
+import app from '../../firebase';
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+
 
 interface ActiveButtonProps {
   isActive: boolean;
@@ -31,30 +34,32 @@ const Logo = styled.div`
     width : 187px;
     height : 49px;
     margin-top: 31px;
-    margin-bottom: 16px;
+    margin-bottom: ${Common.space.s};
   }
 `;
 
-const Input = styled.input<{ isNicknameAvailable: boolean | null }>`
+const Input = styled.input<{ isNicknameAvailable: boolean | null, isNicknameValidated: boolean }>`
   width: 400px;
   height: 40px;
   border-radius: 8px;
   border: 1px solid ${props =>
-    props.isNicknameAvailable === true
-      ? '#00FF00'
-      : props.isNicknameAvailable === false
-      ? '#FF0000'
-      : '#808080'};
+    props.isNicknameValidated
+      ? (props.isNicknameAvailable === true
+          ? Common.colors.system.success
+          : Common.colors.system.warning)
+      : (props.isNicknameAvailable === false
+          ? Common.colors.system.warning
+          : Common.colors.neutral[50])};
 `;
 
-const SignUpForm = styled.form`
-  background : #FFFFFF;
+const SignUpForm = styled.div`
+  background : ${Common.colors.neutral[0]};
   margin-bottom: 143px;
   
   .nicknameText {
     font-size: ${Common.font.size.md};
     font-weight: ${Common.font.weight.semibold};
-    margin-bottom: 8px;
+    margin-bottom: ${Common.space.xs};
   }
   .checkBoxText {
     font-size: ${Common.font.size.md};
@@ -66,31 +71,31 @@ const SignUpForm = styled.form`
 const Button = styled.button`
 
   &.overlapCheck {
-    background-color: #FFFFFF;
+    background-color: ${Common.colors.neutral[0]};
     width: 80px;
     height: 40px;
-    border : 1px solid #337AFF;
-    color : #337AFF;
+    border : 1px solid ${Common.colors.primary[80]};
+    color : ${Common.colors.primary[80]};
     border-radius: 8.57px;
     margin-left: 8px;
   }
   &.nextButton {
     width: 217px;
     height: 56px;
-    background-color : #337AFF;
-    color : #FFFFFF;
+    background-color : ${Common.colors.primary[80]};
+    color : ${Common.colors.neutral[0]};
     border : none;
     border-radius: 12px;
-    margin-top : 40px;
+    margin-top : ${Common.space.xl};
   }
   &.previousButton {
     width: 217px;
     height: 56px;
-    border : 1px solid #337AFF;
-    background-color : #FFFFFF;
-    color : #337AFF;
+    border : 1px solid ${Common.colors.primary[80]};
+    background-color : ${Common.colors.neutral[0]};
+    color : ${Common.colors.primary[80]};
     border-radius: 12px;
-    margin-top: 40px;
+    margin-top: ${Common.space.xl};
     margin-right: 31px;
   }
 `;
@@ -99,28 +104,28 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: ${Common.space.xl};
 
   > div {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
-    margin-bottom: 16px;
+    gap: ${Common.space.s};
+    margin-bottom: ${Common.space.s};
   }
 `;
 
 const ActiveButton = styled.button<ActiveButtonProps>`
   height: 37px;
   border-radius: 12px;
-  border: 1px solid #cccccc;
-  color: #808080;
+  border: 1px solid ${Common.colors.neutral[20]};
+  color: ${Common.colors.neutral[50]};
   font-size: ${Common.font.size.sm};
   font-weight: ${Common.font.weight.regular};
 
   &.active {
-    border-color: #0059ff;
-    color: #030303;
-    background-color: #e5eeff;
+    border-color: ${Common.colors.primary[100]};
+    color: ${Common.colors.neutral[100]};
+    background-color: ${Common.colors.primary[10]};
   }
   .icon-add {
     width: 16px;
@@ -137,13 +142,13 @@ const ActiveButton = styled.button<ActiveButtonProps>`
     vertical-align: middle;
     margin-left: 2.5px;
     margin-bottom: 2px;
-    color : #0059FF;
+    color : ${Common.colors.primary[100]};
     display: ${props => (props.isActive ? 'inline-block' : 'none')};
   }
 `;
 
 const InterestText = styled.div`
-  margin-bottom: 18px;
+  margin-bottom: ${Common.space.lg};
   
   .fieldText {
     font-size : ${Common.font.size.md};
@@ -151,7 +156,7 @@ const InterestText = styled.div`
   }
 
   .choiceText {
-    color: #999999;
+    color: ${Common.colors.neutral[40]};;
     font-size: ${Common.font.size.xs};
     font-weight: ${Common.font.weight.regular};
     margin-left: ${Common.space.s};
@@ -170,9 +175,10 @@ const CheckboxLabel = styled.label`
 const NicknameCheckText = styled.p<{ isNicknameAvailable: boolean }>`
   font-size: ${Common.font.size.xs};
   font-weight: ${Common.font.weight.regular};
-  margin-top: 8px;
+  margin-top: ${Common.space.xs};
   margin-bottom: 42px;
-  color: ${props => (props.isNicknameAvailable ? 'green' : 'red')};
+  color: ${props => (props.isNicknameAvailable ?
+   Common.colors.system.success : Common.colors.system.warning)};
 `;
 
 function SignupTwo() {
@@ -182,11 +188,12 @@ function SignupTwo() {
   const [isNicknameAvailable, setIsNicknameAvailable] = useState<boolean>(true);
   const [nicknameTextVisible, setNicknameTextVisible] = useState<boolean>(false);
   const [selectedButtons, setSelectedButtons] = useState<string[]>([]);
+  const [isNicknameValidated, setIsNicknameValidated] = useState<boolean>(false);
+  const [isNextButtonEnabled, setIsNextButtonEnabled] = useState<boolean>(false);
 
   const storedNicknames = JSON.parse(localStorage.getItem('nicknames')!) || [];
 
   const navigate = useNavigate();
-  const [activeButton, setActiveButton] = useState('');
 
   const interestAreas = [
     ['UI/UX', 'WEB', '그래픽', '제품', '광고', '시각'],
@@ -210,14 +217,48 @@ function SignupTwo() {
       const isExistingNickname = storedNicknames.includes(nickname);
       if (isExistingNickname) {
         setIsNicknameAvailable(false);
+        setIsNextButtonEnabled(false);
       } else {
         const updatedNicknames = [...storedNicknames, nickname];
         setNicknamesArray(updatedNicknames);
         localStorage.setItem('nicknames', JSON.stringify(updatedNicknames));
         setIsNicknameAvailable(true);
+        setIsNicknameValidated(true);
+        setIsNextButtonEnabled(true);
       }
+      setNicknameTextVisible(true);
+    } else {
+      alert('닉네임을 입력해주세요.');
     }
-    setNicknameTextVisible(true);
+  };
+
+  const handleNextButtonClick = async () => {
+    const userDataString = localStorage.getItem('userData');
+    if (!userDataString) {
+      console.error();
+      return;
+    }
+  
+    const userData = JSON.parse(userDataString);
+    const { name, email, password } = userData;
+
+    if (storedNicknames.includes(nickname)) {
+      alert('이미 사용 중인 닉네임입니다.');
+      return;
+    }
+  
+    try {
+      const auth = getAuth(app);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  
+      await updateProfile(userCredential.user, {
+        displayName: name
+      });
+
+      navigate("/signupSuccess");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -235,6 +276,7 @@ function SignupTwo() {
             value={nickname}
             onChange={(e) => {setNickname(e.target.value)}}
             isNicknameAvailable={nickname ? isNicknameAvailable : null}
+            isNicknameValidated={isNicknameValidated}
           />
           <Button 
             className="overlapCheck"
@@ -300,7 +342,7 @@ function SignupTwo() {
               이전
           </Button>
           <Button 
-            onClick={() => {navigate("/signupSuccess");}}
+            onClick={handleNextButtonClick}
             className="nextButton" 
             type="button">
             다음

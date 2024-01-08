@@ -8,8 +8,8 @@ const Container = styled.div`
   align-items : center;
 
   p {
-    font-size : 16px;
-    color: #808080;
+    font-size : ${Common.font.size.md};
+    color: ${Common.colors.neutral[50]};
   }
 `;
 
@@ -29,13 +29,13 @@ const Logo = styled.div`
 const SuccessIcon = styled.img`
   width: 80px;
   height: 80px;
-  margin-bottom: 16px;
+  margin-bottom: ${Common.space.s};
 
 `;
 
 const Button = styled.button`
-  background-color: #337AFF;
-  color: #FFFFFF;
+  background-color: ${Common.colors.primary[80]};
+  color: ${Common.colors.neutral[0]};
   border: none;
   border-radius : 12px;
   width: 217px;
@@ -45,9 +45,9 @@ const Button = styled.button`
 `;
 
 const H1 = styled.h1`
-  font-size: 34px;
+  font-size: ${Common.font.size.header};
   font-weight: ${Common.font.weight.semibold};
-  margin-bottom: 40px;
+  margin-bottom: ${Common.space.xl};
 `;
 
 function SignupSuccess() {
