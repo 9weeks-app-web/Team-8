@@ -131,10 +131,78 @@ const SwiperWrapper = styled.div`
       border-radius: 12px;
     }
   }
+
+  & > .jobsSwiper {
+    .swiper-slide {
+      background-color: ${Common.colors.neutral[0]};
+      width: 321px;
+      height: 322px;
+      border-radius: 12px;
+      padding: 36px 24.51px 35.71px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      & > .topWrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+        & > .top {
+          display: flex;
+          justify-content: space-between;
+          position: relative;
+          & > div {
+            width: 88.29px;
+            height: 88.29px;
+            border-radius: 100%;
+            border: 1.5px solid ${Common.colors.primary[80]};
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          & > button {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            border: none;
+            background: none;
+          }
+        }
+        & > .bottom {
+          & > span {
+            font-weight: ${Common.font.weight.semibold};
+            font-size: 13px;
+            color: ${Common.colors.neutral[40]};
+          }
+          & > p {
+            font-size: ${Common.font.size.md};
+            font-weight: ${Common.font.weight.medium};
+          }
+        }
+      }
+      & .bottomWrapper {
+        display: flex;
+        justify-content: space-between;
+        & > span {
+          color: ${Common.colors.neutral[40]};
+          font-size: ${Common.font.size.sm};
+          font-weight: ${Common.font.weight.medium};
+        }
+        & > p {
+          background-color: ${Common.colors.primary[20]};
+          color: ${Common.colors.neutral[70]};
+          font-size: ${Common.font.size.sm};
+          font-weight: ${Common.font.weight.medium};
+          padding: 0 7px;
+          border-radius: 5.4px;
+        }
+      }
+    }
+  }
 `;
 
 const CardCommentWrapper = styled.div`
-  background-color: ${Common.colors.primary[5]};
   display: flex;
   flex-direction: column;
   gap: 19px;
@@ -170,7 +238,7 @@ const CommentCard = styled.div`
       align-items: center;
       gap: 4px;
       & div {
-        background-color: #d9d9d9;
+        /* background-color: #d9d9d9; */
         width: 18px;
         height: 18px;
         border-radius: 100%;
@@ -190,20 +258,32 @@ const CommentCard = styled.div`
 `;
 
 const ProjectCard = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding: 29px 34px;
-  & > span:nth-child(1) {
-    width: 100%;
-    font-size: ${Common.font.size.xxxl};
-    font-weight: ${Common.font.weight.semibold};
-  }
-  & > span:nth-child(2) {
-    font-size: ${Common.font.size.sm};
-    font-weight: ${Common.font.weight.medium};
-    width: 100%;
+  & > div:first-child {
+    display: flex;
+    flex-direction: column;
+    & > span:nth-child(1) {
+      width: 100%;
+      font-size: ${Common.font.size.xxxl};
+      font-weight: ${Common.font.weight.semibold};
+    }
+    & > span:nth-child(2) {
+      margin-top: 12px;
+      font-size: ${Common.font.size.sm};
+      font-weight: ${Common.font.weight.medium};
+      width: 100%;
+    }
+    & > div:nth-child(3) {
+      margin-top: 16px;
+      display: flex;
+      gap: ${Common.space.s};
+    }
   }
 
   & > div:last-child {
@@ -446,25 +526,27 @@ function HomeServices() {
             >
               <SwiperSlide>
                 <ProjectCard>
-                  <span>[앱/웹 개발] 수익성 프로젝트팀 모집</span>
-                  <span>예상 프로젝트 기간 · 3개월</span>
                   <div>
-                    <img
-                      src="/home/sideprojecticon.svg"
-                      alt="사이드 프로젝트 인원 _ 차있음"
-                    />
-                    <img
-                      src="/home/sideprojecticon.svg"
-                      alt="사이드 프로젝트 인원 _ 차있음"
-                    />
-                    <img
-                      src="/home/sideprojecticon.svg"
-                      alt="사이드 프로젝트 인원 _ 차있음"
-                    />
-                    <img
-                      src="/home/sideprojecticon2.svg"
-                      alt="사이드 프로젝트 인원 _ 비어있음"
-                    />
+                    <span>[앱/웹 개발] 수익성 프로젝트팀 모집</span>
+                    <span>예상 프로젝트 기간 · 3개월</span>
+                    <div>
+                      <img
+                        src="/home/sideprojecticon.svg"
+                        alt="사이드 프로젝트 인원 _ 차있음"
+                      />
+                      <img
+                        src="/home/sideprojecticon.svg"
+                        alt="사이드 프로젝트 인원 _ 차있음"
+                      />
+                      <img
+                        src="/home/sideprojecticon.svg"
+                        alt="사이드 프로젝트 인원 _ 차있음"
+                      />
+                      <img
+                        src="/home/sideprojecticon2.svg"
+                        alt="사이드 프로젝트 인원 _ 비어있음"
+                      />
+                    </div>
                   </div>
                   <div>
                     <div>
@@ -478,25 +560,27 @@ function HomeServices() {
               </SwiperSlide>
               <SwiperSlide>
                 <ProjectCard>
-                  <span>[앱/웹 개발] 수익성 프로젝트팀 모집</span>
-                  <span>예상 프로젝트 기간 · 3개월</span>
                   <div>
-                    <img
-                      src="/home/sideprojecticon.svg"
-                      alt="사이드 프로젝트 인원 _ 차있음"
-                    />
-                    <img
-                      src="/home/sideprojecticon.svg"
-                      alt="사이드 프로젝트 인원 _ 차있음"
-                    />
-                    <img
-                      src="/home/sideprojecticon2.svg"
-                      alt="사이드 프로젝트 인원 _ 비어있음"
-                    />
-                    <img
-                      src="/home/sideprojecticon2.svg"
-                      alt="사이드 프로젝트 인원 _ 비어있음"
-                    />
+                    <span>[앱/웹 개발] 수익성 프로젝트팀 모집</span>
+                    <span>예상 프로젝트 기간 · 3개월</span>
+                    <div>
+                      <img
+                        src="/home/sideprojecticon.svg"
+                        alt="사이드 프로젝트 인원 _ 차있음"
+                      />
+                      <img
+                        src="/home/sideprojecticon.svg"
+                        alt="사이드 프로젝트 인원 _ 차있음"
+                      />
+                      <img
+                        src="/home/sideprojecticon2.svg"
+                        alt="사이드 프로젝트 인원 _ 비어있음"
+                      />
+                      <img
+                        src="/home/sideprojecticon2.svg"
+                        alt="사이드 프로젝트 인원 _ 비어있음"
+                      />
+                    </div>
                   </div>
                   <div>
                     <div>
@@ -509,25 +593,27 @@ function HomeServices() {
               </SwiperSlide>
               <SwiperSlide>
                 <ProjectCard>
-                  <span>[앱/웹 개발] 수익성 프로젝트팀 모집</span>
-                  <span>예상 프로젝트 기간 · 3개월</span>
                   <div>
-                    <img
-                      src="/home/sideprojecticon.svg"
-                      alt="사이드 프로젝트 인원 _ 차있음"
-                    />
-                    <img
-                      src="/home/sideprojecticon.svg"
-                      alt="사이드 프로젝트 인원 _ 차있음"
-                    />
-                    <img
-                      src="/home/sideprojecticon.svg"
-                      alt="사이드 프로젝트 인원 _ 차있음"
-                    />
-                    <img
-                      src="/home/Group1171277623.svg"
-                      alt="사이드 프로젝트 인원 _ 2명 남음"
-                    />
+                    <span>[앱/웹 개발] 수익성 프로젝트팀 모집</span>
+                    <span>예상 프로젝트 기간 · 3개월</span>
+                    <div>
+                      <img
+                        src="/home/sideprojecticon.svg"
+                        alt="사이드 프로젝트 인원 _ 차있음"
+                      />
+                      <img
+                        src="/home/sideprojecticon.svg"
+                        alt="사이드 프로젝트 인원 _ 차있음"
+                      />
+                      <img
+                        src="/home/sideprojecticon.svg"
+                        alt="사이드 프로젝트 인원 _ 차있음"
+                      />
+                      <img
+                        src="/home/Group1171277623.svg"
+                        alt="사이드 프로젝트 인원 _ 2명 남음"
+                      />
+                    </div>
                   </div>
                   <div>
                     <div>
@@ -542,15 +628,132 @@ function HomeServices() {
           )}
           {activeTab === "jobs" && (
             <Swiper
-              spaceBetween={40}
+              slidesPerView={"auto"}
+              spaceBetween={20}
               navigation={true}
               modules={[Navigation]}
               className="jobsSwiper"
             >
-              {" "}
-              <SwiperSlide>채용1</SwiperSlide>
-              <SwiperSlide>채용2</SwiperSlide>
-              <SwiperSlide>채용3</SwiperSlide>
+              <SwiperSlide>
+                <div className="topWrapper">
+                  <div className="top">
+                    <div>
+                      <img src="/home/gsRetail.png" alt="gs리테일 로고" />
+                    </div>
+                    <button>
+                      <img src="/home/bookmark.svg" alt="북마크 버튼" />
+                    </button>
+                  </div>
+                  <div className="bottom">
+                    <span>GS리테일</span>
+                    <p>[GS리테일] 홈쇼핑DX부문 모바일/웹디자인 부담당 모집</p>
+                  </div>
+                </div>
+                <div className="bottomWrapper">
+                  <span>서울 영등포구</span>
+                  <p>D - 3</p>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="topWrapper">
+                  <div className="top">
+                    <div>
+                      <img src="/home/gsRetail.png" alt="gs리테일 로고" />
+                    </div>
+                    <button>
+                      <img src="/home/bookmark.svg" alt="북마크 버튼" />
+                    </button>
+                  </div>
+                  <div className="bottom">
+                    <span>GS리테일</span>
+                    <p>[GS리테일] 홈쇼핑DX부문 모바일/웹디자인 부담당 모집</p>
+                  </div>
+                </div>
+                <div className="bottomWrapper">
+                  <span>서울 영등포구</span>
+                  <p>D - 3</p>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="topWrapper">
+                  <div className="top">
+                    <div>
+                      <img src="/home/gsRetail.png" alt="gs리테일 로고" />
+                    </div>
+                    <button>
+                      <img src="/home/bookmark.svg" alt="북마크 버튼" />
+                    </button>
+                  </div>
+                  <div className="bottom">
+                    <span>GS리테일</span>
+                    <p>[GS리테일] 홈쇼핑DX부문 모바일/웹디자인 부담당 모집</p>
+                  </div>
+                </div>
+                <div className="bottomWrapper">
+                  <span>서울 영등포구</span>
+                  <p>D - 3</p>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="topWrapper">
+                  <div className="top">
+                    <div>
+                      <img src="/home/gsRetail.png" alt="gs리테일 로고" />
+                    </div>
+                    <button>
+                      <img src="/home/bookmark.svg" alt="북마크 버튼" />
+                    </button>
+                  </div>
+                  <div className="bottom">
+                    <span>GS리테일</span>
+                    <p>[GS리테일] 홈쇼핑DX부문 모바일/웹디자인 부담당 모집</p>
+                  </div>
+                </div>
+                <div className="bottomWrapper">
+                  <span>서울 영등포구</span>
+                  <p>D - 3</p>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="topWrapper">
+                  <div className="top">
+                    <div>
+                      <img src="/home/gsRetail.png" alt="gs리테일 로고" />
+                    </div>
+                    <button>
+                      <img src="/home/bookmark.svg" alt="북마크 버튼" />
+                    </button>
+                  </div>
+                  <div className="bottom">
+                    <span>GS리테일</span>
+                    <p>[GS리테일] 홈쇼핑DX부문 모바일/웹디자인 부담당 모집</p>
+                  </div>
+                </div>
+                <div className="bottomWrapper">
+                  <span>서울 영등포구</span>
+                  <p>D - 3</p>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="topWrapper">
+                  <div className="top">
+                    <div>
+                      <img src="/home/gsRetail.png" alt="gs리테일 로고" />
+                    </div>
+                    <button>
+                      <img src="/home/bookmark.svg" alt="북마크 버튼" />
+                    </button>
+                  </div>
+                  <div className="bottom">
+                    <span>GS리테일</span>
+                    <p>[GS리테일] 홈쇼핑DX부문 모바일/웹디자인 부담당 모집</p>
+                  </div>
+                </div>
+                <div className="bottomWrapper">
+                  <span>서울 영등포구</span>
+                  <p>D - 3</p>
+                </div>
+              </SwiperSlide>
             </Swiper>
           )}
         </SwiperWrapper>
