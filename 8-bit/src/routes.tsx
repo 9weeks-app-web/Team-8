@@ -14,6 +14,9 @@ import CommunityBoard from "./pages/community/CommunityBoard";
 import CommunityHome from "./pages/community/CommunityHome";
 import CommunityHot from "./pages/community/CommunityHot";
 import CommunityQna from "./pages/community/CommunityQna";
+import CommunityBoard from "./pages/community/CommunityBoard";
+import SignupTwo from "./pages/auth/SignupTwo";
+import SignupSuccess from "./pages/auth/SignupSuccess";
 
 const router = createBrowserRouter([
   {
@@ -65,17 +68,7 @@ const router = createBrowserRouter([
     path: "/signupSuccess",
     element: <NoFooterLayout />,
     children: [{ index: true, element: <SignupSuccess /> }],
-  },
-  {
-    path: "/findId",
-    element: <NoFooterLayout />,
-    children: [{ index: true, element: <FindId /> }],
-  },
-  {
-    path: "/findPassword",
-    element: <NoFooterLayout />,
-    children: [{ index: true, element: <FindPassword /> }],
-  },
+  }
 ]);
 
 export default router;
