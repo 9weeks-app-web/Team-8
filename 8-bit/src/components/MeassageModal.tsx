@@ -84,7 +84,7 @@ const MessageModal: React.FC<ModalProps> = ({isOpen}) => {
     if (!isOpen) return null;
     return (
             <div onClick={(e) => e.stopPropagation()}>
-                <HeaderModal  left="1090px">
+                <HeaderModal  left="1091.5px">
                 <div>
                         <Div>
                             <ModalTitle>받은 메시지</ModalTitle>

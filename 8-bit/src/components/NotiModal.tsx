@@ -42,11 +42,21 @@ const NotiText = styled.h1`
 `;
 
 const Hour = styled.h1`
+  display: inline;
   font-size: ${Common.font.size["xxs"]};
   font-weight: ${Common.font.weight.medium};
   color: ${Common.colors.neutral["50"]};
   margin-right: ${Common.space.xs};
 `;
+
+const SubText = styled.h1`
+  display: inline;
+  font-size: ${Common.font.size["xxs"]};
+  font-weight: ${Common.font.weight.medium};
+  color: ${Common.colors.neutral["50"]};
+  margin-right: ${Common.space.xs};
+`;
+
 
 const Divider = styled.hr`
   border: none; /* 기존 테두리 제거 */
@@ -59,6 +69,14 @@ const Div = styled.nav`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+`;
+
+const SubTextDiv = styled.div`
+  margin-top: -6px;
+  max-width: 155px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden; 
 `;
 
 const Img = styled.img`
@@ -88,8 +106,9 @@ const NotiModal: React.FC<ModalProps> = ({ isOpen }) => {
               <NotiUser>최준생</NotiUser>
               <NotiText>님이 댓글을 달았습니다.</NotiText>
               <Div>
-                <Hour>혹시 스나이퍼 팩토리 교육과정...</Hour>
-                <Spacer></Spacer>
+                <SubTextDiv>
+                  <SubText>혹시 스나이퍼 팩토리 교육과정 어때요? 블라블라블라블라</SubText>
+                </SubTextDiv>      
                 <Hour>1시간 전</Hour>
               </Div>
             </Spacer>
@@ -100,10 +119,9 @@ const NotiModal: React.FC<ModalProps> = ({ isOpen }) => {
             <Spacer>
               <NotiUser>신유뎀</NotiUser>
               <NotiText>님이 좋아요를 눌렀습니다.</NotiText>
-              <Div>
-                <Spacer />
+              <SubTextDiv>
                 <Hour>1시간 전</Hour>
-              </Div>
+              </SubTextDiv>
             </Spacer>
             <Clear sx={{ width: 20, height: 20, color: Common.colors.neutral["50"] }} ></Clear>
           </ListTile>
@@ -113,8 +131,9 @@ const NotiModal: React.FC<ModalProps> = ({ isOpen }) => {
               <NotiUser>김스팩</NotiUser>
               <NotiText>님이 댓글을 달았습니다.</NotiText>
               <Div>
-                <Hour>화이팅입니다!</Hour>
-                <Spacer />
+                <SubTextDiv>
+                  <SubText>화이팅입니다!</SubText>
+                </SubTextDiv>
                 <Hour>2시간 전</Hour>
               </Div>
             </Spacer>

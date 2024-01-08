@@ -125,10 +125,16 @@ const Header: React.FC = () => {
 
   const clickMessage = () => {
     setMessageOpen(!isMessageOpen);
+    if(isNotiOpen) {
+      setNotiOpen(false);
+    }
   }
 
   const clickNoti = () => {
     setNotiOpen(!isNotiOpen);
+    if(isMessageOpen) {
+      setMessageOpen(false);
+    }
   }
 
 
