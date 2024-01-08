@@ -38,18 +38,20 @@ const Logo = styled.div`
   }
 `;
 
-const Input = styled.input<{ isNicknameAvailable: boolean | null, isNicknameValidated: boolean }>`
+const Input = styled.input<{ isNicknameAvailable: boolean | null, isNicknameValidated: boolean, isEmpty: boolean }>`
   width: 400px;
   height: 40px;
   border-radius: 8px;
   border: 1px solid ${props =>
-    props.isNicknameValidated
-      ? (props.isNicknameAvailable === true
-          ? Common.colors.system.success
-          : Common.colors.system.warning)
-      : (props.isNicknameAvailable === false
-          ? Common.colors.system.warning
-          : Common.colors.neutral[50])};
+    props.isEmpty
+      ? Common.colors.neutral[50]
+      : props.isNicknameValidated
+        ? (props.isNicknameAvailable === true
+            ? Common.colors.system.success
+            : Common.colors.system.warning)
+        : (props.isNicknameAvailable === false
+            ? Common.colors.system.warning
+            : Common.colors.neutral[50])};
 `;
 
 const SignUpForm = styled.div`
@@ -77,7 +79,7 @@ const Button = styled.button`
     border : 1px solid ${Common.colors.primary[80]};
     color : ${Common.colors.primary[80]};
     border-radius: 8.57px;
-    margin-left: 8px;
+    margin-left: ${Common.space.xs};
   }
   &.nextButton {
     width: 217px;
@@ -277,6 +279,7 @@ function SignupTwo() {
             onChange={(e) => {setNickname(e.target.value)}}
             isNicknameAvailable={nickname ? isNicknameAvailable : null}
             isNicknameValidated={isNicknameValidated}
+            isEmpty={!nickname}
           />
           <Button 
             className="overlapCheck"
@@ -347,9 +350,7 @@ function SignupTwo() {
             type="button">
             다음
           </Button>
-        
       </SignUpForm>
-
     </Container>
   );
 }
