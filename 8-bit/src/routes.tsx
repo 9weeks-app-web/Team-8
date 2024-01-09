@@ -1,19 +1,18 @@
 import { createBrowserRouter } from "react-router-dom";
-import RootLayout from "./layout/RootLayout";
 import NoFooterLayout from "./layout/NoFooterLayout";
+import RootLayout from "./layout/RootLayout";
 import Home from "./pages/Home";
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
-import MyPage from "./pages/MyPage";
+import MyPage from "./pages/mypage/MyPage";
 
-import CommunityHome from "./pages/community/CommunityHome";
-import CommunityHot from "./pages/community/CommunityHot";
-import CommunityQna from "./pages/community/communityQna";
-import CommunityBoard from "./pages/community/CommunityBoard";
-import SignupSuccess from "./pages/auth/SignupSuccess";
-import { Upload } from "@mui/icons-material";
 import UploadPage from "./pages/UploadPage";
 import Profile from "./pages/auth/Profile";
+import SignupSuccess from "./pages/auth/SignupSuccess";
+import CommunityBoard from "./pages/community/CommunityBoard";
+import CommunityHome from "./pages/community/CommunityHome";
+import CommunityHot from "./pages/community/CommunityHot";
+import CommunityQna from "./pages/community/CommunityQna";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +20,6 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { index: true, element: <Home /> },
-      { path: "mypage", element: <MyPage /> },
       { path: "community/hot", element: <CommunityHot /> },
       { path: "community/qna", element: <CommunityQna /> },
       { path: "community/board", element: <CommunityBoard /> },
@@ -32,6 +30,16 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { index: true, element: <CommunityHome /> },
+      { path: "qna", element: <MyPage /> },
+      { path: "hot", element: <MyPage /> },
+      { path: "board", element: <MyPage /> },
+    ],
+  },
+  {
+    path: "/mypage",
+    element: <RootLayout />,
+    children: [
+      { index: true, element: <MyPage /> },
       { path: "qna", element: <MyPage /> },
       { path: "hot", element: <MyPage /> },
       { path: "board", element: <MyPage /> },
@@ -61,8 +69,7 @@ const router = createBrowserRouter([
     path: "/signupSuccess",
     element: <NoFooterLayout />,
     children: [{ index: true, element: <SignupSuccess /> }],
-  }
-
+  },
 ]);
 
 export default router;

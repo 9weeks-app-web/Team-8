@@ -5,7 +5,7 @@ function Home() {
   return (
     <div>
       <HomeBanner />
-      <HomePortfolio />
+      <HomePortfolio/>
     </div>
   );
 }
