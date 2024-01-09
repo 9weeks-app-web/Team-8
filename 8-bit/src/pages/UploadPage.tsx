@@ -22,7 +22,7 @@ const Input = styled.input`
 `;
 
 const InputContainer = styled.div`
-  flex-direction: column;
+  flex-direction : column;
 `;
 
 const AddContent = styled.div`
