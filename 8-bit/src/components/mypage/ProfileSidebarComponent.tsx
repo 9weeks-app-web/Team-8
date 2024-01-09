@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import SkillBar from "../mypage/SkillBar";
 import { Common } from "../../styles/common";
+import SkillBar from "../mypage/SkillBar";
 
 const ProfileSidebar = styled.aside`
   background: ${Common.colors.neutral[0]};
