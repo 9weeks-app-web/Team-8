@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import StarIcon from "@mui/icons-material/Star"; // Material-UI에서 별 아이콘 임포트
+import Button from "@mui/material/Button";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "swiper/css";
@@ -8,7 +9,6 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Common } from "../styles/common";
-import Button from "@mui/material/Button";
 
 interface TabButtonProps {
   isActive: boolean;
