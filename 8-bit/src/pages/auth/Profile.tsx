@@ -6,6 +6,7 @@ import { useState } from "react";
 import CheckIcon from '@mui/icons-material/Check';
 import app from '../../firebase';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { Checkbox } from "@mui/material";
 
 
 interface ActiveButtonProps {
@@ -52,6 +53,11 @@ const Input = styled.input<{ isNicknameAvailable: boolean | null, isNicknameVali
         : (props.isNicknameAvailable === false
             ? Common.colors.system.warning
             : Common.colors.neutral[50])};
+
+  &:focus {
+    outline: none;
+    border: 1px solid ${Common.colors.primary[100]};
+  }
 `;
 
 const SignUpForm = styled.div`
@@ -167,11 +173,15 @@ const InterestText = styled.div`
 
 const CheckboxContainer = styled.div`
   display: flex;
+  margin-bottom: ${Common.space.lg};
+  margin-left: -10px;
 `;
 
 const CheckboxLabel = styled.label`
   display: flex;
-  margin-right: 17px;
+  align-items: center;
+  font-size: ${Common.font.size.md};
+  color: ${Common.colors.neutral[100]};
 `;
 
 const NicknameCheckText = styled.p<{ isNicknameAvailable: boolean }>`
@@ -183,7 +193,7 @@ const NicknameCheckText = styled.p<{ isNicknameAvailable: boolean }>`
    Common.colors.system.success : Common.colors.system.warning)};
 `;
 
-function SignupTwo() {
+function Profile() {
 
   const [nickname, setNickname] = useState<string>('');
   const [nicknamesArray, setNicknamesArray] = useState<string[]>([]);
@@ -237,22 +247,23 @@ function SignupTwo() {
   const handleNextButtonClick = async () => {
     const userDataString = localStorage.getItem('userData');
     if (!userDataString) {
-      console.error();
+      console.error("에러");
       return;
     }
   
     const userData = JSON.parse(userDataString);
     const { name, email, password } = userData;
 
-    if (storedNicknames.includes(nickname)) {
-      alert('이미 사용 중인 닉네임입니다.');
+    if (!isNicknameAvailable) {
+      alert('닉네임을 확인해주세요.');
       return;
     }
-  
+
     try {
       const auth = getAuth(app);
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-  
+      localStorage.setItem('selectedInterestButtons', JSON.stringify(selectedButtons));
+      
       await updateProfile(userCredential.user, {
         displayName: name
       });
@@ -328,13 +339,13 @@ function SignupTwo() {
           <p className="checkBoxText">제안 허용</p>
           <CheckboxContainer>
             <CheckboxLabel>
-              <input type="checkbox" /> 채용 제안
+              <Checkbox /> 채용 제안
             </CheckboxLabel>
             <CheckboxLabel>
-              <input type="checkbox" /> 의견 제안
+              <Checkbox /> 의견 제안
             </CheckboxLabel>
             <CheckboxLabel>
-              <input type="checkbox" /> 프로젝트 제안
+              <Checkbox /> 프로젝트 제안
             </CheckboxLabel>
           </CheckboxContainer>
 
@@ -355,6 +366,6 @@ function SignupTwo() {
   );
 }
 
-export default SignupTwo;
+export default Profile;
 
 

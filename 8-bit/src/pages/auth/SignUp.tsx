@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Common } from "../../styles/common";
+import Checkbox from "@mui/material/Checkbox";
 
 const Container = styled.div`
   display : flex;
@@ -94,6 +95,11 @@ const Input = styled.input`
   border-radius : 8px;
   border : 1px solid ${Common.colors.neutral[20]};
   margin-bottom : ${Common.space.lg};
+
+  &:focus {
+    outline: none;
+    border : 1px solid #0059FF;
+  }
 `;
 
 const PasswordInput = styled.input`
@@ -102,19 +108,37 @@ const PasswordInput = styled.input`
   border-radius : 8px;
   border : 1px solid ${Common.colors.neutral[20]};
   margin-bottom : 11px;
+
+  &:focus {
+    outline: none;
+    border: 1px solid ${Common.colors.primary[100]};
+  }
 `;
 
-const ConfirmPasswordInput = styled.input<{ passwordMatch?: boolean; confirmPassword?: string }>`
+const ConfirmPasswordInput = styled.input<{passwordMatch?: boolean; confirmPassword?: string;}>`
   width: 400px;
   height: 40px;
   border-radius: 8px;
-  border: 1px solid ${({ passwordMatch, confirmPassword }) => (
-    confirmPassword === '' ? `${Common.colors.neutral[20]}` 
-    : passwordMatch === undefined ? `${Common.colors.neutral[20]}` 
-    : passwordMatch ? `${Common.colors.system.success}` : `${Common.colors.system.warning}`
-  )};
-  margin-bottom: ${({ confirmPassword }) => 
-    (confirmPassword === '' ? `${Common.space.lg}` : '11px')};
+  border: 1px solid ${Common.colors.neutral[20]};
+  margin-bottom: ${({ confirmPassword }) =>
+    confirmPassword === '' ? `${Common.space.lg}` : '11px'};
+
+  &:focus {
+    outline: none;
+    border: 1px solid ${Common.colors.primary[100]};
+  }
+
+  &:not(:placeholder-shown) {
+    border: 1px solid
+      ${({ passwordMatch, confirmPassword }) =>
+        confirmPassword === ''
+          ? `${Common.colors.neutral[20]}`
+          : passwordMatch === undefined
+          ? `${Common.colors.neutral[20]}`
+          : passwordMatch
+          ? `${Common.colors.system.success}`
+          : `${Common.colors.system.warning}`};
+  }
 `;
 
 const PasswordCondition = styled.span`
@@ -143,6 +167,11 @@ const AuthenticationInput = styled.input<{ match?: boolean; isEmpty?: boolean; s
     showPasswordMatchText ? Common.colors.system.warning : Common.colors.neutral[20]};
   margin-bottom: ${({ showPasswordMatchText }) => 
     showPasswordMatchText ? '11px' : Common.space.lg};
+
+  &:focus {
+    outline: none;
+    border: 1px solid ${Common.colors.primary[100]};
+  }
 `;
 
 const AuthenticationMatchText = styled.span<{ match?: boolean; show?: boolean }>`
@@ -193,9 +222,10 @@ const Button = styled.button`
 
 const CheckboxLabel = styled.label`
   display: flex;
-  margin-bottom: 18.5px;
-  font-size: ${Common.font.size.sm};
-  font-weight: ${Common.font.weight.medium};
+  align-items: center;
+  font-size: ${Common.font.size.md};
+  color: ${Common.colors.neutral[100]};
+  margin-left: -${Common.space.xs};
 `;
 
 function SignUp() {
@@ -300,7 +330,7 @@ function SignUp() {
     };
 
     localStorage.setItem('userData', JSON.stringify(userData));
-    navigate("/signupTwo");
+    navigate("/profile");
   };
 
   return (
@@ -422,37 +452,33 @@ function SignUp() {
         {showPasswordMatchText && authenticationMatchText}
 
         <CheckboxLabel>
-          <input           
-            type="checkbox"
+          <Checkbox           
             checked={allChecked}
             onChange={handleAllChecked}
           />
           본인인증 약관 전체동의(필수)
         </CheckboxLabel>
         <CheckboxLabel>
-        <input
-          type="checkbox"
-          checked={agreePrivacy}
-          onChange={() =>
-            handleSingleChecked(agreePrivacy, setAgreePrivacy, setAllChecked, allChecked)
-          }
-        />
+          <Checkbox
+            checked={agreePrivacy}
+            onChange={() =>
+              handleSingleChecked(agreePrivacy, setAgreePrivacy, setAllChecked, allChecked)
+            }
+          />
         개인정보 수집이용 동의
         </CheckboxLabel>
         <CheckboxLabel>
-        <input
-          type="checkbox"
-          checked={agreeUniqueInfo}
-          onChange={() =>
-            handleSingleChecked(agreeUniqueInfo, setAgreeUniqueInfo, setAllChecked, allChecked)
-          }
-        />
+          <Checkbox
+            checked={agreeUniqueInfo}
+            onChange={() =>
+              handleSingleChecked(agreeUniqueInfo, setAgreeUniqueInfo, setAllChecked, allChecked)
+            }
+          />
         고유식별 정보처리 동의
         </CheckboxLabel>
         <CheckboxLabel>
           <div className="phoneAgree">
-            <input
-              type="checkbox"
+            <Checkbox
               checked={agreePhoneTerms}
               onChange={() =>
                 handleSingleChecked(agreePhoneTerms, setAgreePhoneTerms, setAllChecked, allChecked)

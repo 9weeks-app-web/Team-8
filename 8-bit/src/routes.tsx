@@ -6,8 +6,9 @@ import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
 import MyPage from "./pages/mypage/MyPage";
 
+import UploadPage from "./pages/UploadPage";
+import Profile from "./pages/auth/Profile";
 import SignupSuccess from "./pages/auth/SignupSuccess";
-import SignupTwo from "./pages/auth/SignupTwo";
 import CommunityBoard from "./pages/community/CommunityBoard";
 import CommunityHome from "./pages/community/CommunityHome";
 import CommunityHot from "./pages/community/CommunityHot";
@@ -45,6 +46,11 @@ const router = createBrowserRouter([
     ],
   },
   {
+    path: "/upload",
+    element: <RootLayout />,
+    children: [{ index: true, element: <UploadPage /> }],
+  },
+  {
     path: "/signIn",
     element: <NoFooterLayout />,
     children: [{ index: true, element: <SignIn /> }],
@@ -55,9 +61,9 @@ const router = createBrowserRouter([
     children: [{ index: true, element: <SignUp /> }],
   },
   {
-    path: "/signupTwo",
+    path: "/profile",
     element: <NoFooterLayout />,
-    children: [{ index: true, element: <SignupTwo /> }],
+    children: [{ index: true, element: <Profile /> }],
   },
   {
     path: "/signupSuccess",

@@ -1,14 +1,7 @@
 import styled from "@emotion/styled";
-import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import Pick from "/home/Frame 1000005921.png";
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Common } from "../styles/common";
-
-const PickImage = styled.img`
-  position: absolute;
-  top: -2%;
-  left: 5%;
-`;
 
 const SemifolioInfos = styled.div`
   flex: 0 1 calc(25% - 24px);
@@ -154,7 +147,6 @@ function SemifolioInfo(props: SemifolioProps) {
           <p>{props.category}</p>
           <h3>{props.title}</h3>
         </HoverText>
-        {props.pick && <PickImage src={Pick} alt="My Image" />}
       </HoverBox>
       <SemiInfo>
         <UserInfoGroup>
