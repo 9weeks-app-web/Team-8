@@ -203,6 +203,7 @@ const SwiperWrapper = styled.div`
 `;
 
 const CardCommentWrapper = styled.div`
+  background-color: ${Common.colors.primary[5]};
   display: flex;
   flex-direction: column;
   gap: 19px;
