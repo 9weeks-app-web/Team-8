@@ -12,7 +12,7 @@ import { Common } from '../styles/common';
 const Portfolios = styled.div`
   width: 1440px;
   margin: 0 auto;
-  padding: 40px 21px 0 21px;
+  padding: 40px 24px 0 24px;
 `;
 
 const CustomTabs = styled(Tabs)`
