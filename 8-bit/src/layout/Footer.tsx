@@ -86,13 +86,13 @@ function Footer() {
           <BetweenTexts />
           <Label2>고객센터</Label2>
           <Spacer />
-          <FooterImg src="/instagram.svg" alt="instagram"></FooterImg>
-          <FooterImg src="/youtube.svg" alt="youtube"></FooterImg>
-          <FooterImg src="/facebook.svg" alt="facebook"></FooterImg>
+          <FooterImg src="/footer/instagram.svg" alt="instagram"></FooterImg>
+          <FooterImg src="/footer/youtube.svg" alt="youtube"></FooterImg>
+          <FooterImg src="/footer/facebook.svg" alt="facebook"></FooterImg>
           <BetweenTexts />
-          <FooterImg src="/familysite.svg" alt="familysite"></FooterImg>
+          <FooterImg src="/footer/familysite.svg" alt="familysite"></FooterImg>
           <VerticalLine />
-          <FooterImg src="/sniperfactory.svg" alt="sniperfactory"></FooterImg>
+          <FooterImg src="/footer/sniperfactory.svg" alt="sniperfactory"></FooterImg>
         </Container>
       </FooterContainer>
     </FooterWrapper>
