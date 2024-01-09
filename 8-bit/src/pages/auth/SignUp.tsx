@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
+import Checkbox from "@mui/material/Checkbox";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Common } from "../../styles/common";
-import Checkbox from "@mui/material/Checkbox";
 
 const Container = styled.div`
   display : flex;
