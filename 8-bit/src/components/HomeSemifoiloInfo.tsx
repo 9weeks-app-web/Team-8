@@ -2,31 +2,20 @@ import styled from "@emotion/styled";
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Common } from "../styles/common";
+import { useRecoilState } from 'recoil';
+import { ModalDataAtom } from "../recoil/SemifoiloAtum";
 
 const SemifolioInfos = styled.div`
-  flex: 0 1 calc(25% - 24px);
-  margin: 16px 0;
+  flex: 0 1 calc(25% - ${Common.space.md});
 `;
-
-const HoverText = styled.div`
+const PickImage = styled.img`
   position: absolute;
-  top: 78%;
-  left: 27%;
-  transform: translate(-50%, -50%);
-  color: white;
-  opacity: 0;
-  p {
-    /* padding: 9px 0; */
-    font-size: ${Common.font.size.xs};
-    font-weight: ${Common.font.weight.semibold};
-  }
-  h3 {
-    font-size: ${Common.font.size.lg};
-    font-weight: ${Common.font.weight.semibold};
-  }
+  top: 0px;
+  left: 24px;
 `;
-
 const HoverBox = styled.div`
+  width: 330px;
+  height: 260px;
   position: relative;
   display: inline-block;
   overflow: hidden;
@@ -39,70 +28,74 @@ const HoverBox = styled.div`
     }
   }
   :before {
-    content: "";
-    border-radius: 16px;
+    content: '';
+    border-radius: 12px;
     position: absolute;
-    bottom: 8px;
+    bottom: 0px;
     left: 0;
     width: 100%;
-    height: 50%;
-    background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0),
-      rgba(0, 0, 0, 0.8)
-    );
+    height: 164px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.7));
     opacity: 0;
     transition: opacity 0.5s;
   }
   :hover:before {
     opacity: 1;
   }
+  div {
+    position: absolute;
+    bottom: 22px;
+    left: 16px;
+    color: white;
+    opacity: 0;
+    p {
+    font-size: ${Common.font.size.xs};
+    font-weight: ${Common.font.weight.semibold};
+    }
+    h3{
+      font-size: ${Common.font.size.lg};
+      font-weight: ${Common.font.weight.semibold};
+    }
+  }
 `;
-
 const SemiImage = styled.img`
   width: 330px;
   height: 260px;
-  border-radius: 16px;
+  border-radius: 12px;
   object-fit: cover;
-  margin-bottom: 8px;
+  margin-bottom: 9px;
   display: block;
 `;
-
-const UserImage = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin-right: ${Common.space.xs};
-`;
-
 const SemiInfo = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
-
 const UserInfoGroup = styled.div`
   display: flex;
   align-items: center;
   font-size: ${Common.font.size.sm};
   font-weight: ${Common.font.weight.medium};
 `;
-
+const UserImage = styled.img`
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  margin-right: ${Common.space.xs};
+  /* background-color: #d9d9d9d9 */
+`;
 const PostInfoGroup = styled.div`
   display: flex;
   align-items: center;
-  color: #666666;
+  color: ${Common.colors.neutral[60]};
   font-size: 20px;
+  gap: ${Common.space.s};
   div {
+    display: flex;
     font-size: ${Common.font.size.sm};
     font-weight: ${Common.font.weight.medium};
-    margin: 0 5px;
+    gap: 4px;
   }
-`;
-
-const LikesGroup = styled.div`
-  display: flex;
-  margin-right: ${Common.space.s};
 `;
 
 interface SemifolioProps {
@@ -114,39 +107,36 @@ interface SemifolioProps {
   likes: number;
   views: number;
   pick?: boolean;
-  openModal: (data: {
-    title: string;
-    category: string;
-    imageUrl: string;
-    userProfile: string;
-    userName: string;
-    likes: number;
-    views: number;
-    pick?: boolean;
-  }) => void;
+  style?: string;
+  openModal: () => void;
 }
 
-function SemifolioInfo(props: SemifolioProps) {
+function HomeSemifolioInfo(props: SemifolioProps) {
+  const [modalData, setModalData] = useRecoilState(ModalDataAtom);
   const handleImageClick = () => {
-    props.openModal({
-      title: props.title,
-      category: props.category,
-      imageUrl: props.imageUrl,
-      userProfile: props.userProfile,
-      userName: props.userName,
-      likes: props.likes,
-      views: props.views,
-    });
+  const semifolioData = {
+    title: props.title,
+    category: props.category,
+    imageUrl: props.imageUrl,
+    userProfile: props.userProfile,
+    userName: props.userName,
+    likes: props.likes,
+    views: props.views,
+    style: props.style,
   };
+  props.openModal();
+  setModalData(semifolioData);
+};
 
   return (
     <SemifolioInfos onClick={handleImageClick}>
       <HoverBox>
         <SemiImage src={props.imageUrl} alt=""></SemiImage>
-        <HoverText>
+        <div>
           <p>{props.category}</p>
           <h3>{props.title}</h3>
-        </HoverText>
+        </div>
+        {props.pick && <PickImage src='/home/pick_noShadow.svg' alt="My Image" />}
       </HoverBox>
       <SemiInfo>
         <UserInfoGroup>
@@ -154,16 +144,18 @@ function SemifolioInfo(props: SemifolioProps) {
           <p>{props.userName}</p>
         </UserInfoGroup>
         <PostInfoGroup>
-          <LikesGroup>
+          <div>
             <ThumbUpAltIcon />
             <div>{props.likes}</div>
-          </LikesGroup>
-          <RemoveRedEyeIcon />
-          <div>{props.views}</div>
+          </div>
+          <div>
+            <RemoveRedEyeIcon />
+            <div>{props.views}</div>
+          </div>
         </PostInfoGroup>
       </SemiInfo>
     </SemifolioInfos>
   );
 }
 
-export default SemifolioInfo;
+export default HomeSemifolioInfo;

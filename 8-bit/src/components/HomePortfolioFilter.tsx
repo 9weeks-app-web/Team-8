@@ -1,12 +1,29 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from "@emotion/styled";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { Common } from '../styles/common';
+import { useRecoilState } from 'recoil';
+import { SelectCategoryAtom, SelectStyleAtom, SelectSortAtom, SemifolioDatasAtom } from '../recoil/SemifoiloAtum';
+import ClearIcon from '@mui/icons-material/Clear';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import CheckIcon from '@mui/icons-material/Check';
 
 const Filter = styled.div`
+  
+`;
+const FilterButtons = styled.div`
   display: flex;
   margin-bottom: ${Common.space.md};
+  justify-content: space-between;
+`;
+const LeftDropdownButton = styled.div`
+  display: flex;
+  gap: ${Common.space.lg};
+`;
+const RightDropdownButton = styled.div`
+  display: flex;
+  align-items: center;
 `;
 const DropdownButton = styled.button`
   background-color: white;
@@ -16,32 +33,43 @@ const DropdownButton = styled.button`
   justify-content: space-between;
   align-items: center;
   display: flex;
-  padding: 12px;
   font-size: ${Common.font.size.md};
   font-weight: ${Common.font.weight.regular};
-  color: ${Common.colors.neutral[60]};
   position: relative;
   transition: background-color 0.3s;
-  margin-right: ${Common.space.lg};
-  border: 1.3px solid ${Common.colors.neutral[20]}; //디자인 시스템 기준 색상
-  :hover {
-    background-color: ${Common.colors.neutral[5]}; //디자인 시스템 기준 색상
-    border: 1.3px solid ${Common.colors.neutral[20]}; //디자인 시스템 기준 색상
-  }
+  border: 1.3px solid ${Common.colors.neutral[20]}; 
+  padding: 12px;
+  /* :hover {
+    background-color: ${Common.colors.neutral[5]}; 
+    border: 1.3px solid ${Common.colors.neutral[40]}; 
+  } */
   :active {
-    background-color: ${Common.colors.neutral[10]}; //디자인 시스템 기준 색상
-    border: 1.3px solid ${Common.colors.neutral[20]}; //디자인 시스템 기준 색상
+    border: 1.3px solid ${Common.colors.neutral[100]}; 
   }
 `;
+const DropdownTitleZone = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 238px;
+  height: 48px;
+`
 const DropdownTitle = styled.div`
   padding-left: 2px;
+  color: ${Common.colors.neutral[100]};
 `;
-const DropdownList = styled.div`
+const CustomDropDownIcon = styled(ArrowDropDownIcon)`
+  color: ${Common.colors.neutral[40]};
+`
+const CustomDropUpIcon = styled(ArrowDropUpIcon)`
+  color: ${Common.colors.neutral[40]};
+`
+const DropdownMenu = styled.div`
   padding: 8px 2px;
   position: absolute;
   top: 58px;
-  left: 0%;
-  width: 100%;
+  left: -1px;
+  width: 238px;
   height: 256px;
   background-color: #FFFFFF;
   box-shadow: 0px 6px 6px 0px #0000005d; //안 나와있음
@@ -110,6 +138,10 @@ const Check = styled.input`
   border-radius: 3.5px;
   width: 23px;
   height: 23px;
+  &:checked {
+    border-color: transparent;
+    background: ${Common.colors.primary[80]};
+  }
 `;
 const CheckLabel = styled.label`
   display: flex;
@@ -189,91 +221,270 @@ const BlueButton = styled.button`
   color: #FFF;
   background-color: ${Common.colors.primary[80]};
 `;
+const SortButton = styled.button`
+  background-color: white;
+  border: none;
+  width: 74px;
+  height: 24px;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  gap: ${Common.space.xs};
+  font-size: ${Common.font.size.md};
+  font-weight: ${Common.font.weight.semibold};
+  color: ${Common.colors.neutral[100]};
+  position: relative;
+  padding: 0;
+`;
+const CustomSortDropDownIcon = styled(ArrowDropDownIcon)`
+  height: 24px;
+  width: 24px;
+  color: ${Common.colors.neutral[60]};
+`;
+const CustomSortDropUpIcon = styled(ArrowDropUpIcon)`
+  height: 24px;
+  width: 24px;
+  color: ${Common.colors.neutral[60]};
+`;
+const SortMenu = styled.div`
+  position: absolute;
+  top: 34px;
+  right: 0px;
+  width: 85px;
+  height: auto;
+  background-color: #FFFFFF;
+  box-shadow: 0px 6px 6px 0px #0000005d; //안 나와있음
+  border-radius: 12px;
+  z-index: 1;
+`;
+
+const FilterZone = styled.div`
+  width: 100%;
+  height: 64px;
+  background-color: ${Common.colors.primary[5]};
+  border-radius: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 21px;
+  padding: 12px;
+  div{
+    display: flex;
+    gap: ${Common.space.xs};
+  }
+`;
+const SelectButton = styled.div`
+  width: auto;
+  height: 40px;
+  display: flex;
+  padding: ${Common.space.xs} 12px;
+  justify-content: center;
+  align-items: center;
+  gap: ${Common.space.xs};
+  border-radius: 12px;
+  border: 1px solid ${Common.colors.neutral[10]};
+  background-color: ${Common.colors.neutral[0]};
+  div{
+    font-size: ${Common.font.size.sm};
+    font-weight: ${Common.font.weight.medium};
+    color: ${Common.colors.neutral[100]};
+  }
+`
+const DeleteButton = styled(ClearIcon)`
+  width: 14px;
+  height: 14px;
+  align-items: center;
+  justify-content: center;
+  color: ${Common.colors.neutral[40]};
+`;
+const ResetButton = styled.button`
+  padding-right: 5.61px;
+  gap: 6px;
+  font-size: ${Common.font.size.sm};
+  font-weight: ${Common.font.weight.medium};
+  color: ${Common.colors.neutral[100]};
+  align-items: center;
+  display: flex;
+  background: transparent;
+  border: none;
+`;
 
 function HomePortfolioFilter() {
   const [selectColor, setSelectColor] = useState('');
-  const colorList = ["777777", "000000", "FFFFFF", "FF0100", "FF8000", "FF8000", "33D302", "018001", "007878", "70C9FF", "1500FF", "A338C2", "FFB9F4", "FF77BA", "812053", "A48353", "88553D", "3E465A"];
+  const colorList = ["777777", "000000", "FFFFFF", "FF0100", "FF8000", "FFF500", "33D302", "018001", "007878", "70C9FF", "1500FF", "A338C2", "FFB9F4", "FF77BA", "812053", "A48353", "88553D", "3E465A"];
   const colorButtonHandler = (color: string) => {
     setSelectColor(color);
   };
 
   const [isExpandedCategory, setIsExpandedCategory] = useState(false);
-  const [selectCategory, setSelectCategory] = useState('관심분야 선택');
-  const categoryList = ['관심분야 전체', 'UI / UX', 'WEB', '그래픽', '제품', '광고', '시각', '일러스트레이션', '캐릭터', '공간', '패션', '3D', '영상/모션그래픽', '편집', '브랜딩'];
+  const [selectCategory, setSelectCategory] = useRecoilState(SelectCategoryAtom);
+  const categoryList = ['관심분야 전체', 'UI/UX', 'WEB', '그래픽', '제품', '광고', '시각', '일러스트레이션', '캐릭터', '공간', '패션', '3D', '영상/모션그래픽', '편집', '브랜딩'];
   const categoryButtonExpandHandler = () => {
     setIsExpandedCategory(!isExpandedCategory);
   };
   const categoryHandler = (category: string) => {
     setSelectCategory(category);
   };
+  const categoryFilterDelete = (category: string) => {
+    if (selectCategory == category) {
+      setSelectCategory("");
+    }
+  }
+  const filterReset = () => {
+    setSelectCategory("");
+    setSelectStyle([]);
+    setTemporaryStyle([]);
+  }
+  
+
 
   const [isExpandedStyle, setIsExpandedStyle] = useState(false);
-  const [selectStyle, setSelectStyle] = useState('스타일 · 컬러 선택');
+  const [selectStyle, setSelectStyle] = useRecoilState<string[]>(SelectStyleAtom);
+  const [temporaryStyle, setTemporaryStyle] = useState<string[]>([]);
   const StyleList = ['심플한', '따뜻한', '다채로운', '차가운', '유쾌한', '감성적인', '고급스러운', '역동적인'];
   const styleButtonExpandHandler = () => {
     setIsExpandedStyle(!isExpandedStyle);
+    setSelectStyle(temporaryStyle);
   };
   const styleHandler = (style: string) => {
-    setSelectStyle(style);
+    setTemporaryStyle(prevStyle => {
+      if (!prevStyle.includes(style)) {
+        return [...prevStyle, style];
+      }
+      return prevStyle;
+    });
+  };
+  const styleFilterDelete = (style: string) => {
+    const updatedStyles = selectStyle.filter((selectedStyle) => selectedStyle !== style);
+    const updatedTemporaryStyles = temporaryStyle.filter((selectedStyle) => selectedStyle !== style);
+    setSelectStyle(updatedStyles);
+    setTemporaryStyle(updatedTemporaryStyles)
+  }
+
+
+  const [isExpandedSort, setIsExpandedSort] = useState(false);
+  const [selectSort, setSelectSort] = useRecoilState(SelectSortAtom);
+  const SortList = ['PICK', '추천순', '최신순', '팔로우순'];
+  const SortButtonExpandHandler = () => {
+    setIsExpandedSort(!isExpandedSort);
+  };
+  const SortHandler = (Sort: string) => {
+    setSelectSort(Sort);
+    console.log(Sort);
+    sort();
   };
 
+  const [semifolioDatas, setSemifolioDatas] = useRecoilState(SemifolioDatasAtom);
+  function sort(){
+    if(selectSort == '최신순'){
+      const sortedData = semifolioDatas.slice().sort((a, b) => b.likes - a.likes);
+      setSemifolioDatas(sortedData);
+      console.log("왜안돼");
+    }
+  }
 
   return (
     <Filter>
-      <DropdownButton onClick={categoryButtonExpandHandler}>
-        <DropdownTitle>{selectCategory}</DropdownTitle>
-        {!isExpandedCategory ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
-        {isExpandedCategory && (
-          <DropdownList onClick={categoryButtonExpandHandler}>
-            {categoryList.map((category) => (
-              <DropdownItem key={category} onClick={() => categoryHandler(category)}>
-                {category}
-              </DropdownItem>
-            ))}
-          </DropdownList>
-        )}
-      </DropdownButton>
-      <DropdownButton onClick={styleButtonExpandHandler}>
-        <DropdownTitle>{selectStyle}</DropdownTitle>
-        {!isExpandedStyle ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
-        {isExpandedStyle && (
-          <DropdownArea>
-            <PaletteList>
-            <StyleMenu>
-              <StyleMenuTitle>스타일</StyleMenuTitle>
-              <CheckBoxMenu>
-                {StyleList.map((style) => (
-                  <CheckBox key={style}>
-                    <Check
-                      type='checkbox'
-                      id={style}
-                      onClick={() => styleHandler(style)}
-                    />
-                    <CheckLabel htmlFor={style}>{style}</CheckLabel>
-                  </CheckBox>
+      <FilterButtons>
+        <LeftDropdownButton>
+          <DropdownButton onClick={categoryButtonExpandHandler}>
+            <DropdownTitle>관심분야 선택</DropdownTitle>
+            {!isExpandedCategory ? <CustomDropDownIcon /> : <CustomDropUpIcon />}
+            {isExpandedCategory && (
+              <DropdownMenu onClick={categoryButtonExpandHandler}>
+                {categoryList.map((category) => (
+                  <DropdownItem key={category} onClick={() => categoryHandler(category)}>
+                    {category}
+                  </DropdownItem>
                 ))}
-              </CheckBoxMenu>
-            </StyleMenu>
-            <StyleMenuLine />
-            <PaletteMenu>
-              <StyleMenuTitle>메인 컬러</StyleMenuTitle>
-              <Palette>
-                <SelectColor>#{selectColor}</SelectColor>
-                <SelectPalette>
-                  {colorList.map((color) => (
-                    <ColorButton key={color} color={color} onClick={() => colorButtonHandler(color)} />
-                  ))}
-                </SelectPalette>
-              </Palette>
-            </PaletteMenu>
-            </PaletteList>
-            <ButtonArea>
-              <WhiteButton>선택해제</WhiteButton>
-              <BlueButton onClick={styleButtonExpandHandler}>적용하기</BlueButton>
-            </ButtonArea>
-          </DropdownArea>
-        )}
-      </DropdownButton>
+              </DropdownMenu>
+            )}
+          </DropdownButton>
+          <DropdownButton >
+            <DropdownTitleZone onClick={styleButtonExpandHandler}>
+              <DropdownTitle >스타일 · 컬러 선택</DropdownTitle>
+              {!isExpandedStyle ? <CustomDropDownIcon /> : <CustomDropUpIcon />}
+            </DropdownTitleZone>
+            {isExpandedStyle && (
+              <DropdownArea>
+                <PaletteList>
+                  <StyleMenu>
+                    <StyleMenuTitle>스타일</StyleMenuTitle>
+                    <CheckBoxMenu>
+                      {StyleList.map((style) => (
+                        <CheckBox key={style}>
+                          <Check
+                            type='checkbox'
+                            id={style}
+                            onClick={() => styleHandler(style)}
+                          />
+                          <CheckLabel htmlFor={style}>{style}</CheckLabel>
+                        </CheckBox>
+                      ))}
+                    </CheckBoxMenu>
+                  </StyleMenu>
+                  <StyleMenuLine />
+                  <PaletteMenu>
+                    <StyleMenuTitle>메인 컬러</StyleMenuTitle>
+                    <Palette>
+                      <SelectColor>#{selectColor}</SelectColor>
+                      <SelectPalette>
+                        {colorList.map((color) => (
+                          <ColorButton key={color} color={color} onClick={() => colorButtonHandler(color)}>
+                            <CheckIcon/>
+                          </ColorButton>
+                        ))}
+                      </SelectPalette>
+                    </Palette>
+                  </PaletteMenu>
+                </PaletteList>
+                <ButtonArea>
+                  <WhiteButton>선택해제</WhiteButton>
+                  <BlueButton onClick={styleButtonExpandHandler}>적용하기</BlueButton>
+                </ButtonArea>
+              </DropdownArea>
+            )}
+          </DropdownButton>
+        </LeftDropdownButton>
+        <RightDropdownButton>
+          <SortButton onClick={SortButtonExpandHandler}>
+            <div>{selectSort}</div>
+            {!isExpandedSort ? <CustomSortDropDownIcon /> : <CustomSortDropUpIcon />}
+            {isExpandedSort && (
+              <SortMenu onClick={SortButtonExpandHandler}>
+                {SortList.map((Sort) => (
+                  <DropdownItem key={Sort} onClick={() => SortHandler(Sort)}>
+                    {Sort}
+                  </DropdownItem>
+                ))}
+              </SortMenu>
+            )}
+          </SortButton>
+        </RightDropdownButton>
+      </FilterButtons>
+      {selectCategory.length != 0 || selectStyle.length != 0 ? (
+        <FilterZone>
+          <div>
+            { selectCategory != "" &&<SelectButton>
+              {selectCategory}
+              <DeleteButton onClick={() => categoryFilterDelete(selectCategory)} />
+            </SelectButton>}
+            {selectStyle.map((style, index) => (
+              <SelectButton key={index}>
+                {style}
+                <DeleteButton onClick={() => styleFilterDelete(style)} />
+              </SelectButton>
+            ))}
+          </div>
+          <div>
+            <ResetButton onClick={filterReset}>
+              <RefreshIcon />
+              <div>초기화</div>
+            </ResetButton>
+          </div>
+        </FilterZone>
+      ) : null}
     </Filter>
   )
 }

@@ -8,6 +8,7 @@ const SemifolioDatas = [
     userName: "jimin1",
     likes: 3,
     views: 5,
+    style: "심플한",
   },
   {
     id: 2,
