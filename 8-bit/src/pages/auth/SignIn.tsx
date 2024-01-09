@@ -3,10 +3,25 @@ import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Common } from "../../styles/common";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 type CustomButtonProps = {
   isInputSpace: boolean;
 };
+
+const StyledCheckbox = styled(Checkbox)`
+  width: 15px;
+  height: 10px;
+  margin-left: 12px;
+  margin-right: ${Common.space.s};
+`;
+
+const CustomFormControlLabel = styled(FormControlLabel)`
+  .MuiFormControlLabel-label {
+    font-size: 14px;
+  }
+`;
 
 const Container = styled.div`
   display : flex;
@@ -36,7 +51,7 @@ const LoginForm = styled.form`
   display : flex;
   flex-direction : column;
   align-items : center;
-  background : #FFFFFF;
+  background : ${Common.colors.neutral[0]};
   width : 496px;
 
   .passwordinput {
@@ -54,6 +69,11 @@ const Input = styled.input`
   border-radius : 8px;
   background-color: #FBFBFB;
   border : 1px solid ${Common.colors.neutral[30]};
+
+  &:focus {
+    outline: none;
+    border: 1px solid ${Common.colors.primary[100]};
+  }
 `;
 
 const UserLinks = styled.div`
@@ -66,22 +86,32 @@ const UserLinks = styled.div`
 
 const SaveId = styled.label`
   font-size : ${Common.font.size.sm};
-  width : 96px;
-  height : 24px;
+  display: flex;
+  flex-direction: row;
   align-items : center;
 `;
 
 const SerchIdPw = styled.div`
   display : flex;
-  justify-content : flex-end;
+  justify-content : center;
+  align-items: center;
   width : 193px;
   height : 24px;
-  align-items : center;
 
   a {
     text-decoration : none;
     color : ${Common.colors.neutral[100]};
     font-size : ${Common.font.size.md};
+
+    &::after {
+      content: "|";
+      margin: 0 12px;
+    }
+
+    &:last-child::after {
+      content: "";
+      margin: 0;
+    }
   }
 `;
 
@@ -91,7 +121,7 @@ const Button = styled.button<CustomButtonProps>`
   border : none;
   background-color: ${({ isInputSpace }) => (isInputSpace ? 
     `${Common.colors.primary[80]}` : `${Common.colors.neutral[20]}`)};
-  color : #FFFFFF; 
+  color : ${Common.colors.neutral[0]};; 
   
   border-radius : 10px;
   cursor : 'pointer';
@@ -258,19 +288,21 @@ function SignIn() {
 
         <UserLinks>
           <SaveId>
-            <input 
-              type="checkbox"
-              checked={rememberId}
-              onChange={handleRememberEmailChange}
+            <CustomFormControlLabel
+              control={
+                <StyledCheckbox
+                  checked={rememberId}
+                  onChange={handleRememberEmailChange}
+                />
+              }
+              label="아이디 저장"
             />
-            <span>아이디 저장</span>
           </SaveId>
           <SerchIdPw>
             <span>
               <a href="#" onClick={() => {
                 alert("준비중입니다.")
               }}>아이디찾기</a>
-              |
               <a href="#" onClick={() => {
                 alert("준비중입니다.")
               }}>비밀번호 찾기</a>
