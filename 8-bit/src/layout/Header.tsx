@@ -11,6 +11,7 @@ import NotiModal from "../components/NotiModal";
 const HeaderWrapper = styled.div`
   width: 1440px;
   margin: 0 auto;
+  position: relaive;
 `;
 
 const TabBar = styled.header`
@@ -136,6 +137,14 @@ const Header: React.FC = () => {
     navigate('/signIn');
   };
 
+  const logoHome = () => {
+    navigate('/');
+  }
+
+  const goMypage = () => {
+    navigate('/mypage');
+  }
+
   const clickMessage = () => {
     setMessageOpen(!isMessageOpen);
     if(isNotiOpen) {
@@ -159,7 +168,7 @@ const Header: React.FC = () => {
       </TabBar>
       <HeaderContainer>
         <Nav>
-          <LogoImg src="/header/sfac_logo.svg" alt="sniperfactory logo" />
+          <LogoImg src="/header/sfac_logo.svg" alt="sniperfactory logo" onClick={logoHome}/>
           <div>
             <NavLink to="/"
               className={activeNav === 'home' ? 'active' : ''}
@@ -178,7 +187,7 @@ const Header: React.FC = () => {
                 <BetweenItems />
                 {isNotiOpen ? <Notifications onClick={clickNoti} sx={{ color: Common.colors.primary["100"] }}/> :  <NotificationsNoneOutlined onClick={clickNoti} />}
                 <BetweenItems />
-                <Avatar alt="user profile"
+                <Avatar onClick={goMypage} alt="user profile"
                   sx={{ width: 24, height: 24, fontSize: 10, bgcolor: Common.colors.neutral[10], color: Common.colors.neutral[100] }}></Avatar>
                 <BetweenItems />
                 <ColorButton>업로드</ColorButton>
@@ -194,7 +203,7 @@ const Header: React.FC = () => {
       </HeaderContainer>
       <NotiModal isOpen={isNotiOpen} onClose={closeNoti} />
       <MessageModal isOpen={isMessageOpen} onClose={closeMessage} />
-    </HeaderWrapper >
+    </HeaderWrapper> 
   );
 }
 
