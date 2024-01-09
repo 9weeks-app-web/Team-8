@@ -1,9 +1,11 @@
+import React from "react";
 import styled from "@emotion/styled";
-import { useRecoilState, useRecoilValue } from "recoil";
-import SemifolioDatas from "../db/SemifolioDatas";
-import { IsModalOpenAtom, SelectCategoryAtom, SelectStyleAtom, SemifolioDatasAtom } from '../recoil/SemifoiloAtum';
-import { Common } from "../styles/common";
+import HomeSemifolioInfo from "./HomeSemifoiloInfo";
 import Modal from './SemifoiloModal';
+import HomeServices from "./HomeServices";
+import { Common } from "../styles/common";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { SelectCategoryAtom, SelectStyleAtom, IsModalOpenAtom, SemifolioDatasAtom } from '../recoil/SemifoiloAtum';
 
 const SemifolioArea = styled.div`
   display: flex;
@@ -69,19 +71,32 @@ function HomeSemifolio() {
   return (
     <div>
       <SemifolioArea>
-        {SemifolioDatas.map((semifolioData, index) => (
-          <SemifolioInfo
-            key={index}
-            title={semifolioData.title}
-            category={semifolioData.category}
-            imageUrl={semifolioData.imageUrl}
-            userProfile={semifolioData.userProfile}
-            userName={semifolioData.userName}
-            likes={semifolioData.likes}
-            views={semifolioData.views}
-            openModal={openModal}
-            pick={semifolioData.pick}
-          />
+        {categorySelectSortData.map((semifolioData, index) => (
+          <React.Fragment key={index}>
+            <HomeSemifolioInfo
+              title={semifolioData.title}
+              category={semifolioData.category}
+              imageUrl={semifolioData.imageUrl}
+              userProfile={semifolioData.userProfile}
+              userName={semifolioData.userName}
+              likes={semifolioData.likes}
+              views={semifolioData.views}
+              openModal={openModal}
+              pick={semifolioData.pick}
+              style={semifolioData.style}
+            />
+            {index < 19
+              ? index == categorySelectSortData.length - 1 ? (
+                <HomeServicesWrapper>
+                  <HomeServices />
+                </HomeServicesWrapper>
+              ) : null
+              : index === 19 && (
+                <HomeServicesWrapper>
+                  <HomeServices />
+                </HomeServicesWrapper>
+              )}
+          </React.Fragment>
         ))}
       </SemifolioArea>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
