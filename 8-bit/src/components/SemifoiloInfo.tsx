@@ -1,14 +1,14 @@
 import styled from "@emotion/styled";
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import Pick from '../../public/home/Frame 1000005921.png'
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import Pick from "/home/Frame 1000005921.png";
 import { Common } from "../styles/common";
 
 const PickImage = styled.img`
   position: absolute;
   top: -2%;
   left: 5%;
-`
+`;
 
 const SemifolioInfos = styled.div`
   flex: 0 1 calc(25% - 24px);
@@ -27,7 +27,7 @@ const HoverText = styled.div`
     font-size: ${Common.font.size.xs};
     font-weight: ${Common.font.weight.semibold};
   }
-  h3{
+  h3 {
     font-size: ${Common.font.size.lg};
     font-weight: ${Common.font.weight.semibold};
   }
@@ -46,14 +46,18 @@ const HoverBox = styled.div`
     }
   }
   :before {
-    content: '';
+    content: "";
     border-radius: 16px;
     position: absolute;
     bottom: 8px;
     left: 0;
     width: 100%;
     height: 50%;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.8));
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0),
+      rgba(0, 0, 0, 0.8)
+    );
     opacity: 0;
     transition: opacity 0.5s;
   }
@@ -61,7 +65,6 @@ const HoverBox = styled.div`
     opacity: 1;
   }
 `;
-
 
 const SemiImage = styled.img`
   width: 330px;
@@ -71,7 +74,6 @@ const SemiImage = styled.img`
   margin-bottom: 8px;
   display: block;
 `;
-
 
 const UserImage = styled.img`
   width: 30px;
@@ -107,9 +109,8 @@ const PostInfoGroup = styled.div`
 
 const LikesGroup = styled.div`
   display: flex;
-  margin-right: ${Common.space.s} ;
+  margin-right: ${Common.space.s};
 `;
-
 
 interface SemifolioProps {
   title: string;
@@ -120,7 +121,7 @@ interface SemifolioProps {
   likes: number;
   views: number;
   pick?: boolean;
-  openModal: (data: {  
+  openModal: (data: {
     title: string;
     category: string;
     imageUrl: string;
@@ -128,10 +129,9 @@ interface SemifolioProps {
     userName: string;
     likes: number;
     views: number;
-    pick?: boolean; 
+    pick?: boolean;
   }) => void;
 }
-
 
 function SemifolioInfo(props: SemifolioProps) {
   const handleImageClick = () => {

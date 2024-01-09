@@ -12,23 +12,18 @@ const ProfileSidebar = styled.aside`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* position: absolute;
-  top: 200px;
-  left: 24px; */
+  position: absolute;
+  top: 35px;
+  left: 35px;
 `;
 
 const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
-  // 여기에 추가 스타일을 적용하세요.
 `;
-const UserName = styled.h2`
-  // 이름 스타일을 적용하세요.
-`;
+const UserName = styled.h2``;
 
-const UserEmail = styled.span`
-  // 이메일 스타일을 적용하세요.
-`;
+const UserEmail = styled.span``;
 
 const UserFollow = styled.div`
   display: flex;
@@ -112,16 +107,16 @@ function ProfileSidebarComponent() {
         <p>안녕하세요! 문다여입니다 많은 관심 부탁드립니다!</p>
         <IntroductionSns>
           <div>
-            <img src="/instagram.svg" alt="인스타그램" />
+            <img src="/instagram.png" alt="인스타그램" />
           </div>
           <div>
             <img src="/facebook.svg" alt="페이스북" />
           </div>
           <div>
-            <img src="/naversns.svg" alt="네이버" />
+            <img src="/naver.png" alt="네이버" />
           </div>
           <div>
-            <img src="/githubsns.svg" alt="깃헙" />
+            <img src="/github.svg" alt="깃헙" />
           </div>
         </IntroductionSns>
       </Introduction>

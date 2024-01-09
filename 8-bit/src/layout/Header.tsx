@@ -1,6 +1,6 @@
 // Header.tsx
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from "@emotion/styled";
 import Avatar from '@mui/material/Avatar';
 import { Email, EmailOutlined, Notifications, NotificationsNoneOutlined } from '@mui/icons-material';
@@ -99,14 +99,28 @@ const BetweenItems = styled.div`
 
 const Header: React.FC = () => {
 
+  const [userName, setUserName] = useState<string | null>(null);
+
+  useEffect(() => {
+
+    const storedUserInfo = localStorage.getItem('userInfo');
+    if (storedUserInfo) {
+      // JSON 문자열을 객체로 파싱
+      const userInfoObj = JSON.parse(storedUserInfo);
+
+      // userInfo 객체에서 username 읽기
+      const userName = userInfoObj.username;
+
+      // React 상태 업데이트
+      setUserName(userName);
+    }
+  }, []);
+
   const [isMessageOpen, setMessageOpen] = useState(false);
   const closeMessage = () => setMessageOpen(false);
 
   const [isNotiOpen, setNotiOpen] = useState(false);
   const closeNoti = () => setNotiOpen(false);
-
-  // 유저 로그인 여부 저장
-  let isUserLogined = true;
 
   // Nav 선택 유지
   const [activeNav, setActiveNav] = useState<string>("home");
@@ -119,7 +133,6 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
 
   const goLogIn = () => {
-    console.log('goLogIn')
     navigate('/signIn');
   };
 
@@ -146,7 +159,7 @@ const Header: React.FC = () => {
       </TabBar>
       <HeaderContainer>
         <Nav>
-          <LogoImg src="/sfac_logo.svg" alt="sniperfactory logo" />
+          <LogoImg src="/header/sfac_logo.svg" alt="sniperfactory logo" />
           <div>
             <NavLink to="/"
               className={activeNav === 'home' ? 'active' : ''}
@@ -159,7 +172,7 @@ const Header: React.FC = () => {
           <Spacer/>
           <div>
             {/* userLogined 여부에 따라 보여지는 컨텐츠 다르게 */}
-            {isUserLogined ? (
+            {userName ? (
               <Container>
                 {isMessageOpen ? <Email onClick={clickMessage} sx={{ color: Common.colors.primary["100"] }} /> :   <EmailOutlined onClick={clickMessage}/> }
                 <BetweenItems />

@@ -5,15 +5,15 @@ import MainContent from "../../components/mypage/MainContent";
 const PageLayout = styled.section`
   display: flex;
   position: relative;
+  width: 1440px;
+  height: 1487px;
+  margin: 0 auto;
 `;
-
-// const MainContent = styled.section``;
 
 const MyPage = () => {
   return (
     <PageLayout>
       <ProfileSidebarComponent />
-      {/* <MainContent></MainContent> */}
       <MainContent />
     </PageLayout>
   );
