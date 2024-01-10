@@ -1,14 +1,27 @@
 import styled from "@emotion/styled";
 import { Common } from "../../styles/common";
 import LinearProgress from "@mui/material/LinearProgress";
-import Typography from "@mui/material/Typography";
+// import Typography from "@mui/material/Typography";
 
 const SkillBars = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const SkillName = styled.p``;
+const SkillBarWrapper = styled.div`
+  display: flex;
+  & > div {
+    /* width: 100%; */
+    flex: 3;
+  }
+`;
+
+const SkillName = styled.p`
+  color: ${Common.colors.neutral[80]};
+  font-size: ${Common.font.size.md};
+  font-weight: ${Common.font.weight.medium};
+  flex: 1;
+`;
 
 function SkillBar({ label, value }: { label: string; value: number }) {
   // value는 0 ~ 100 사이의 숫자입니다.
@@ -26,28 +39,29 @@ function SkillBar({ label, value }: { label: string; value: number }) {
   };
 
   return (
-    <>
+    <SkillBarWrapper>
       <SkillName>{label}</SkillName>
-      <LinearProgress
-        variant="determinate"
-        value={value}
-        sx={{
-          height: 10,
-          borderRadius: 5,
-          [`& .MuiLinearProgress-bar`]: {
-            backgroundColor: normaliseValue(value),
-          },
-        }}
-      />
-      <Typography variant="body2" color="textSecondary">{`${Math.round(
-        value
-      )}%`}</Typography>
-    </>
+      <div>
+        <LinearProgress
+          variant="determinate"
+          value={value}
+          sx={{
+            height: 10,
+            borderRadius: 5,
+            [`& .MuiLinearProgress-bar`]: {
+              backgroundColor: normaliseValue(value),
+            },
+          }}
+        />
+        {/* <Typography variant="body2" color="textSecondary">{`${Math.round(
+                value
+              )}%`}</Typography> */}
+      </div>
+    </SkillBarWrapper>
   );
 }
 
 export default function SkillsList() {
-  // 예시로 몇 가지 기술을 정의합니다.
   const skills = [
     { name: "피그마", level: 80 },
     { name: "포토샵", level: 70 },

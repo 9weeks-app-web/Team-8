@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+// import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Tab, Tabs } from "@mui/material";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 import { useState } from "react";
 
 interface TabPanelProps {
@@ -17,14 +17,15 @@ const MainSection = styled.div`
 const BackgroundImageWrpper = styled.div`
   padding-left: 447px;
   background-color: lightgray;
-  height: 237px;
+  height: 380px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-image: url("myPage/mypageBackground.png");
 `;
 
 const PannelWrapper = styled.div`
-  padding-left: 447px;
+  padding-left: calc(330px + 24px + 24px);
 `;
 
 // 개별 탭의 컨텐츠를 렌더링할 컴포넌트
@@ -60,7 +61,8 @@ function MainContent() {
   return (
     <MainSection>
       <BackgroundImageWrpper>
-        <Button startIcon={<AddCircleOutlineIcon />}>배경 이미지 업로드</Button>
+        {/* <Button startIcon={<AddCircleOutlineIcon />}>배경 이미지 업로드</Button> */}
+        {/* <img src="myPage/mypageBackground.png" alt="" /> */}
       </BackgroundImageWrpper>
       <PannelWrapper>
         <Tabs
