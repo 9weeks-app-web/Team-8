@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
 import AddIcon from '@mui/icons-material/Add';
-import { useNavigate } from "react-router-dom";
-import { Common } from "../../styles/common";
-import { useState } from "react";
 import CheckIcon from '@mui/icons-material/Check';
-import app from '../../firebase';
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { Checkbox } from "@mui/material";
+import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import app from '../../firebase';
+import { Common } from "../../styles/common";
 
 
 interface ActiveButtonProps {

@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
-import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Common } from "../../styles/common";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
 
 type CustomButtonProps = {
   isInputSpace: boolean;
