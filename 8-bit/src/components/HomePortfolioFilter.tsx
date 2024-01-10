@@ -1,14 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from "@emotion/styled";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { Common } from '../styles/common';
 import { useRecoilState } from 'recoil';
-import { SelectCategoryAtom, SelectStyleAtom, SelectSortAtom, SemifolioDatasAtom } from '../recoil/SemifoiloAtum';
+import { SelectCategoryAtom, SelectStyleAtom, SelectSortAtom, SemifolioDatasAtom, SelectColorAtom } from '../recoil/SemifoiloAtum';
 import ClearIcon from '@mui/icons-material/Clear';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import CheckIcon from '@mui/icons-material/Check';
+import SemifolioDatas from '../db/SemifolioDatas';
 
+
+interface ColorProps {
+  isSelectedColor: boolean; 
+}
+interface StyleProps {
+
+}
 const Filter = styled.div`
   
 `;
@@ -39,10 +46,6 @@ const DropdownButton = styled.button`
   transition: background-color 0.3s;
   border: 1.3px solid ${Common.colors.neutral[20]}; 
   padding: 12px;
-  /* :hover {
-    background-color: ${Common.colors.neutral[5]}; 
-    border: 1.3px solid ${Common.colors.neutral[40]}; 
-  } */
   :active {
     border: 1.3px solid ${Common.colors.neutral[100]}; 
   }
@@ -124,7 +127,7 @@ const CheckBoxMenu = styled.div`
   flex-wrap: wrap;
   margin: 14px 48.55px 0 4.55px;
 `;
-const CheckBox = styled.p`
+const CheckBox = styled.div`
   /* width: 50%; */
   display: flex;
   padding: 12px 14px;
@@ -132,15 +135,26 @@ const CheckBox = styled.p`
   height: 52px;
   gap: ${Common.space.xs};
 `;
-const Check = styled.input`
+const Check = styled.input<StyleProps>`
   appearance: none;
   border: 2.5px solid #E8E8E8;
   border-radius: 3.5px;
   width: 23px;
   height: 23px;
+
   &:checked {
     border-color: transparent;
     background: ${Common.colors.primary[80]};
+
+    &:checked:after {
+      content: '✔';
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      color: white;
+    }
   }
 `;
 const CheckLabel = styled.label`
@@ -189,12 +203,29 @@ const SelectPalette = styled.div`
   gap: ${Common.space.xs};
   flex-wrap: wrap;
 `;
-const ColorButton = styled.button`
+const ColorButton = styled.button<ColorProps>`
   width: 31px;
   height: 30px;
   border-radius: 4px;
   border: none;
   background-color: #${(props) => props.color || 'transparent'};
+  position: relative;
+  p{
+    color: ${Common.colors.neutral[0]}
+  }
+  div{
+    color: white;
+    display: ${(props) => (props.isSelectedColor ? 'flex' : 'none')};
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
 `;
 const ButtonArea = styled.div`
   display: flex;
@@ -224,7 +255,7 @@ const BlueButton = styled.button`
 const SortButton = styled.button`
   background-color: white;
   border: none;
-  width: 74px;
+  width: auto;
   height: 24px;
   justify-content: space-between;
   align-items: center;
@@ -260,7 +291,8 @@ const SortMenu = styled.div`
 
 const FilterZone = styled.div`
   width: 100%;
-  height: 64px;
+  height: auto;
+  min-height: 64px;
   background-color: ${Common.colors.primary[5]};
   border-radius: 12px;
   display: flex;
@@ -274,8 +306,11 @@ const FilterZone = styled.div`
     gap: ${Common.space.xs};
   }
 `;
+const FilterTagContainer = styled.div`
+  flex-wrap: wrap;
+  flex-grow: 1;
+`
 const SelectButton = styled.div`
-  width: auto;
   height: 40px;
   display: flex;
   padding: ${Common.space.xs} 12px;
@@ -290,6 +325,12 @@ const SelectButton = styled.div`
     font-weight: ${Common.font.weight.medium};
     color: ${Common.colors.neutral[100]};
   }
+  span{
+    width: 17.69px;
+    height: 17.12px;
+    border-radius: 2.28px;
+    background:  ${(props) => `#${props.color || 'transparent'}`};
+  }
 `
 const DeleteButton = styled(ClearIcon)`
   width: 14px;
@@ -298,6 +339,12 @@ const DeleteButton = styled(ClearIcon)`
   justify-content: center;
   color: ${Common.colors.neutral[40]};
 `;
+const ResetButtonContainer = styled.div`
+  min-width: 80px;
+  height: 21px;
+  display: flex;
+  flex-grow: 0;
+`
 const ResetButton = styled.button`
   padding-right: 5.61px;
   gap: 6px;
@@ -310,13 +357,9 @@ const ResetButton = styled.button`
   border: none;
 `;
 
-function HomePortfolioFilter() {
-  const [selectColor, setSelectColor] = useState('');
-  const colorList = ["777777", "000000", "FFFFFF", "FF0100", "FF8000", "FFF500", "33D302", "018001", "007878", "70C9FF", "1500FF", "A338C2", "FFB9F4", "FF77BA", "812053", "A48353", "88553D", "3E465A"];
-  const colorButtonHandler = (color: string) => {
-    setSelectColor(color);
-  };
 
+
+function HomePortfolioFilter() {
   const [isExpandedCategory, setIsExpandedCategory] = useState(false);
   const [selectCategory, setSelectCategory] = useRecoilState(SelectCategoryAtom);
   const categoryList = ['관심분야 전체', 'UI/UX', 'WEB', '그래픽', '제품', '광고', '시각', '일러스트레이션', '캐릭터', '공간', '패션', '3D', '영상/모션그래픽', '편집', '브랜딩'];
@@ -335,8 +378,11 @@ function HomePortfolioFilter() {
     setSelectCategory("");
     setSelectStyle([]);
     setTemporaryStyle([]);
+    setSelectColor([]);
+    setTemporaryColor([]);
+    setIsSelected(Array(colorList.length).fill(false))
   }
-  
+
 
 
   const [isExpandedStyle, setIsExpandedStyle] = useState(false);
@@ -345,8 +391,22 @@ function HomePortfolioFilter() {
   const StyleList = ['심플한', '따뜻한', '다채로운', '차가운', '유쾌한', '감성적인', '고급스러운', '역동적인'];
   const styleButtonExpandHandler = () => {
     setIsExpandedStyle(!isExpandedStyle);
-    setSelectStyle(temporaryStyle);
+    setNowColor('');
+    setTemporaryColor(selectColor);
+    setTemporaryStyle(selectStyle);
   };
+  const applyButtonExpandHandler = () => {
+    setIsExpandedStyle(!isExpandedStyle);
+    setSelectStyle(temporaryStyle);
+    setSelectColor(temporaryColor);
+    setNowColor('');
+  };
+  const clearButtonExpandHandler = () => {
+    setTemporaryStyle([]);
+    setTemporaryColor([]);
+    setNowColor('');
+    setIsSelected(Array(colorList.length).fill(false))
+  }
   const styleHandler = (style: string) => {
     setTemporaryStyle(prevStyle => {
       if (!prevStyle.includes(style)) {
@@ -361,28 +421,78 @@ function HomePortfolioFilter() {
     setSelectStyle(updatedStyles);
     setTemporaryStyle(updatedTemporaryStyles)
   }
+  const [selectColor, setSelectColor] = useRecoilState(SelectColorAtom);
+  const [temporaryColor, setTemporaryColor] = useState<string[]>([]);
+  const colorList = ["777777", "000000", "FFFFFF", "FF0100", "FF8000", "FFF500", "33D302", "018001", "007878", "70C9FF", "1500FF", "A338C2", "FFB9F4", "FF77BA", "812053", "A48353", "88553D", "3E465A"];
+  const [nowColor, setNowColor] = useState('');
+  const colorButtonHandler = (color: string) => {
+    setNowColor(color);
+    setTemporaryColor(prevColor => {
+      if (!prevColor.includes(color)) {
+        return [...prevColor, color];
+      }
+      return prevColor.filter((prevColorItem) => prevColorItem !== color);
+    });
+  };
+  const colorFilterDelete = (color: string) => {
+    const updatedColors = selectColor.filter((selectedColor) => selectedColor !== color);
+    const updatedTemporaryColors = temporaryColor.filter((selectedColor) => selectedColor !== color);
+    setSelectColor(updatedColors);
+    setTemporaryColor(updatedTemporaryColors)
+  };
+  const [isSelected, setIsSelected] = useState(new Array(colorList.length).fill(false));
+  const isSelectedHandler = (index) =>{
+    setIsSelected((prevList) => {
+      const newList = [...prevList];
+      newList[index] = !newList[index];
+      return newList;
+    });
+  };
 
 
   const [isExpandedSort, setIsExpandedSort] = useState(false);
   const [selectSort, setSelectSort] = useRecoilState(SelectSortAtom);
-  const SortList = ['PICK', '추천순', '최신순', '팔로우순'];
+  const SortList = ['기본순', 'PICK', '추천순', '최신순', '팔로우순'];
   const SortButtonExpandHandler = () => {
     setIsExpandedSort(!isExpandedSort);
   };
   const SortHandler = (Sort: string) => {
     setSelectSort(Sort);
-    console.log(Sort);
-    sort();
   };
 
   const [semifolioDatas, setSemifolioDatas] = useRecoilState(SemifolioDatasAtom);
-  function sort(){
-    if(selectSort == '최신순'){
-      const sortedData = semifolioDatas.slice().sort((a, b) => b.likes - a.likes);
+  const sort = (Sort: string) => {
+    console.log('Sorting...', Sort);
+    let sortedData = [];
+    if (Sort === '기본순') {
+      sortedData = SemifolioDatas;
       setSemifolioDatas(sortedData);
-      console.log("왜안돼");
+    } else if (Sort === 'PICK') {
+      sortedData = semifolioDatas.slice().sort((a, b) => {
+        const aIsPicked = 'pick' in a && a.pick === true ? 1 : 0;
+        const bIsPicked = 'pick' in b && b.pick === true ? 1 : 0;
+        if (aIsPicked == bIsPicked) {
+          return aIsPicked === 1 ? 0 : b.likes - a.likes;
+        } else {
+          return (bIsPicked - aIsPicked);
+        }
+      })
+      setSemifolioDatas(sortedData);
+    } else if (Sort === '추천순') {
+      sortedData = semifolioDatas.slice().sort((a, b) => b.likes - a.likes);
+      setSemifolioDatas(sortedData);
+    } else if (Sort === '최신순') {
+      sortedData = SemifolioDatas;
+      setSemifolioDatas(sortedData);
+    } else if (Sort === '팔로우순') {
+      sortedData = SemifolioDatas;
+      setSemifolioDatas(sortedData);
     }
+
   }
+  useEffect(() => {
+    sort(selectSort);
+  }, [selectSort]);
 
   return (
     <Filter>
@@ -418,6 +528,7 @@ function HomePortfolioFilter() {
                             type='checkbox'
                             id={style}
                             onClick={() => styleHandler(style)}
+                            checked={temporaryStyle.includes(style)}
                           />
                           <CheckLabel htmlFor={style}>{style}</CheckLabel>
                         </CheckBox>
@@ -428,11 +539,16 @@ function HomePortfolioFilter() {
                   <PaletteMenu>
                     <StyleMenuTitle>메인 컬러</StyleMenuTitle>
                     <Palette>
-                      <SelectColor>#{selectColor}</SelectColor>
+                      <SelectColor>#{nowColor}</SelectColor>
                       <SelectPalette>
-                        {colorList.map((color) => (
-                          <ColorButton key={color} color={color} onClick={() => colorButtonHandler(color)}>
-                            <CheckIcon/>
+                        {colorList.map((color, index) => (
+                          <ColorButton
+                            key={color}
+                            color={color}
+                            onClick={() => {colorButtonHandler(color); isSelectedHandler(index);}}
+                            isSelectedColor={temporaryColor.includes(color) && isSelected[index]}
+                          >
+                            <div>✔</div>
                           </ColorButton>
                         ))}
                       </SelectPalette>
@@ -440,8 +556,8 @@ function HomePortfolioFilter() {
                   </PaletteMenu>
                 </PaletteList>
                 <ButtonArea>
-                  <WhiteButton>선택해제</WhiteButton>
-                  <BlueButton onClick={styleButtonExpandHandler}>적용하기</BlueButton>
+                  <WhiteButton onClick={clearButtonExpandHandler}>선택해제</WhiteButton>
+                  <BlueButton onClick={applyButtonExpandHandler}>적용하기</BlueButton>
                 </ButtonArea>
               </DropdownArea>
             )}
@@ -463,10 +579,10 @@ function HomePortfolioFilter() {
           </SortButton>
         </RightDropdownButton>
       </FilterButtons>
-      {selectCategory.length != 0 || selectStyle.length != 0 ? (
+      {selectCategory.length != 0 || selectStyle.length != 0 || selectColor.length != 0? (
         <FilterZone>
-          <div>
-            { selectCategory != "" &&<SelectButton>
+          <FilterTagContainer>
+            {selectCategory != "" && <SelectButton>
               {selectCategory}
               <DeleteButton onClick={() => categoryFilterDelete(selectCategory)} />
             </SelectButton>}
@@ -476,13 +592,19 @@ function HomePortfolioFilter() {
                 <DeleteButton onClick={() => styleFilterDelete(style)} />
               </SelectButton>
             ))}
-          </div>
-          <div>
+            {selectColor.map((color, index) => (
+              <SelectButton key={index} color={color}>
+                <span/>#{color}
+                <DeleteButton onClick={() => colorFilterDelete(color)} />
+              </SelectButton>
+            ))}
+          </FilterTagContainer>
+          <ResetButtonContainer>
             <ResetButton onClick={filterReset}>
               <RefreshIcon />
               <div>초기화</div>
             </ResetButton>
-          </div>
+          </ResetButtonContainer>
         </FilterZone>
       ) : null}
     </Filter>
