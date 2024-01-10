@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
-import { Common } from "../styles/common";
+import { Common } from "../../styles/common";
 
 const ColorModalContainer = styled.div<{ show: boolean }>`
   display: ${({ show }) => (show ? "block" : "none")};
   position: absolute;
-  top: 370px;
-  right: -170px;
+  top: 60.5%;
+  left: 77.5%;
   background-color : #FFFFFF;
   border : 1px solid ${Common.colors.neutral[20]};
   justify-content: center;
@@ -40,18 +40,18 @@ function ColorModal({
   ];
 
   return (
-      <ColorModalContainer show={show}>
-        {colors.map((color, index) => (
-          <ColorButton
-            key={index}
-            color={color}
-            onClick={() => {
-              onSelectColor(color);
-              onClose();
-            }}
-          ></ColorButton>
-        ))}
-      </ColorModalContainer>
+    <ColorModalContainer show={show}>
+      {colors.map((color, index) => (
+        <ColorButton
+          key={index}
+          color={color}
+          onClick={() => {
+            onSelectColor(color);
+            onClose();
+          }}
+        ></ColorButton>
+      ))}
+    </ColorModalContainer>
   );
 }
 

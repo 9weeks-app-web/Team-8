@@ -207,8 +207,8 @@ function SignIn() {
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [isInputSpace, setIsInputSpace] = useState<boolean>(false); // 인풋 공란 확인
-  const [rememberId, setRememberId] = useState<boolean>(false); // 아이디 저장 여부
+  const [isInputSpace, setIsInputSpace] = useState<boolean>(false);
+  const [rememberId, setRememberId] = useState<boolean>(false);
 
   useEffect(() => {
     setIsInputSpace(email.trim() !== '' && password.trim() !== '');
