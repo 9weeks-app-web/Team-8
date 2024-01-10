@@ -10,6 +10,10 @@ export const SelectStyleAtom = atom<string[]>({
   key: 'SelectStyleAtom',
   default: [],
 })
+export const SelectColorAtom = atom<string[]>({
+  key: 'SelectColorAtom',
+  default: [],
+})
 
 interface SemifolioData {
   title: string;

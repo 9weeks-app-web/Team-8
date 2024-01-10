@@ -10,8 +10,9 @@ const SemifolioInfos = styled.div`
 `;
 const PickImage = styled.img`
   position: absolute;
-  top: 0px;
-  left: 24px;
+  top: -6px;
+  left: 18px;
+  display: none;
 `;
 const HoverBox = styled.div`
   width: 330px;
@@ -21,7 +22,8 @@ const HoverBox = styled.div`
   overflow: hidden;
   :hover {
     img {
-      transition: filter 0.5s;
+      transition: 0.8s;
+      display: block;
     }
     div {
       opacity: 1;
@@ -136,7 +138,7 @@ function HomeSemifolioInfo(props: SemifolioProps) {
           <p>{props.category}</p>
           <h3>{props.title}</h3>
         </div>
-        {props.pick && <PickImage src='/home/pick_noShadow.svg' alt="My Image" />}
+        {props.pick && <PickImage src='/home/Pick.svg' alt="My Image" />}
       </HoverBox>
       <SemiInfo>
         <UserInfoGroup>
