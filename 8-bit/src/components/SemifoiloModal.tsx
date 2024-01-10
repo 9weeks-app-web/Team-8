@@ -2,8 +2,11 @@ import styled from '@emotion/styled';
 import { Common } from '../styles/common';
 import { useRecoilValue } from "recoil";
 import { ModalDataAtom } from '../recoil/SemifoiloAtum';
-import ForumIcon from '@mui/icons-material/Forum';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+// import { useEffect, useState } from 'react';
+import shareIcon from '../../public/home/shareIcon.svg';
+import forumIcon from '../../public/home/forumIcon.svg';
+import likesIcon from '../../public/home/likesIcon.svg';
+import bookmarksIcon from '../../public/home/bookmarksIcon.svg';
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -11,12 +14,10 @@ const ModalBackground = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: start;
   justify-content: center;
-  padding-top: 118px;
-  padding-bottom: 81px;
   overflow: scroll;
   z-index: 1;
   gap: 28px;
@@ -27,13 +28,15 @@ const ModalContent = styled.div`
   height: auto;
   overflow-y: hidden;
   border-radius: 24px;
+  margin-top: 64px;
+  margin-bottom: 81px;
+  position: relative;
 `;
 const ModalImg = styled.img`
   object-fit: contain;
 `
 const ModalInfo = styled.div`
   align-items: center;
-  /* gap: ${Common.space.s}; */
   padding: 48px ${Common.space.xl} ${Common.space.xl} ${Common.space.xl};
 `;
 const ModalTitle = styled.div`
@@ -103,7 +106,8 @@ const ModalButtonBlack = styled.button`
 const ModalButtonTitle = styled.div`
   font-size: ${Common.font.size.sm};
   font-weight: ${Common.font.weight.medium};
-  color: ${Common.colors.neutral[60]};
+  color: ${Common.colors.neutral[0]};
+  text-align: center;
 `;
 const ModalButtonZone = styled.div`
   margin-bottom: ${Common.space.md};
@@ -144,9 +148,18 @@ const ModalGrayBox = styled.div`
   padding: 64px 404px;
   background: ${Common.colors.neutral[50]};
 `
+const ModalButtonContainer = styled.div`
+  position: sticky;
+  top: 64px;
+  right: 0px;
+  z-index: 2;
+`
 
 function SemifoiloModal({ isOpen, onClose }) {
   const ModalData = useRecoilValue(ModalDataAtom);
+  // const [isFollow, setIsFollow] = useState();
+  // const [followList, setFollowList] = useRecoilState();
+  
 
   if (!isOpen) return null;
   return (
@@ -181,25 +194,26 @@ function SemifoiloModal({ isOpen, onClose }) {
         <div>팔로우</div>
         <div>스와이퍼</div>
         <div>코멘트</div>
+
       </ModalContent>
-      <div>
+      <ModalButtonContainer>
         <ModalButtonZone>
-          <ModalButtonBlue><ForumIcon /></ModalButtonBlue>
+          <ModalButtonBlue><img src={forumIcon}/></ModalButtonBlue>
           <ModalButtonTitle>제안하기</ModalButtonTitle>
         </ModalButtonZone>
         <ModalButtonZone>
-          <ModalButtonBlue><ThumbUpAltIcon /></ModalButtonBlue>
+          <ModalButtonBlue><img src={likesIcon}/></ModalButtonBlue>
           <ModalButtonTitle>좋아요</ModalButtonTitle>
         </ModalButtonZone>
         <ModalButtonZone>
-          <ModalButtonBlack><ThumbUpAltIcon /></ModalButtonBlack>
+          <ModalButtonBlack><img src={bookmarksIcon}/></ModalButtonBlack>
           <ModalButtonTitle>북마크</ModalButtonTitle>
         </ModalButtonZone>
         <ModalButtonZone>
-          <ModalButtonBlack><ThumbUpAltIcon /></ModalButtonBlack>
+          <ModalButtonBlack><img src={shareIcon}/></ModalButtonBlack>
           <ModalButtonTitle>공유하기</ModalButtonTitle>
         </ModalButtonZone>
-      </div>
+      </ModalButtonContainer>
 
     </ModalBackground>
   );

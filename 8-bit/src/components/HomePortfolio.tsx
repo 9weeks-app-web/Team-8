@@ -26,7 +26,7 @@ const CustomTabs = styled(Tabs)`
 `
 
 const CustomTab = styled(Tab)`
-  font-size: ${Common.font.size.header};
+  font-size: 28px;
   font-weight: ${Common.font.weight.regular};
   color: ${Common.colors.neutral[30]};
   padding: ${Common.space.xs} 0;

@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "@emotion/styled";
-import HomeSemifolioInfo from "./HomeSemifoiloInfo";
-import Modal from './SemifoiloModal';
 import HomeServices from "./HomeServices";
 import { Common } from "../styles/common";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { SelectCategoryAtom, SelectStyleAtom, IsModalOpenAtom, SemifolioDatasAtom } from '../recoil/SemifoiloAtum';
+import HomeSemifolioInfo from './HomeSemifoiloInfo';
+import SemifoiloModal from './SemifoiloModal';
+import { IsModalOpenAtom, SelectCategoryAtom, SelectStyleAtom, SemifolioDatasAtom } from '../recoil/SemifoiloAtum';
 
 const SemifolioArea = styled.div`
   display: flex;
@@ -99,8 +99,8 @@ function HomeSemifolio() {
           </React.Fragment>
         ))}
       </SemifolioArea>
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-      </Modal>
+      <SemifoiloModal isOpen={isModalOpen} onClose={closeModal}>
+      </SemifoiloModal>
     </div>
   );
 }
