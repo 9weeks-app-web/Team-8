@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { Common } from "../styles/common";
 
 const FooterWrapper = styled.div`
+  padding-top: ${Common.space.s};
   width: 1440px;
   margin: 0 auto;
 `;
@@ -10,9 +11,10 @@ const FooterWrapper = styled.div`
 const FooterContainer = styled.footer`
   color: black;
   text-align: center;
-  padding: ${Common.space.xs} ${Common.space.md};
+  padding: 7px ${Common.space.md};
   width: 100%;
-  border-top: 1.5px solid ${Common.colors.background[50]};
+  border-top: 1.5px solid ${Common.colors.neutral[5]};
+  border-bottom: 1.5px solid ${Common.colors.neutral[5]};
 `;
 
 const Container = styled.div`
@@ -33,22 +35,28 @@ const Label1 = styled.h1`
   padding-right: ${Common.space["xs"]};
 `;
 
-const Label2 = styled.h1`
+const Label2 = styled.button`
   display: inline;
   font-size: ${Common.font.size["xxs"]};
   font-weight: ${Common.font.weight.regular};
   padding-right: ${Common.space["xs"]};
+  border: none;
+  background-color: transparent;
 `;
 
 const Diagram = styled.span`
   display: inline;
-  font-size: 5px;
+  font-size: 7px;
   font-weight: ${Common.font.weight.regular};
   padding-right: ${Common.space["s"]};
+  cursor: pointer;
 `;
 
 const FooterImg = styled.img`
   margin: 0px 10px;
+  width: 21px;
+  height: 21px;
+  cursor: pointer;
 `
 
 const Spacer = styled.div`
@@ -57,7 +65,7 @@ const Spacer = styled.div`
 
 const VerticalLine = styled.div`
   height: 16px;  /* 세로선의 높이 */
-  width: 1.5px;     /* 세로선의 너비 */
+  width: 1px;     /* 세로선의 너비 */
   background-color: ${Common.colors.background[50]}; /* 세로선의 색상 */
 `;
 
@@ -86,13 +94,13 @@ function Footer() {
           <BetweenTexts />
           <Label2>고객센터</Label2>
           <Spacer />
-          <FooterImg src="/footer/instagram.svg" alt="instagram"></FooterImg>
-          <FooterImg src="/footer/youtube.svg" alt="youtube"></FooterImg>
-          <FooterImg src="/footer/facebook.svg" alt="facebook"></FooterImg>
+          <FooterImg src="/footer/instagram.png" alt="instagram"></FooterImg>
+          <FooterImg src="/footer/youtube.png" alt="youtube"></FooterImg>
+          <FooterImg src="/footer/facebook.png" alt="facebook"></FooterImg>
           <BetweenTexts />
-          <FooterImg src="/footer/familysite.svg" alt="familysite"></FooterImg>
+          <FooterImg src="/footer/familysite.svg" alt="familysite" style={{width: 57}}></FooterImg>
           <VerticalLine />
-          <FooterImg src="/footer/sniperfactory.svg" alt="sniperfactory"></FooterImg>
+          <FooterImg src="/footer/sniperfactory.svg" alt="sniperfactory" style={{width: 30}}></FooterImg>
         </Container>
       </FooterContainer>
     </FooterWrapper>
