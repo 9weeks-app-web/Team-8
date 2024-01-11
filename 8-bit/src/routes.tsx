@@ -12,6 +12,7 @@ import SignupSuccess from "./pages/auth/SignupSuccess";
 import CommunityBoard from "./pages/community/CommunityBoard";
 import CommunityHome from "./pages/community/CommunityHome";
 import CommunityHot from "./pages/community/CommunityHot";
+import Chat from "./pages/Chat";
 import CommunityQna from "./pages/community/communityQna";
 import UploadSuccess from "./pages/upload/UploadSuccess";
 
@@ -72,6 +73,11 @@ const router = createBrowserRouter([
     children: [{ index: true, element: <SignupSuccess /> }],
   },
   {
+    path: "/Chat",
+    element: <NoFooterLayout />,
+    children: [{ index: true, element: <Chat /> }],
+  },
+  
     path: "/uploadSuccess",
     element: <RootLayout />,
     children: [{ index: true, element: <UploadSuccess /> }],
