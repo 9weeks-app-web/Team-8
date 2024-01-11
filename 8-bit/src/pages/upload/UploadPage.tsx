@@ -59,6 +59,7 @@ const GridItem = styled.div`
   justify-content: center;
   background-color: #FFFFFF;
   border: 0.5px solid ${Common.colors.neutral[30]};
+  cursor: pointer;
 
   p {
     font-size : ${Common.font.size.xs};
@@ -78,6 +79,7 @@ const UploadContainer = styled.div`
   background-color: #FFFFFF;
   margin-left: ${Common.space.md};
   margin-top: ${Common.space.s};
+  overflow-y: auto;
 `;
 
 const ButtonContainer = styled.div`
@@ -91,6 +93,7 @@ const ImageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-right: ${Common.space.md};
+  cursor: pointer;
 
   img {
     margin-bottom: ${Common.space.s};
@@ -98,6 +101,9 @@ const ImageContainer = styled.div`
   p {
     font-size: ${Common.font.size.md};
     font-weight: ${Common.font.weight.regular};
+  }
+  label {
+    cursor: pointer;
   }
 `;
 
@@ -227,14 +233,18 @@ const NextUploadModalContainer = styled.div`
   z-index: 1000;
 `;
 
+const ImageInput = styled.input`
+  display: none;
+`;
+
 function UploadPage() {
 
   const [spacing, setSpacing] = useState<number>(10);
-
   const [isshowColorModal, isSetShowColorModal] = useState<boolean>(false);
   const [selectedColor, setSelectedColor] = useState<string>("#FFFFFF");
   const [image, setImage] = useState<File | null>(null);
   const [isshowModal, isSetShowModal] = useState<boolean>(false);
+  const [addImages, setAddImages] = useState<File[]>([]);
 
   const handleColorButtonClick = () => {
     isSetShowColorModal(!isshowColorModal);
@@ -249,6 +259,14 @@ function UploadPage() {
     if (event.target.files && event.target.files.length > 0) {
       const uploadedImage = event.target.files[0];
       setImage(uploadedImage);
+      setAddImages((prevImages) => [...prevImages, uploadedImage]);
+    }
+  };
+
+  const handleGridItemClick = () => {
+    const inputElement = document.getElementById("add-image-input");
+    if (inputElement) {
+      inputElement.click();
     }
   };
 
@@ -259,7 +277,6 @@ function UploadPage() {
   const handleCloseModal = () => {
     isSetShowModal(false);
   };
-
 
   return (
     <Container>
@@ -274,16 +291,15 @@ function UploadPage() {
               <ContentText>콘텐츠를 추가하여 업로드해보세요</ContentText>
               <ButtonContainer>
                 <ImageContainer>
-                  <label htmlFor="upload-input">
+                  <label htmlFor="upload-input" >
                     <img src="/upload/imageUpload.png" alt="이미지업로드" />
-                    <input
-                      id="upload-input"
-                      type="file"
-                      accept="image/*"
-                      style={{ display: "none" }}
-                      onChange={handleImageUpload}
-                    />
                   </label>
+                  <ImageInput
+                    id="upload-input"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                  />
                   <p>이미지</p>
                 </ImageContainer>
                 <ImageContainer>
@@ -301,10 +317,17 @@ function UploadPage() {
               </ButtonContainer>
             </>
           )}
-          {image && (
-            <ImageContainer>
-              <CustomImage src={URL.createObjectURL(image)} alt="업로드된 이미지" />
-            </ImageContainer>
+          {addImages.length > 0 && (
+            <div style={{ backgroundColor: selectedColor }}>
+              {addImages.map((addImage, index) => (
+                <CustomImage
+                  key={index}
+                  src={URL.createObjectURL(addImage)}
+                  alt={`업로드된 이미지 ${index + 1}`}
+                  style={{ marginBottom: `${spacing}px` }}
+                />
+              ))}
+            </div>
           )}
         </UploadContainer>
       </InputContainer>
@@ -312,10 +335,16 @@ function UploadPage() {
       <AddContentContainer>
         <AddContent>
           <AddContentText><p>콘텐츠 추가</p></AddContentText>
-          <GridItem>
-            <a href="#"><img src="/upload/photo.png" alt="이미지"></img></a>
+          <GridItem onClick={handleGridItemClick}>
+            <img src="/upload/photo.png" alt="이미지" />
             <p>이미지</p>
           </GridItem>
+          <ImageInput
+            id="add-image-input"
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+          />
           <GridItem>
             <a href="#"><img src="/upload/text.png" alt="텍스트"></img></a>
             <p>텍스트</p>
@@ -371,20 +400,19 @@ function UploadPage() {
           onClick={handleNextButtonClick}>
           다음
         </Button>
-        {isshowModal &&
+        {isshowModal && (
           <NextUploadModalContainer>
             <NextUploadModal
-              onClose={handleCloseModal} />
+              onClose={handleCloseModal}
+            />
           </NextUploadModalContainer>
-        }
+        )}
         <Button
           type="submit"
           className="pdfButton">
           PDF로 저장
         </Button>
       </AddContentContainer>
-
-
     </Container>
   );
 }
