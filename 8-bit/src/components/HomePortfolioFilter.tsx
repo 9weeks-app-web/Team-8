@@ -362,7 +362,7 @@ const ResetButton = styled.button`
 function HomePortfolioFilter() {
   const [isExpandedCategory, setIsExpandedCategory] = useState(false);
   const [selectCategory, setSelectCategory] = useRecoilState(SelectCategoryAtom);
-  const categoryList = ['관심분야 전체', 'UI/UX', 'WEB', '그래픽', '제품', '광고', '시각', '일러스트레이션', '캐릭터', '공간', '패션', '3D', '영상/모션그래픽', '편집', '브랜딩'];
+  const categoryList = ['관심분야 전체', 'UI/UX', '웹디자인', '그래픽디자인', '산업디자인', '광고디자인', '시각디자인', '일러스트레이션', '캐릭터디자인', '공간디자인', '패션디자인', '3D디자인', '영상/모션그래픽', '편집디자인', '브랜딩'];
   const categoryButtonExpandHandler = () => {
     setIsExpandedCategory(!isExpandedCategory);
   };
@@ -380,7 +380,8 @@ function HomePortfolioFilter() {
     setTemporaryStyle([]);
     setSelectColor([]);
     setTemporaryColor([]);
-    setIsSelected(Array(colorList.length).fill(false))
+    setIsSelectedColorBtn(Array(colorList.length).fill(false))
+    setIsSelectedStyleBtn(Array(styleList.length).fill(false))
   }
 
 
@@ -388,7 +389,7 @@ function HomePortfolioFilter() {
   const [isExpandedStyle, setIsExpandedStyle] = useState(false);
   const [selectStyle, setSelectStyle] = useRecoilState<string[]>(SelectStyleAtom);
   const [temporaryStyle, setTemporaryStyle] = useState<string[]>([]);
-  const StyleList = ['심플한', '따뜻한', '다채로운', '차가운', '유쾌한', '감성적인', '고급스러운', '역동적인'];
+  const styleList = ['심플한', '따뜻한', '다채로운', '차가운', '유쾌한', '감성적인', '고급스러운', '역동적인'];
   const styleButtonExpandHandler = () => {
     setIsExpandedStyle(!isExpandedStyle);
     setNowColor('');
@@ -405,14 +406,15 @@ function HomePortfolioFilter() {
     setTemporaryStyle([]);
     setTemporaryColor([]);
     setNowColor('');
-    setIsSelected(Array(colorList.length).fill(false))
+    setIsSelectedColorBtn(Array(colorList.length).fill(false))
+    setIsSelectedStyleBtn(Array(styleList.length).fill(false))
   }
   const styleHandler = (style: string) => {
     setTemporaryStyle(prevStyle => {
       if (!prevStyle.includes(style)) {
         return [...prevStyle, style];
       }
-      return prevStyle;
+      return prevStyle.filter((prevStyleItem) => prevStyleItem !== style);
     });
   };
   const styleFilterDelete = (style: string) => {
@@ -420,7 +422,15 @@ function HomePortfolioFilter() {
     const updatedTemporaryStyles = temporaryStyle.filter((selectedStyle) => selectedStyle !== style);
     setSelectStyle(updatedStyles);
     setTemporaryStyle(updatedTemporaryStyles)
-  }
+  };
+  const [isSelectedStyleBtn, setIsSelectedStyleBtn] = useState(new Array(styleList.length).fill(false));
+  const isSelectedStyleHandler = (index) =>{
+    setIsSelectedStyleBtn((prevList) => {
+      const newList = [...prevList];
+      newList[index] = !newList[index];
+      return newList;
+    });
+  };
   const [selectColor, setSelectColor] = useRecoilState(SelectColorAtom);
   const [temporaryColor, setTemporaryColor] = useState<string[]>([]);
   const colorList = ["777777", "000000", "FFFFFF", "FF0100", "FF8000", "FFF500", "33D302", "018001", "007878", "70C9FF", "1500FF", "A338C2", "FFB9F4", "FF77BA", "812053", "A48353", "88553D", "3E465A"];
@@ -440,9 +450,9 @@ function HomePortfolioFilter() {
     setSelectColor(updatedColors);
     setTemporaryColor(updatedTemporaryColors)
   };
-  const [isSelected, setIsSelected] = useState(new Array(colorList.length).fill(false));
-  const isSelectedHandler = (index) =>{
-    setIsSelected((prevList) => {
+  const [isSelectedColorBtn, setIsSelectedColorBtn] = useState(new Array(colorList.length).fill(false));
+  const isSelectedColorHandler = (index) =>{
+    setIsSelectedColorBtn((prevList) => {
       const newList = [...prevList];
       newList[index] = !newList[index];
       return newList;
@@ -462,7 +472,6 @@ function HomePortfolioFilter() {
 
   const [semifolioDatas, setSemifolioDatas] = useRecoilState(SemifolioDatasAtom);
   const sort = (Sort: string) => {
-    console.log('Sorting...', Sort);
     let sortedData = [];
     if (Sort === '기본순') {
       sortedData = SemifolioDatas;
@@ -522,13 +531,13 @@ function HomePortfolioFilter() {
                   <StyleMenu>
                     <StyleMenuTitle>스타일</StyleMenuTitle>
                     <CheckBoxMenu>
-                      {StyleList.map((style) => (
+                      {styleList.map((style, index) => (
                         <CheckBox key={style}>
                           <Check
                             type='checkbox'
                             id={style}
-                            onClick={() => styleHandler(style)}
-                            checked={temporaryStyle.includes(style)}
+                            onClick={() => {styleHandler(style); isSelectedStyleHandler(index);}}
+                            checked={temporaryStyle.includes(style) && isSelectedStyleBtn[index]}
                           />
                           <CheckLabel htmlFor={style}>{style}</CheckLabel>
                         </CheckBox>
@@ -545,8 +554,8 @@ function HomePortfolioFilter() {
                           <ColorButton
                             key={color}
                             color={color}
-                            onClick={() => {colorButtonHandler(color); isSelectedHandler(index);}}
-                            isSelectedColor={temporaryColor.includes(color) && isSelected[index]}
+                            onClick={() => {colorButtonHandler(color); isSelectedColorHandler(index);}}
+                            isSelectedColor={temporaryColor.includes(color) && isSelectedColorBtn[index]}
                           >
                             <div>✔</div>
                           </ColorButton>

@@ -6,14 +6,15 @@ import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
 import MyPage from "./pages/mypage/MyPage";
 
-import UploadPage from "./pages/UploadPage";
+import UploadPage from "./pages/upload/UploadPage";
 import Profile from "./pages/auth/Profile";
 import SignupSuccess from "./pages/auth/SignupSuccess";
 import CommunityBoard from "./pages/community/CommunityBoard";
 import CommunityHome from "./pages/community/CommunityHome";
 import CommunityHot from "./pages/community/CommunityHot";
-import CommunityQna from "./pages/community/CommunityQna";
 import Chat from "./pages/Chat";
+import CommunityQna from "./pages/community/communityQna";
+import UploadSuccess from "./pages/upload/UploadSuccess";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
     children: [{ index: true, element: <Chat /> }],
   },
   
+    path: "/uploadSuccess",
+    element: <RootLayout />,
+    children: [{ index: true, element: <UploadSuccess /> }],
+  },
 ]);
 
 export default router;
