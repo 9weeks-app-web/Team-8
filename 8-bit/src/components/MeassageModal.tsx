@@ -105,7 +105,7 @@ const MessageModal: React.FC = () => {
         <SelectedListTile>
           <Avatar alt="user profile" src="https://picsum.photos/200/200" sx={{ width: 35, height: 35, bgcolor: Common.colors.neutral[10], color: Common.colors.neutral[100], marginRight: Common.space.s }}></Avatar>
           <Spacer>
-            <MessageUser>최준생</MessageUser>
+            <MessageUser>이자인</MessageUser>
             <Hour>1시간 전</Hour>
             <MessageContent>혹시 스나이퍼팩토리 교육과정 어떠셨나요?</MessageContent>
           </Spacer>

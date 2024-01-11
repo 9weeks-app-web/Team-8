@@ -99,7 +99,7 @@ const NotiModal: React.FC = () => {
         <ListTile>
           <Img src="/header/noti_message.svg" alt="댓글" />
           <Spacer>
-            <NotiUser>최준생</NotiUser>
+            <NotiUser>이자인</NotiUser>
             <NotiText>님이 댓글을 달았습니다.</NotiText>
             <Div>
               <SubTextDiv>
@@ -113,7 +113,7 @@ const NotiModal: React.FC = () => {
         <ListTile>
           <FavoriteBorderOutlined sx={{ width: 25, height: 25, color: red[500], marginRight: Common.space.md }} />
           <Spacer>
-            <NotiUser>최준생</NotiUser>
+            <NotiUser>이자인</NotiUser>
             <NotiText>님이 좋아요를 눌렀습니다.</NotiText>
             <SubTextDiv>
               <Hour>1일 전</Hour>
