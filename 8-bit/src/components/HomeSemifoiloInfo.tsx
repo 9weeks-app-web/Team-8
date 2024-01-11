@@ -116,19 +116,19 @@ interface SemifolioProps {
 function HomeSemifolioInfo(props: SemifolioProps) {
   const [modalData, setModalData] = useRecoilState(ModalDataAtom);
   const handleImageClick = () => {
-  const semifolioData = {
-    title: props.title,
-    category: props.category,
-    imageUrl: props.imageUrl,
-    userProfile: props.userProfile,
-    userName: props.userName,
-    likes: props.likes,
-    views: props.views,
-    style: props.style,
+    const semifolioData = {
+      title: props.title,
+      category: props.category,
+      imageUrl: props.imageUrl,
+      userProfile: props.userProfile,
+      userName: props.userName,
+      likes: props.likes,
+      views: props.views,
+      style: props.style,
+    };
+    props.openModal();
+    setModalData(semifolioData);
   };
-  props.openModal();
-  setModalData(semifolioData);
-};
 
   return (
     <SemifolioInfos onClick={handleImageClick}>
@@ -138,7 +138,7 @@ function HomeSemifolioInfo(props: SemifolioProps) {
           <p>{props.category}</p>
           <h3>{props.title}</h3>
         </div>
-        {props.pick && <PickImage src='/home/Pick.svg' alt="My Image" />}
+        {props.pick && <PickImage src='/home/pick.svg' alt="My Image" />}
       </HoverBox>
       <SemiInfo>
         <UserInfoGroup>
@@ -146,14 +146,8 @@ function HomeSemifolioInfo(props: SemifolioProps) {
           <p>{props.userName}</p>
         </UserInfoGroup>
         <PostInfoGroup>
-          <div>
-            <ThumbUpAltIcon />
-            <div>{props.likes}</div>
-          </div>
-          <div>
-            <RemoveRedEyeIcon />
-            <div>{props.views}</div>
-          </div>
+          <div><img src="/home/likesIconGray.svg"/>{props.likes}</div>
+          <div><img src="/home/eyesIconGray.svg"/>{props.views}</div>
         </PostInfoGroup>
       </SemiInfo>
     </SemifolioInfos>
