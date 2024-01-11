@@ -223,7 +223,6 @@ const Button = styled.button`
 
 const CustomImage = styled.img`
   max-width: 100%;
-  height: auto;
 `;
 
 const NextUploadModalContainer = styled.div`
