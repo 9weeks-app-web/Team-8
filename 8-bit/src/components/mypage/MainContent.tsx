@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { Tab, Tabs } from "@mui/material";
 // import Button from "@mui/material/Button";
 import { useState } from "react";
+import MySemifolio from "./mySemifolio";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -81,14 +82,14 @@ function MainContent() {
             onChange={(_event, newValue) => handleSubTabChange(newValue)}
             aria-label="sub tabs"
           >
-            <Tab label="나의 포트폴리오" />
             <Tab label="나의 세미폴리오" />
+            <Tab label="나의 포트폴리오" />
           </Tabs>
           <TabPanel value={subTabIndex} index={0}>
-            나의 포트폴리오 내용
+            <MySemifolio />
           </TabPanel>
           <TabPanel value={subTabIndex} index={1}>
-            나의 세미폴리오 내용
+            나의 포트폴리오 내용
           </TabPanel>
         </TabPanel>
 
