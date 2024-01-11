@@ -318,13 +318,13 @@ function UploadPage() {
             </>
           )}
           {addImages.length > 0 && (
-            <div style={{ backgroundColor: selectedColor }}>
+            <div style={{ backgroundColor: selectedColor}}>
               {addImages.map((addImage, index) => (
                 <CustomImage
                   key={index}
                   src={URL.createObjectURL(addImage)}
                   alt={`업로드된 이미지 ${index + 1}`}
-                  style={{ marginBottom: `${spacing}px` }}
+                  style={{ marginBottom: `${spacing}px`, width:"100%"}}
                 />
               ))}
             </div>

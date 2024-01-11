@@ -234,6 +234,7 @@ const UploadBox = styled.div`
   height: 260px;
   background-color: ${Common.colors.primary[5]};
   border-radius: 12px;
+  margin-bottom: 8px;
 `;
 
 function NextUploadModal({ onClose }: { onClose: () => void }) {
@@ -246,9 +247,15 @@ function NextUploadModal({ onClose }: { onClose: () => void }) {
   const uploadImageToFirebase = async (file: File) => {
     const storage = getStorage();
     const storageRef = ref(storage, `세미폴리오/${file.name}`);
-
+  
     try {
       const snapshot = await uploadBytes(storageRef, file);
+      const existingFileNamesJSON = localStorage.getItem("uploadedFileNames");
+      const existingFileNames = existingFileNamesJSON ? JSON.parse(existingFileNamesJSON) : [];
+  
+      const updatedFileNames = [...existingFileNames, file.name];
+      localStorage.setItem("uploadedFileNames", JSON.stringify(updatedFileNames));
+  
       return snapshot.ref;
     } catch (error) {
       throw error;
