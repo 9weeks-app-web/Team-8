@@ -6,10 +6,13 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getDownloadURL, getStorage, ref } from "firebase/storage";
+import app from "../../firebase";
 
 const Contents = styled.article`
   display: flex;
+  flex-direction : column;
 `;
 
 const ControlBar = styled.div`
@@ -22,6 +25,26 @@ const MySemifolio = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [upToDate, setUpToDate] = useState("");
   const [visibility, setVisibility] = useState("");
+
+  const [imageURL, setImageURL] = useState<string | null>(null);
+
+  useEffect(() => {
+    const getImage = async () => {
+      const storage = getStorage(app);
+      const uploadedFileName = localStorage.getItem("uploadedFileName");
+      const filePath = `세미폴리오/${uploadedFileName}`;
+
+      const storageRef = ref(storage, filePath);
+
+      try {
+        const url = await getDownloadURL(storageRef);
+        setImageURL(url);
+      } catch (error) {
+        console.error("다운로드 URL을 가져오는 중에 오류가 발생했습니다:", error);
+      }
+    };
+    getImage();
+  }, []);
 
   const handleSelectAllChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -82,6 +105,9 @@ const MySemifolio = () => {
           </FormControl>
         </Box>
       </ControlBar>
+      <div>
+        업로드 포트폴리오 썸네일
+      </div>
     </Contents>
   );
 };

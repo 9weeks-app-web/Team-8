@@ -83,8 +83,6 @@ function UploadSuccess() {
     getImage();
   }, []);
 
-  console.log(imageURL);
-
   return (
     <Container>
       <ImageContainer>
