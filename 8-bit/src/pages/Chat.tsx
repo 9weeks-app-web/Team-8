@@ -440,7 +440,7 @@ function Chat() {
                             placeholder="메시지 내용을 입력하세요."
                         />
                         <Spacer />
-                        <img style={{width: 50, height: 50}} src="/arrow.svg" alt="arrow" />
+                        <img style={{width: 45, height: 45, cursor: "pointer"}} src="/arrow.svg" alt="arrow" />
                         </DeleteSpan >
                     </ChatRoom>
                 </ChatRow>

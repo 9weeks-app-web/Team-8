@@ -77,7 +77,7 @@ const router = createBrowserRouter([
     element: <NoFooterLayout />,
     children: [{ index: true, element: <Chat /> }],
   },
-  
+  {
     path: "/uploadSuccess",
     element: <RootLayout />,
     children: [{ index: true, element: <UploadSuccess /> }],

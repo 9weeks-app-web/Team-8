@@ -18,7 +18,7 @@
     { sender: "최준생", content: "아, 부트캠프는 아니고 스나이퍼 팩토리 인턴형 프로그램에 참여했을 때 제작했던 프로젝트 입니다."},
     { sender: "이자인", content: "오! 스나이퍼 팩토리는 처음 들어보네요!"},
     { sender: "이자인", content: "찾아보니까 얼마전에 2기도 모집했었네요!"},
-    { sender: "이자인", content: "스나이퍼 팩토리 교육과정 추천하시나요?"},
+    { sender: "이자인", content: "혹시 스나이퍼팩토리 교육과정 어떠셨나요?"},
   ];
   
   export {userLists, mockMessages};
