@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
@@ -6,9 +8,10 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useEffect, useState } from "react";
 import { getDownloadURL, getStorage, ref } from "firebase/storage";
+import { useEffect, useState } from "react";
 import app from "../../firebase";
+import { Common } from "../../styles/common";
 
 const Contents = styled.article`
   display: flex;
@@ -21,29 +24,99 @@ const ControlBar = styled.div`
   gap: 1rem; // 요소 사이의 간격을 설정합니다.
 `;
 
+const ImageContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  border : none;
+  border-radius: 12px;
+  margin-top : ${Common.space.s};
+  gap : ${Common.space.md};
+`;
+
+const ProfileImg = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+
+const Image = styled.img`
+  width: 330px;
+  height: 260px;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom : 9px;
+`;
+
+const ImageInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const ProfileInfo = styled.div`
+  display: flex;
+  align-items : center;
+
+  p {
+    font-size: ${Common.font.size.sm};
+    font-weight: ${Common.font.weight.medium};
+    margin-left: ${Common.space.xs};
+  }
+`;
+
+const ViewInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap : 4px;
+
+  p {
+    font-size : ${Common.font.size.sm};
+    font-weight: ${Common.font.weight.medium};
+    color: ${Common.colors.neutral[60]};
+  }
+`;
+
+const CustomThumbUpAltIcon = styled(ThumbUpAltIcon)`
+  width: 24px;
+  height: 24px;
+  color: ${Common.colors.neutral[60]};
+`;
+
+const CustomVisibilityIcon = styled(VisibilityIcon)`
+  width: 24px;
+  height: 24px;
+  color: ${Common.colors.neutral[60]};
+`;
+
+
 const MySemifolio = () => {
   const [selectAll, setSelectAll] = useState(false);
-  const [upToDate, setUpToDate] = useState("");
-  const [visibility, setVisibility] = useState("");
+  const [upToDate, setUpToDate] = useState<string>("");
+  const [visibility, setVisibility] = useState<string>("");
 
-  const [imageURL, setImageURL] = useState<string | null>(null);
+  const [imageURLs, setImageURLs] = useState<string[]>([]);
 
   useEffect(() => {
-    const getImage = async () => {
+    const getImageURLs = async () => {
       const storage = getStorage(app);
-      const uploadedFileName = localStorage.getItem("uploadedFileName");
-      const filePath = `세미폴리오/${uploadedFileName}`;
+      const existingFileNamesJSON = localStorage.getItem("uploadedFileNames");
 
-      const storageRef = ref(storage, filePath);
+      if (existingFileNamesJSON) {
+        const existingFileNames = JSON.parse(existingFileNamesJSON);
 
-      try {
-        const url = await getDownloadURL(storageRef);
-        setImageURL(url);
-      } catch (error) {
-        console.error("다운로드 URL을 가져오는 중에 오류가 발생했습니다:", error);
+        const urls = await Promise.all(existingFileNames.map(async (fileName: string) => {
+          const filePath = `세미폴리오/${fileName}`;
+          const storageRef = ref(storage, filePath);
+          try {
+            const url = await getDownloadURL(storageRef);
+            return url;
+          } catch (error) {
+            console.error(error);
+            return null;
+          }
+        }));
+        setImageURLs(urls.filter((url) => url !== null) as string[]);
       }
     };
-    getImage();
+    getImageURLs();
   }, []);
 
   const handleSelectAllChange = (
@@ -55,7 +128,6 @@ const MySemifolio = () => {
   const handleUpToDateChange = (event: SelectChangeEvent) => {
     setUpToDate(event.target.value as string);
   };
-
   const handleVisibilityChange = (event: SelectChangeEvent) => {
     setVisibility(event.target.value as string);
   };
@@ -105,11 +177,33 @@ const MySemifolio = () => {
           </FormControl>
         </Box>
       </ControlBar>
-      <div>
-        업로드 포트폴리오 썸네일
-      </div>
+      {imageURLs.length === 0 ? (
+        <p>업로드된 세미폴리오가 없습니다.</p>
+      ) : (
+        <ImageContainer>
+          {imageURLs.map((url, index) => (
+            <div key={index}>
+              <Image src={url} alt={`업로드 이미지 ${index + 1}`} />
+              <ImageInfo>
+                <ProfileInfo>
+                  <ProfileImg src="/user_profile.png" />
+                  <p>최준생</p>
+                </ProfileInfo>
+                <ViewInfo>
+                  <CustomThumbUpAltIcon />
+                  <p>0</p>
+                  <CustomVisibilityIcon />
+                  <p>0</p>
+                </ViewInfo>
+              </ImageInfo>
+            </div>
+          ))}
+        </ImageContainer>
+      )}
     </Contents>
   );
 };
 
 export default MySemifolio;
+
+
