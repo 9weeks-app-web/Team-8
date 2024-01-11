@@ -68,27 +68,28 @@ function UploadSuccess() {
   useEffect(() => {
     const getImage = async () => {
       const storage = getStorage(app);
-      const uploadedFileName = localStorage.getItem("uploadedFileName");
+      localStorage.removeItem("uploadedFileName");
+
+      const existingFileNamesJSON = localStorage.getItem("uploadedFileNames");
+      const existingFileNames = existingFileNamesJSON ? JSON.parse(existingFileNamesJSON) : [];
+      const uploadedFileName = existingFileNames.length > 0 ? 
+        existingFileNames[existingFileNames.length - 1] : null;
       const filePath = `세미폴리오/${uploadedFileName}`;
-
       const storageRef = ref(storage, filePath);
-
       try {
         const url = await getDownloadURL(storageRef);
         setImageURL(url);
       } catch (error) {
-        console.error("다운로드 URL을 가져오는 중에 오류가 발생했습니다:", error);
+        console.error(error);
       }
     };
     getImage();
   }, []);
 
-  console.log(imageURL);
-
   return (
     <Container>
       <ImageContainer>
-        {imageURL && <Image src={imageURL} alt="Uploaded Image" />}
+        {imageURL && <Image src={imageURL} alt="업로드 이미지" />}
       </ImageContainer>
       <P>업로드를 완료했습니다</P>
 
