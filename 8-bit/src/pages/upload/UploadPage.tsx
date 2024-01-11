@@ -1,13 +1,15 @@
 import styled from "@emotion/styled";
-import { Common } from "../styles/common";
 import { Slider } from "@mui/material";
 import { useState } from "react";
-import ColorModal from "../components/ColorModal";
+import ColorModal from "../../components/upload/ColorModal";
+import NextUploadModal from "../../components/upload/NextUploadModal";
+import { Common } from "../../styles/common";
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  justify-content: center;
   background-color: ${Common.colors.neutral[5]};
 `;
 
@@ -141,7 +143,7 @@ const BackgroundSetting = styled.div`
   p {
     font-size: ${Common.font.size.xs};
     font-weight: ${Common.font.weight.medium};
-    color : #808080;
+    color : ${Common.colors.neutral[50]};
     margin-left: ${Common.space.s};
   }
 `;
@@ -157,7 +159,7 @@ const SpaceSetting = styled.div`
   p {
     font-size: ${Common.font.size.xs};
     font-weight: ${Common.font.weight.medium};
-    color : #808080;
+    color : ${Common.colors.neutral[50]};
     margin-left: ${Common.space.s};
   }
 `;
@@ -174,7 +176,7 @@ const SliderValue = styled.div`
   display: flex;
   align-items: center;
   margin-left: ${Common.space.xs};;
-  border : 1px solid #E6E6E6;
+  border : 1px solid ${Common.colors.neutral[10]};;
   font-size: ${Common.font.size.xxs};
   font-weight: ${Common.font.weight.regular};
 `;
@@ -213,13 +215,26 @@ const Button = styled.button`
   }
 `;
 
+const CustomImage = styled.img`
+  max-width: 100%;
+`;
+
+const NextUploadModalContainer = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+`;
 
 function UploadPage() {
 
   const [spacing, setSpacing] = useState<number>(10);
 
-  const [isshowColorModal, isSetShowColorModal] = useState(false);
-  const [selectedColor, setSelectedColor] = useState("#FFFFFF");
+  const [isshowColorModal, isSetShowColorModal] = useState<boolean>(false);
+  const [selectedColor, setSelectedColor] = useState<string>("#FFFFFF");
+  const [image, setImage] = useState<File | null>(null);
+  const [isshowModal, isSetShowModal] = useState<boolean>(false);
 
   const handleColorButtonClick = () => {
     isSetShowColorModal(!isshowColorModal);
@@ -230,33 +245,67 @@ function UploadPage() {
     isSetShowColorModal(false);
   };
 
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const uploadedImage = event.target.files[0];
+      setImage(uploadedImage);
+    }
+  };
+
+  const handleNextButtonClick = () => {
+    isSetShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    isSetShowModal(false);
+  };
+
+
   return (
     <Container>
       <InputContainer>
-        <Input 
+        <Input
           type="text"
           placeholder="제목을 입력해주세요."
         />
         <UploadContainer>
-          <ContentText>콘텐츠를 추가하여 업로드해보세요</ContentText>
-          <ButtonContainer>
+          {!image && (
+            <>
+              <ContentText>콘텐츠를 추가하여 업로드해보세요</ContentText>
+              <ButtonContainer>
+                <ImageContainer>
+                  <label htmlFor="upload-input">
+                    <img src="/upload/imageUpload.png" alt="이미지업로드" />
+                    <input
+                      id="upload-input"
+                      type="file"
+                      accept="image/*"
+                      style={{ display: "none" }}
+                      onChange={handleImageUpload}
+                    />
+                  </label>
+                  <p>이미지</p>
+                </ImageContainer>
+                <ImageContainer>
+                  <a href="#"><img src="/upload/textUpload.png" alt="텍스트업로드" /></a>
+                  <p>텍스트</p>
+                </ImageContainer>
+                <ImageContainer>
+                  <a href="#"><img src="/upload/videoUpload.png" alt="비디오업로드" /></a>
+                  <p>비디오</p>
+                </ImageContainer>
+                <ImageContainer>
+                  <a href="#"><img src="/upload/embedUpload.png" alt="임베드업로드" /></a>
+                  <p>임베드</p>
+                </ImageContainer>
+              </ButtonContainer>
+            </>
+          )}
+          {image && (
             <ImageContainer>
-              <a href="#"><img src="/upload/imageUpload.png" alt="이미지업로드" /></a>
-              <p>이미지</p>
+              <CustomImage src={URL.createObjectURL(image)} alt="업로드된 이미지" />
             </ImageContainer>
-            <ImageContainer>
-              <a href="#"><img src="/upload/textUpload.png" alt="텍스트업로드" /></a>
-              <p>텍스트</p>
-            </ImageContainer>
-            <ImageContainer>
-              <a href="#"><img src="/upload/videoUpload.png" alt="비디오업로드" /></a>
-              <p>비디오</p>
-            </ImageContainer>
-            <ImageContainer>
-              <a href="#"><img src="/upload/embedUpload.png" alt="임베드업로드" /></a>
-              <p>임베드</p>
-            </ImageContainer>
-          </ButtonContainer>
+          )}
         </UploadContainer>
       </InputContainer>
 
@@ -285,8 +334,8 @@ function UploadPage() {
           <StyleText><p>스타일</p></StyleText>
           <BackgroundSetting>
             <p>배경색상설정</p>
-            <Button 
-              className="colorChoice" 
+            <Button
+              className="colorChoice"
               onClick={handleColorButtonClick}>
               {selectedColor}
             </Button>
@@ -316,12 +365,19 @@ function UploadPage() {
           </SpaceSetting>
         </StyleContainer>
 
-        <Button 
+        <Button
           type="submit"
-          className="nextButton">
+          className="nextButton"
+          onClick={handleNextButtonClick}>
           다음
         </Button>
-        <Button 
+        {isshowModal &&
+          <NextUploadModalContainer>
+            <NextUploadModal
+              onClose={handleCloseModal} />
+          </NextUploadModalContainer>
+        }
+        <Button
           type="submit"
           className="pdfButton">
           PDF로 저장

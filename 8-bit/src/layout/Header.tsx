@@ -1,12 +1,15 @@
 // Header.tsx
-import { Link, useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from 'react';
 import styled from "@emotion/styled";
-import Avatar from '@mui/material/Avatar';
 import { Email, EmailOutlined, Notifications, NotificationsNoneOutlined } from '@mui/icons-material';
-import { Common } from "../styles/common";
+import { IconButton, Popover } from "@mui/material";
+import Avatar from '@mui/material/Avatar';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import MessageModal from "../components/MeassageModal";
 import NotiModal from "../components/NotiModal";
+import ProfileModal from "../components/ProfileModal";
+import UploadModal from "../components/UploadModal";
+import { Common } from "../styles/common";
 
 const HeaderWrapper = styled.div`
   width: 1440px;
@@ -72,8 +75,9 @@ const Container = styled.div`
 `
 
 const LogoImg = styled.img`
-  margin-left: 20px
-`
+  margin-left: 20px;
+  cursor: pointer;
+`;
 
 const LogInText = styled.h1`
   padding: 10px 20px;
@@ -94,13 +98,31 @@ const Spacer = styled.div`
 `;
 
 const BetweenItems = styled.div`
-  width: ${Common.space["s"]};
+  width: 4px;
 `;
 
+const ButtonSpan = styled.span`
+  display: contents;
+`;
+
+//Popover style 정의
+const CustomPopover = styled(Popover)`
+  .MuiPaper-root {
+    background-color: transparent; // 배경색 변경
+    width: 100px;
+    height: 100px;
+    box-shadow: none;
+    overflow: visible;
+    display: flex;
+  justify-content: center;
+  }
+`;
 
 const Header: React.FC = () => {
 
+  //userInfo에 있는 userName, userEmail 저장
   const [userName, setUserName] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   useEffect(() => {
 
@@ -108,29 +130,37 @@ const Header: React.FC = () => {
     if (storedUserInfo) {
       // JSON 문자열을 객체로 파싱
       const userInfoObj = JSON.parse(storedUserInfo);
-
-      // userInfo 객체에서 username 읽기
+      // userInfo 객체에서 username , useremail 읽기
       const userName = userInfoObj.username;
-
+      const userEmail = userInfoObj.email!;
       // React 상태 업데이트
       setUserName(userName);
+      setUserEmail(userEmail);
     }
   }, []);
 
-  const [isMessageOpen, setMessageOpen] = useState(false);
-  const closeMessage = () => setMessageOpen(false);
+  // 모달 상태 관리
+  const [activeModal, setActiveModal] = useState<string | null>(null);
 
-  const [isNotiOpen, setNotiOpen] = useState(false);
-  const closeNoti = () => setNotiOpen(false);
+  //라우트 변경될 시 모달창 닫힘
+  const location = useLocation();
+
+  useEffect(() => {
+    handleRouteChange();
+  }, [location]);
+
+  const handleRouteChange = () => {
+    setActiveModal(null);
+  };
 
   // Nav 선택 유지
   const [activeNav, setActiveNav] = useState<string>("home");
 
   const handleNavClick = (nav: string) => {
+    setActiveModal(null);
     setActiveNav(nav);
   };
 
-  // 로그인 버튼 누르면 로그인 창으로 
   const navigate = useNavigate();
 
   const goLogIn = () => {
@@ -141,24 +171,65 @@ const Header: React.FC = () => {
     navigate('/');
   }
 
-  const goMypage = () => {
-    navigate('/mypage');
+  //로그아웃 함수
+  const handleLogout = () => {
+    localStorage.removeItem('userInfo');
+    setUserName(null);
+    setUserEmail(null);
+    navigate('/');
+  };
+
+  // 아이콘 클릭 시 각 모달창 팝업
+
+  const clickMessage = (event: React.MouseEvent<HTMLElement>) => {
+    setActiveModal(activeModal === 'message' ? null : 'message');
+    handleClick(event);
   }
 
-  const clickMessage = () => {
-    setMessageOpen(!isMessageOpen);
-    if(isNotiOpen) {
-      setNotiOpen(false);
+  const clickNoti = (event: React.MouseEvent<HTMLElement>) => {
+    setActiveModal(activeModal === 'noti' ? null : 'noti');
+    handleClick(event);
+  }
+
+  const clickProfile = (event: React.MouseEvent<HTMLElement>) => {
+    setActiveModal(activeModal === 'profile' ? null : 'profile');
+    handleClick(event);
+  }
+
+  const clickUplopad = (event: React.MouseEvent<HTMLElement>) => {
+    setActiveModal(activeModal === 'upload' ? null : 'upload');
+    handleClick(event);
+  }
+
+  // 모달 공통 요소
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    setActiveModal(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'popover' : undefined;
+
+  function RenderModal() {
+    switch (activeModal) {
+      case 'message':
+        return <MessageModal />;
+      case 'noti':
+        return <NotiModal />;
+      case 'profile':
+        return <ProfileModal userName={userName!} userEmail={userEmail!} onLogout={handleLogout} />;
+      case 'upload':
+        return <UploadModal />;
+      default:
+        return <div />;
     }
   }
-
-  const clickNoti = () => {
-    setNotiOpen(!isNotiOpen);
-    if(isMessageOpen) {
-      setMessageOpen(false);
-    }
-  }
-
 
   return (
     <HeaderWrapper>
@@ -168,7 +239,7 @@ const Header: React.FC = () => {
       </TabBar>
       <HeaderContainer>
         <Nav>
-          <LogoImg src="/header/sfac_logo.svg" alt="sniperfactory logo" onClick={logoHome}/>
+          <LogoImg src="/header/sfac_logo.svg" alt="sniperfactory logo" onClick={logoHome} />
           <div>
             <NavLink to="/"
               className={activeNav === 'home' ? 'active' : ''}
@@ -178,19 +249,43 @@ const Header: React.FC = () => {
             <NavLink to="/" className={activeNav === 'recruit' ? 'active' : ''}
               onClick={() => handleNavClick('recruit')}>채용</NavLink>
           </div>
-          <Spacer/>
+          <Spacer />
           <div>
-            {/* userLogined 여부에 따라 보여지는 컨텐츠 다르게 */}
+            {/* 로그인 여부에 따라 */}
             {userName ? (
               <Container>
-                {isMessageOpen ? <Email onClick={clickMessage} sx={{ color: Common.colors.primary["100"] }} /> :   <EmailOutlined onClick={clickMessage}/> }
-                <BetweenItems />
-                {isNotiOpen ? <Notifications onClick={clickNoti} sx={{ color: Common.colors.primary["100"] }}/> :  <NotificationsNoneOutlined onClick={clickNoti} />}
-                <BetweenItems />
-                <Avatar onClick={goMypage} alt="user profile"
-                  sx={{ width: 24, height: 24, fontSize: 10, bgcolor: Common.colors.neutral[10], color: Common.colors.neutral[100] }}></Avatar>
-                <BetweenItems />
-                <ColorButton>업로드</ColorButton>
+                <ButtonSpan>
+                  <IconButton disableRipple aria-describedby={id} onClick={(event) => clickMessage(event)}>
+                    {activeModal === 'message' ? <Email sx={{ color: Common.colors.primary[100] }} /> : <EmailOutlined sx={{ color: Common.colors.neutral[100] }} />}
+                  </IconButton>
+                  <BetweenItems />
+                  <IconButton disableRipple aria-describedby={id} onClick={(event) => clickNoti(event)}>
+                    {activeModal === 'noti' ? <Notifications sx={{ color: Common.colors.primary[100] }} /> : <NotificationsNoneOutlined sx={{ color: Common.colors.neutral[100] }} />}
+                  </IconButton>
+                  <BetweenItems />
+                  <Avatar aria-describedby={id} onClick={(event) => clickProfile(event)} alt="user profile" src="/user_profile.png"
+                    sx={{ width: 24, height: 24, fontSize: 10, bgcolor: Common.colors.neutral[10], cursor: "pointer", margin: Common.space.xs }} />
+                  <BetweenItems />
+                  <ColorButton aria-describedby={id} onClick={(event) => clickUplopad(event)}>업로드</ColorButton>
+                </ButtonSpan>
+                <CustomPopover
+                  id={id}
+                  open={open}
+                  anchorEl={anchorEl}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                  }}
+                >
+                  <RenderModal />
+
+                </CustomPopover>
+
               </Container>
             ) : (
               <Container>
@@ -201,9 +296,7 @@ const Header: React.FC = () => {
           </div>
         </Nav>
       </HeaderContainer>
-      <NotiModal isOpen={isNotiOpen} onClose={closeNoti} />
-      <MessageModal isOpen={isMessageOpen} onClose={closeMessage} />
-    </HeaderWrapper> 
+    </HeaderWrapper>
   );
 }
 

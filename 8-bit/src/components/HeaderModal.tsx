@@ -2,39 +2,39 @@ import styled from "@emotion/styled";
 import { Common } from "../styles/common";
 
 const Modal = styled.div<HeaderModalProps>`
-    left: ${(props) => props.left}; 
-    padding: ${Common.space.md};
-    width: 350px;
-    height: 340px;
+    padding: ${Common.space.s};
+    width: ${(props) => props.width}; 
+    height: ${(props) => props.height}; 
     background-color: white;
-    border: 2px solid ${Common.colors.neutral["20"]};
-    display: flex;
-    flex-direction: column;
+    border: 1.5px solid ${Common.colors.neutral["10"]};
     position: absolute;
-    top:100px;
-    border-radius: 6px;
+    border-radius:12px;
     z-index:10;
+    margin-right: ${(props) => props.marginRight}; 
+    margin-top: 12px;
     .triangle {
-        width: 20px;
+        width: 15px;
         background: linear-gradient(to bottom right, white 50%, transparent 50%);
-        border-left: 2px solid ${Common.colors.neutral["20"]};
-        border-top: 2px solid ${Common.colors.neutral["20"]};
-        height: 20px;
+        border-left: 1.5px solid ${Common.colors.neutral["10"]};
+        border-top: 1.5px solid ${Common.colors.neutral["10"]};
+        height: 15px;
         transform: rotate(45deg);
         position: absolute;
-        left: 50%;
-        top: -11px;
+        left: ${(props) => props.triangleLeft};
+        top: -8px;
     }`;
 
 interface HeaderModalProps {
     children: React.ReactNode;
-    left?: string;
-    
+    width: string;
+    height: string;
+    triangleLeft: string;
+    marginRight: string;
 }
 
-function HeaderModal({ children, left}: HeaderModalProps) {
+function HeaderModal({ children, width, height, triangleLeft, marginRight }: HeaderModalProps) {
     return (
-        <Modal left={left}>
+        <Modal width={width} height={height} triangleLeft={triangleLeft} marginRight={marginRight}>
             <div>
                 <div className='triangle'></div>
                 {children}
