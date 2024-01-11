@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+// import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Tab, Tabs } from "@mui/material";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 import { useState } from "react";
+import MySemifolio from "./mySemifolio";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -17,14 +18,15 @@ const MainSection = styled.div`
 const BackgroundImageWrpper = styled.div`
   padding-left: 447px;
   background-color: lightgray;
-  height: 237px;
+  height: 380px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-image: url("myPage/mypageBackground.png");
 `;
 
 const PannelWrapper = styled.div`
-  padding-left: 447px;
+  padding-left: calc(330px + 24px + 24px);
 `;
 
 // 개별 탭의 컨텐츠를 렌더링할 컴포넌트
@@ -60,7 +62,8 @@ function MainContent() {
   return (
     <MainSection>
       <BackgroundImageWrpper>
-        <Button startIcon={<AddCircleOutlineIcon />}>배경 이미지 업로드</Button>
+        {/* <Button startIcon={<AddCircleOutlineIcon />}>배경 이미지 업로드</Button> */}
+        {/* <img src="myPage/mypageBackground.png" alt="" /> */}
       </BackgroundImageWrpper>
       <PannelWrapper>
         <Tabs
@@ -79,14 +82,14 @@ function MainContent() {
             onChange={(_event, newValue) => handleSubTabChange(newValue)}
             aria-label="sub tabs"
           >
-            <Tab label="나의 포트폴리오" />
             <Tab label="나의 세미폴리오" />
+            <Tab label="나의 포트폴리오" />
           </Tabs>
           <TabPanel value={subTabIndex} index={0}>
-            나의 포트폴리오 내용
+            <MySemifolio />
           </TabPanel>
           <TabPanel value={subTabIndex} index={1}>
-            나의 세미폴리오 내용
+            나의 포트폴리오 내용
           </TabPanel>
         </TabPanel>
 
