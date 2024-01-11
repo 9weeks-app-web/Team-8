@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Common } from "../styles/common";
 import { Avatar, IconButton, Popover, Typography } from "@mui/material";
-import { userLists, mockMessages } from "../db/ChatDatas";
+import { userLists, mockMessages } from "../db/chatDatas";
 import { Delete, MoreHoriz } from '@mui/icons-material';
 
 import React from 'react';
