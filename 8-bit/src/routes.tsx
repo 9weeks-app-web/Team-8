@@ -13,6 +13,7 @@ import CommunityBoard from "./pages/community/CommunityBoard";
 import CommunityHome from "./pages/community/CommunityHome";
 import CommunityHot from "./pages/community/CommunityHot";
 import CommunityQna from "./pages/community/CommunityQna";
+import Chat from "./pages/Chat";
 
 const router = createBrowserRouter([
   {
@@ -70,6 +71,12 @@ const router = createBrowserRouter([
     element: <NoFooterLayout />,
     children: [{ index: true, element: <SignupSuccess /> }],
   },
+  {
+    path: "/Chat",
+    element: <NoFooterLayout />,
+    children: [{ index: true, element: <Chat /> }],
+  },
+  
 ]);
 
 export default router;
